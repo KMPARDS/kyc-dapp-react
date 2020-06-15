@@ -29,7 +29,7 @@ class LevelOne extends Component {
                                 <h4 className="m4-txt-level">In this Level the user  will submit only documents</h4>
                                 <Container>
                                     <Row>
-                                        <Col>
+                                        <Col sm={4}>
                                             <label for="formGroupExampleInput">First Name</label>
                                             <div class="input-group">
 
@@ -43,7 +43,7 @@ class LevelOne extends Component {
                                                 <input type="text" class="form-control" aria-label="Text input with dropdown button" />
                                             </div>
                                         </Col>
-                                        <Col>
+                                        <Col sm={4}>
                                             <form>
                                                 <div class="form-group">
                                                     <label for="formGroupExampleInput">Middle Name</label>
@@ -51,7 +51,7 @@ class LevelOne extends Component {
                                                 </div>
                                             </form>
                                         </Col>
-                                        <Col>
+                                        <Col sm={4}>
                                             <form>
                                                 <div class="form-group">
                                                     <label for="formGroupExampleInput">Last Name</label>
@@ -62,7 +62,7 @@ class LevelOne extends Component {
                                     </Row>
 
                                     <Row>
-                                        <Col>
+                                        <Col sm={6}>
                                             <form>
                                                 <div class="form-group">
                                                     <label for="formGroupExampleInput">Date of Birth</label>
@@ -70,7 +70,7 @@ class LevelOne extends Component {
                                                 </div>
                                             </form>
                                         </Col>
-                                        <Col>
+                                        <Col sm={6}>
                                             <form>
                                                 <div class="form-group">
                                                     <label for="formGroupExampleInput">Nationality</label>
@@ -81,7 +81,7 @@ class LevelOne extends Component {
                                     </Row>
 
                                     <Row>
-                                        <Col>
+                                        <Col sm={6} >
                                             <form>
                                                 <div class="form-group">
                                                     <label for="formGroupExampleInput">Phone Number</label>
@@ -89,7 +89,7 @@ class LevelOne extends Component {
                                                 </div>
                                             </form>
                                         </Col>
-                                        <Col>
+                                        <Col sm={6} >
                                             <form>
                                                 <div class="form-group">
                                                     <label for="formGroupExampleInput">Place of Birth</label>
@@ -100,7 +100,7 @@ class LevelOne extends Component {
                                     </Row>
 
                                     <Row>
-                                        <Col>
+                                        <Col sm={6} >
                                             <form>
                                                 <div class="form-group">
                                                     <label for="formGroupExampleInput">Martial Status</label>
@@ -113,7 +113,7 @@ class LevelOne extends Component {
                                     </Row>
 
                                     <Row>
-                                        <Col>
+                                        <Col sm={6} >
                                             <form>
                                                 <div class="form-group">
                                                     <label for="formGroupExampleInput">Address</label>
@@ -123,7 +123,7 @@ class LevelOne extends Component {
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Col>
+                                        <Col sm={6} >
                                             <form>
                                                 <div class="form-group">
                                                     <label for="formGroupExampleInput">ID Type</label>
@@ -131,7 +131,7 @@ class LevelOne extends Component {
                                                 </div>
                                             </form>
                                         </Col>
-                                        <Col>
+                                        <Col sm={6} >
                                             <form>
                                                 <div class="form-group">
                                                     <label for="formGroupExampleInput">ID Number</label>
@@ -139,7 +139,7 @@ class LevelOne extends Component {
                                                 </div>
                                             </form>
                                         </Col>
-                                        <Col>
+                                        <Col sm={6} >
                                             <form>
                                                 <div class="form-group">
                                                     <label for="formGroupExampleInput">User Name</label>

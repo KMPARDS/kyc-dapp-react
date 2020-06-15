@@ -60,11 +60,21 @@ class Footer extends Component {
 
                                 <Col sm={6}>
                                     <div className="footer-social-flex">
+                                    <a href="https://www.facebook.com/eraswap" className="social-icon">
                                         <img className="social-img-footer" src={Images.path.grpfb} />
+                                        </a>
+                                        <a href="https://mobile.twitter.com/EraSwapTech" className="social-icon">
                                         <img className="social-img-footer" src={Images.path.whitetwt} />
+                                        </a>
+                                        <a href="https://www.linkedin.com/company/eraswap/"  className="social-icon">
                                         <img className="social-img-footer" src={Images.path.whIn} />
+                                        </a>
+                                        <a href="https://www.instagram.com/eraswap/?hl=en" className="social-icon">
                                         <img className="social-img-footer" src={Images.path.whtinsta} />
+                                        </a>
+                                        <a href="https://www.youtube.com/channel/UCGCP4f5DF1W6sbCjS6y3T1g?view_as=subscriber" className="social-icon">
                                         <img className="social-img-footer" src={Images.path.utubwht} />
+                                        </a>
                                     </div>
                                 </Col>
 

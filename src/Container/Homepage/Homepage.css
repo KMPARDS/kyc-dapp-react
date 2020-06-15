@@ -4,6 +4,7 @@ color: #9b2426;
 .future-head{
     text-align: center;
     font-weight: bold;
+    padding-top: 30px;
 }
 .para-txt-future{
     text-align: center;
@@ -26,7 +27,7 @@ color: #9b2426;
 .kyc-feature-circle {
     margin-top: 20px;
     position: relative;
-    top: 133px;
+    top: 50px;
 }
 .feature-head{
     text-align: center;
