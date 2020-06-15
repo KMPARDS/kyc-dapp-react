@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Homepage.css'
+import './Homepage.css';
 import { Col, Button, Container, Row } from 'react-bootstrap';
 import Header from '../../Component/Header/Index';
 import Hero from '../../Component/Hero/Index';
@@ -32,7 +32,7 @@ class Homepage extends Component {
                             <Row>
                                 <Col sm={4} md={4}>
                                     <div className="feature-centr">
-                                   
+
                                         <img className='feature-Img' src={Images.path.grp1} />
                                     </div>
                                     <div>

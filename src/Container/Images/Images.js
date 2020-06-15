@@ -31,6 +31,10 @@ const path = {
     whitetwt: require("../../assets/Images/whitetwt.png"),
     whtinsta: require("../../assets/Images/whtinsta.png"),
     grpfb: require("../../assets/Images/grpfb.png"),
+    Unacceptable: require("../../assets/Images/Unacceptable.png"),
+    Unreliable: require("../../assets/Images/Unreliable.png"),
+    VerySlow: require("../../assets/Images/VerySlow.png"),
+    expensive: require("../../assets/Images/expensive.png"),
 };
 
 export default {

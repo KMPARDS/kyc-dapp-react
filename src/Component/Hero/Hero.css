@@ -2,6 +2,7 @@
     background-color:#230554;
     height: 80vh;
 }
+
 .kyc-hero-img{
     width: 100%;
 }
@@ -17,6 +18,7 @@
    .quick-effect{
        color: #e133c2;
    }
+
    .hero-head-txt{
        color: #ffffff;
        font-size: 33px;
@@ -24,6 +26,7 @@
        margin-bottom: 30px;
        margin-top: 80px;
    }
+
    .knw-btn{
        background-color: #7f21ca ;
        color: #ffffff;
@@ -31,4 +34,11 @@
        height: 50px;
        font-weight: bold;
        border-radius: 10px;
+   }
+
+   @media (max-width: 768px) {
+    .hero-head-txt {
+        font-size: 30px;
+        margin-top: 30px;
+    }
    }
