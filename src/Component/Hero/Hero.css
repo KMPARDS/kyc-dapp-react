@@ -1,6 +1,7 @@
 .kyc-hero-bgd{
-    background-color:#230554;
-    height: 80vh;
+    background-color:#F7F7FD;
+        padding: 0 0 80px 0;
+        height: auto!important;
 }
 
 .kyc-hero-img{
@@ -12,28 +13,27 @@
     margin: 0 auto;
    }
    .hero-detail-txt{
-       color: #ffffff;
+
        font-size: 18px;
    }
    .quick-effect{
-       color: #e133c2;
+       color: #981d1f;
    }
 
    .hero-head-txt{
-       color: #ffffff;
-       font-size: 33px;
-       font-weight: bold;
-       margin-bottom: 30px;
-       margin-top: 80px;
+      font-size: 35px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      line-height: 45px;
+      letter-spacing: 0.1px;
    }
 
    .knw-btn{
-       background-color: #7f21ca ;
+       background-color: #981d1f;
        color: #ffffff;
        border: 0;
-       height: 50px;
        font-weight: bold;
-       border-radius: 10px;
+      padding: 1.125rem 3.125rem 1.25rem 3.125rem;;
    }
 
    @media (max-width: 768px) {
@@ -41,4 +41,93 @@
         font-size: 30px;
         margin-top: 30px;
     }
+    .kyc-hero-img{
+         display: none
+      }
    }
+
+
+.wrapper-container-home:before {
+    content: "";
+    display: block;
+    width: 639px;
+    height: 639px;
+    background-image: url(https://www.carbonads.net/hubfs/carbon/images/hero-bg-home.svg);
+    background-size: 639px 639px;
+    background-repeat: no-repeat;
+    background-position: top right;
+    position: absolute;
+    right: 17px;
+    top: 13px;
+}
+@media screen and (max-width: 991px) and (min-width: 768px){
+  .wrapper-container-home:before {
+      width: 90%;
+  }
+}
+@media screen and (max-width: 767px){
+  .wrapper-container-home:before {
+/*      position: absolute;
+      left: 48%;
+      bottom: -58%;*/
+   }
+   .header-bgd-color:before {
+        right: 0;
+    }
+}
+
+
+.text_1 {
+  animation: text1;
+}
+
+.text_2 {
+  animation: text2;
+}
+
+.text_1, .text_2 {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  animation-duration: 20s;
+  animation-timing-function: steps(25, end);
+  animation-iteration-count: infinite;
+}
+
+.text_1::after, .text_2::after {
+  content: "|";
+  position: absolute;
+  right: 0;
+  animation: caret infinite;
+  animation-duration: 1s;
+  animation-timing-function: steps(1, end);
+}
+
+@keyframes text2 {
+  0%, 50%, 100% {
+    width: 0;
+  }
+  
+  60%, 90% {
+    width: 21.2em;
+  }
+}
+
+@keyframes text1 {
+  0%, 50%, 100% {
+    width: 0;
+  }
+  10%, 40% {
+    width: 17em;
+  }
+}
+
+@keyframes caret {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+

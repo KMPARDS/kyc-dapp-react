@@ -1,0 +1,56 @@
+.kycdapp-Img{
+    width: 200px;
+    height: 90px;
+}
+.kyc-header-color{
+    background-color: #230554;
+    height: 95px;
+}
+.Kyclevel-container{
+    background-image:url('../../assets/Images/sprkbgd.jpg');
+    background-repeat: no-repeat;
+    width:100%;
+    height: 100%;
+    background-size: cover;
+ }
+ .kyc-option{
+     display: flex;
+     justify-content: center;
+ }
+ .kyc-level-head{
+     color: #9b2426;
+     text-align: center;
+ }
+ .kyc-white-box{
+/*     background-color: #ffffff ;
+     padding: 60px;
+     margin-top: 8% ;*/
+ }
+
+ .level-btn-btn{
+  background-color: #9b2426;
+  color: #ffffff;
+  border-radius: 10px;
+  width: 150px;
+  height: 50px;
+  border: 0;
+  margin-bottom: 20px;
+  font-weight: bold;
+ }
+.kyc-heading{
+    text-align: center;
+     color: #ffffff;
+     font-weight: bold;
+     font-size: 30px;
+     padding-top: 30px;
+}
+
+@media (max-width: 768px) {
+
+  .Kyclevel-container{
+      height: 100% !important;
+  }
+}
+
+
+

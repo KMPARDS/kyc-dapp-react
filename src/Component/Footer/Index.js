@@ -23,12 +23,12 @@ class Footer extends Component {
 
                         <Container>
                             <Row>
-                                <Col sm={4}>
+                                <Col lg={6} md={9} col={12}>
                                     <img className="logo-img-style" src={Images.path.kycdapwhite} />
-                                    <p className="logo-sub-txt">The main objectives of the project are to meet the needs of Digital assests projects and users, and to provide access to Required. </p>
+                                    <p className="logo-sub-txt mt30">The main objectives of the project are to meet the needs of Digital assests projects and users, and to provide access to Required. </p>
                                 </Col>
-                                <Col sm={4}>
-                                    <p className="footer-head">Useful Link</p>
+                                <Col xl={3} lg={4} md={4} col={12}>
+                                    <h4 className="footer-head">Useful Link</h4>
                                     <ul>
                                         <li><a className="footer-sub">How it works</a></li>
                                         <li><a className="footer-sub">Features</a></li>
@@ -36,8 +36,8 @@ class Footer extends Component {
                                         <li><a className="footer-sub">Roadmap</a></li>
                                     </ul>
                                 </Col>
-                                <Col sm={4}>
-                                    <p className="footer-head">Documents</p>
+                                <Col offset-xl={1} xl={2} lg={4} md={4} col={12}>
+                                    <h4 className="footer-head">Documents</h4>
                                     <ul>
                                         <li><a className="footer-sub">Whitepaper</a></li>
                                         <li><a className="footer-sub">Privacy Policy</a></li>
@@ -50,7 +50,7 @@ class Footer extends Component {
 
                     </div>
                     <div className="bottom-footer">
-                        <div className="Footer-container">
+                        <div className="">
                             <Container>
                             <Row>
 

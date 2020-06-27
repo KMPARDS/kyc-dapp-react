@@ -34,7 +34,7 @@ class Myaccount extends Component {
                                 </div>
                                 <div>
                                     <Row>
-                                        <Col sm={12}>
+                                        <Col sm={6}>
                                             <form>
                                                 <div class="form-group">
                                                     <label className="account-label">First Name</label>
@@ -43,9 +43,8 @@ class Myaccount extends Component {
                                             </form>
                                         </Col>
 
-                                    </Row>
-                                    <Row>
-                                        <Col sm={12}>
+                                   
+                                        <Col sm={6}>
                                             <form>
                                                 <div class="form-group">
                                                     <label className="account-label">Last Name</label>
@@ -56,7 +55,7 @@ class Myaccount extends Component {
 
                                     </Row>
                                     <Row>
-                                        <Col sm={12}>
+                                        <Col sm={6}>
                                             <form>
                                                 <div class="form-group">
                                                     <label className="account-label">Middle Name</label>
@@ -65,9 +64,8 @@ class Myaccount extends Component {
                                             </form>
                                         </Col>
 
-                                    </Row>
-                                    <Row>
-                                        <Col sm={12}>
+                                   
+                                        <Col sm={6}>
                                             <form>
                                                 <div class="form-group">
                                                     <label className="account-label">Display Name</label>
@@ -78,39 +76,40 @@ class Myaccount extends Component {
                                         </Col>
                                     </Row>
 
-                                    <Col sm={12}>
-                                        <form>
-                                            <div class="form-group">
-                                                <label className="account-label">Bio</label>
-                                                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="" />
-                                            </div>
-                                        </form>
+                                    <Row>
+                                        <Col sm={12}>
+                                            <form>
+                                                <div class="form-group">
+                                                    <label className="account-label">Bio</label>
+                                                    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="" />
+                                                </div>
+                                            </form>
 
-                                    </Col>
-
-                                    <form>
-                                        <div class="form-group">
-                                            <label className="account-label">Website</label>
-                                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="" />
-                                        </div>
-                                    </form>
-                                    <form>
-                                        <div class="form-group">
-                                            <label className="account-label">Residence Address</label>
-                                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="House Name/No" />
-                                        </div>
-                                    </form>
+                                        </Col>
+                                    </Row>
                                     <Row>
                                         <Col sm={6}>
                                             <form>
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Place/Street" />
+                                                    <label className="account-label">Residence Address</label>
+                                                    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="House Name/No" />
+                                                </div>
+                                            </form>
+                                        </Col>
+                                        <Col sm={6}>
+                                            <form>
+                                                <div class="form-group">
+
+                                                    <input type="text" class="form-control mt30" id="formGroupExampleInput" placeholder="Place/Street" />
                                                 </div>
                                             </form>
 
                                         </Col>
 
-                                        <Col sm={6}>
+                                    </Row>
+
+                                    <Row>
+                                       <Col sm={6}>
                                             <form>
                                                 <div class="form-group">
                                                     <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Pincode" />
@@ -118,12 +117,15 @@ class Myaccount extends Component {
                                             </form>
 
                                         </Col>
+                                         <Col sm={6}>
+                                            <form>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Landmark" />
+                                                </div>
+                                            </form>
+                                         </Col>
                                     </Row>
-                                    <form>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Landmark" />
-                                        </div>
-                                    </form>
+                                    
                                     <Row>
                                         <Col sm={6}>
                                             <form>
@@ -144,13 +146,15 @@ class Myaccount extends Component {
                                         </Col>
                                     </Row>
 
-                                    <form>
-                                        <div class="form-group">
-                                            <label className="account-label">Current Address</label>
-                                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="House Name/No" />
-                                        </div>
-                                    </form>
                                     <Row>
+                                        <Col sm={6}>
+                                            <form>
+                                                <div class="form-group">
+                                                    <label className="account-label">Current Address</label>
+                                                    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="House Name/No" />
+                                                </div>
+                                            </form>
+                                        </Col>
                                         <Col sm={6}>
                                             <form>
                                                 <div class="form-group">
@@ -159,8 +163,9 @@ class Myaccount extends Component {
                                             </form>
 
                                         </Col>
-
-                                        <Col sm={6}>
+                                    </Row>
+                                    <Row>
+                                       <Col sm={6}>
                                             <form>
                                                 <div class="form-group">
                                                     <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Pincode" />
@@ -168,12 +173,15 @@ class Myaccount extends Component {
                                             </form>
 
                                         </Col>
+                                        <Col sm={6}>  
+                                            <form>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Landmark" />
+                                                </div>
+                                            </form>
+                                        </Col>
                                     </Row>
-                                    <form>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Landmark" />
-                                        </div>
-                                    </form>
+                                    
                                     <Row>
                                         <Col sm={6}>
                                             <form>

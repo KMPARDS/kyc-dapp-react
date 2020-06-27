@@ -17,25 +17,25 @@ class Hero extends Component {
         return (
             <div>
                 <div className='kyc-hero-bgd'>
-                    <div className='wrapper-container-hero'>
-                        <Row>
-                            <Col sm={6}>
+                    <div className='wrapper-container-hero pdt30'>
+                          <div className="row">
+                           <div className="col-12 col-md-10 col-lg-6 ">
                                 <div className="hero-head-txt">
                                     KYC on Blockchain Network<br />
                                     Done More <span className="quick-effect">Quickly & Securly</span>
                                 </div>
-                                <p className="hero-detail-txt">KYC DApp is powered on a decentralised network of Era Swap.
-                         <br />There is no centralized authority to obstructions means
-                         <br />inbuilt immutably that makes contained data more trustworthy.
-                         </p>
-                         <div>
-                             <button className="knw-btn">Know Your Customer</button>
-                         </div>
-                            </Col>
-                            <Col sm={6}>
+                                     <p className="hero-detail-txt">KYC DApp is powered on a decentralised network of Era Swap.
+                                     <br />There is no centralized authority to obstructions means
+                                     <br />inbuilt immutably that makes contained data more trustworthy.
+                                     </p>
+                                     <div class="mt40">
+                                         <button className="knw-btn">Know Your Customer</button>
+                                     </div>
+                            </div>
+                            <div className="col-12 col-lg-6">
                                 <img className="kyc-hero-img" src={Images.path.group}/>
-                            </Col>
-                        </Row>
+                             </div>
+                        </div>
                     </div>
                 </div>
             </div>

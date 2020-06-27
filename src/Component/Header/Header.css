@@ -1,6 +1,22 @@
+
+@media screen and (max-width:1091){
+    .nav-link.bgd-color-nav {
+        margin-left: 0px !important; 
+    }
+}
+
+
+
+
+@media screen and (max-width: 768px){
+    .header-bgd-color {
+        height: 80px;
+    }
+}
 .kycdapp-Img{
-    width: 38%;
-    height: 90px;
+    width: 87px!important;
+    height: auto !important;
+
 }
 .navbar-expand-lg .navbar-nav .nav-link {
     padding-right: 1.5rem;
@@ -10,8 +26,8 @@
     color: #ffffff !important;
 }
 .header-bgd-color{
-    background-color: #230554;
-    height: 150px;
+    background-color: #F7F7FD;
+    height: 120px;
 }
 .dropdown-item{
     font-size: 14px;
@@ -23,7 +39,7 @@
 .drop-img-kyc{
     width: 20px;
     height: 20px;
-    margin-left: 10px;
+    margin-left: 0px;
 }
 
 .navbar{
@@ -33,5 +49,46 @@
 .nav-link.bgd-color-nav{
  background-color: #9b2426;
  border-radius: 8px;
- margin-left: 15px;
+}
+
+.header-bgd-color:before {
+    content: "";
+    display: block;
+    width: 639px;
+    height: 639px;
+    background-image: url(https://www.carbonads.net/hubfs/carbon/images/circle-common.svg);
+    background-size: 639px 639px;
+    background-repeat: no-repeat;
+    background-position: top right;
+    position: absolute;
+    right:0;
+    top: -247px;
+    z-index: 0;
+}
+.navbar-dark .navbar-toggler {
+    border-color:none !important;
+    background: #860002!important;
+    outline: none;
+}
+.navbar-nav .nav-item ,.navbar-nav .nav-item a{
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 2px;
+    margin-left: 2px;
+    margin-bottom: 5px;
+}
+.com-drop-btn .drop-img-kyc {
+   margin-right:15px;
+}
+.com-drop-btn .dropdown-item {
+    padding: 4px 15px;
+}
+
+.profile-btn img{
+    width:18px;
+    height: 18px;
+    background: #eee;
+    border-radius: 50%;
+    border: 2px solid #eee;
 }
