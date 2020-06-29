@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './KycLevel.css'
-import Images from '../../Container/Images/Images';
+import './Kyclevel.css'
+import Images from '../Images/Images';
 import { Col, Button, Container, Row } from 'react-bootstrap';
-import Header from '../../Component/Header/Index';
+import Header from '../../Component/Header';
 import  MultiStep  from 'react-multistep';
 import Footer from '../../Component/Footer/Index';
 

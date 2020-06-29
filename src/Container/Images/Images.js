@@ -1,3 +1,5 @@
+const nodePath = require('path');
+
 //Images
 const path = {
     Approved: require("../../assets/Images/Approved.png"),
@@ -6,7 +8,7 @@ const path = {
     grp1: require("../../assets/Images/grp1.png"),
     grp2: require("../../assets/Images/grp2.png"),
     grp3: require("../../assets/Images/grp3.png"),
-    kycdapp: require("../../assets/Images/KYCDapp.png"),
+    kycdapp: require("../../assets/Images/kycdapp.png"), 
     illustr: require("../../assets/Images/illustr.png"),
     vshap: require("../../assets/Images/vshap.png"),
     section: require("../../assets/Images/section.png"),

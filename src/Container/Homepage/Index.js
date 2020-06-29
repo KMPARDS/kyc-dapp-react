@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Homepage.css';
 import { Col, Button, Container, Row } from 'react-bootstrap';
-import Header from '../../Component/Header/Index';
+import Header from '../../Component/Header';
 import Hero from '../../Component/Hero/Index';
 import Section from '../../Component/Section/Index';
 import Images from '../../Container/Images/Images';

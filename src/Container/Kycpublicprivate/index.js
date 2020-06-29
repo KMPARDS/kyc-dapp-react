@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Kycpublicprivate.css'
 import Images from '../../Container/Images/Images';
-import Header from '../../Component/Header/Index';
+import Header from '../../Component/Header';
 import { Col, Button, Container, Row } from 'react-bootstrap';
 import Footer from '../../Component/Footer/Index';
 import  MultiStep  from 'react-multistep';
