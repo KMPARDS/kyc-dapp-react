@@ -9,12 +9,12 @@
 }
 .kyc-section1-bgd{
     background-color: #981d1f;
-    margin-top: 15%;
-    padding: 10px;
+/*    margin-top: 15%;
+    padding: 10px;*/
 }
 .kyc-section2-bgd{
     background-color: #981d1f;
-    margin-top: 20px;
+   /* margin-top: 20px;*/
 }
 .right-sec-Img{
     width: 100%;
@@ -37,9 +37,6 @@
     color: #ffffff;
     display: flex;
 }
-.opacity-txt-para{
-    color: #ffffff;
-}
 .color--primary{
     color: #981d1f; 
     font-weight: bold;
@@ -55,15 +52,13 @@
     text-align: center;
 }
 .fr-section{
-border: 1px solid #21252938;
-padding: 10px;
-height: 240px;
-border-radius: 10px;
-margin-bottom: 20px;
-margin-top: 20px;
--webkit-box-shadow: 0 8px 6px -6px #a7a7a7;
-	   -moz-box-shadow: 0 8px 6px -6px #a7a7a7;
-            box-shadow: 0px 6px 6px -6px #a7a7a7;
+    padding: 10px;
+    min-height: 320px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    -webkit-box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.1);
 }
 
 .h5-font-mb{
@@ -97,8 +92,8 @@ margin-top: 20px;
 @media (max-width: 768px) {
     .kyc-section1-bgd{
         background-color: #981d1f;
-        margin-top:190px;
-        padding: 10px;
+        margin-top:0px;
+        padding: 0px;
     }
     .left-sec-Img {
         width: 80%;
@@ -129,4 +124,62 @@ margin-top: 20px;
         height: 360px;
         margin: 0;
     }
+}
+
+.opacity-txt-para{
+    color: #ffffffb0 !important;
+}
+
+
+.opacity--05 {
+    opacity: .05;
+}
+.z-index1 {
+    z-index: 1;
+}
+.pos-abs-lg-vertical-center {
+    position: relative !important;
+    top: 20%;
+    -webkit-transform: translate(0, -20%);
+    -ms-transform: translate(0, -20%);
+    transform: translate(0, -20%);
+}
+.dec-img{
+    position: relative;
+    margin: 0 auto;
+    padding: 0;
+    top: 65px;
+    left: 85px;
+    width: 70%;
+}
+.red-circle{
+    background: #f5e8e9;
+    color: #981c1f;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    font-size: 40px;
+    margin: 0 auto;
+    padding-top: 17px;
+    text-align: center;
+    vertical-align: middle;
+    margin-bottom: 25px;
+}
+.next-gen p{
+    padding: 0 65px;
+}
+.next-gen{
+    background: #F5F9FF;
+    padding-top: 4.5rem !important;
+    padding-bottom: 2.5rem !important;
+}
+.svg-shape--top {
+    position: relative !important;
+    top: -2px;
+    right: auto;
+    bottom: auto;
+    left: 0px;
+}
+.theme-royal-blue .fill-primary-light--1 path{
+    fill: #F5F9FF;
 }

@@ -31,51 +31,22 @@ class Header extends Component {
           <span class="sr-only">(current)</span>
         </a>
       </li>
-      <li class="nav-item active">
-        <a class="nav-link bgd-color-nav" href="/Myticket">
-         Create Wallet
-          <span class="sr-only">(current)</span>
-        </a>
-      </li>
+      
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle bgd-color-nav " id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+
+        <a class="nav-link dropdown-toggle bgd-color-nav profile-btn" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
-          Verify KYC Key
+          <img className=''  src={Images.path.kycdapp} /> Sanket parab
          <span class="sr-only">(current)</span></a>
-        <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
-          <div className="drop-flex-img">
-            <img className="drop-img-kyc" src={Images.path.op1}/>
-          <a class="dropdown-item" href="/Myaccount">My Account</a>
-          </div>
-          <div className="drop-flex-img">
-            <img className="drop-img-kyc" src={Images.path.op2}/>
-            <a class="dropdown-item" href="/MyDocument">My Documents</a>
-          </div>
-          <div className="drop-flex-img">
-            <img className="drop-img-kyc" src={Images.path.op4}/>
-            <a class="dropdown-item" href="/">KYC Public and Private Info </a>
-          </div>
-          <div className="drop-flex-img">
-            <img className="drop-img-kyc" src={Images.path.op5}/>
-            <a class="dropdown-item" href="/">KYC Status</a>
-          </div>
-          <div className="drop-flex-img">
-            <img className="drop-img-kyc" src={Images.path.op6}/>
-            <a class="dropdown-item" href="/MyKyckey">My KYC key</a>
-          </div>
-          <div className="drop-flex-img">
-       
-            <a class="dropdown-item" href="/kyclevel">KYC Level</a>
-          </div>
-          <div className="drop-flex-img">
-            <img className="drop-img-kyc" src={Images.path.op3}/>
-            <a class="dropdown-item" href="/">Express KYC </a>
-          </div>
-          <div className="drop-flex-img">
-            
-            <a class="dropdown-item" href="/">Become a Conservator</a>
-          </div>
-       
+        <div class="dropdown-menu dropdown-menu-right dropdown-info com-drop-btn" aria-labelledby="navbarDropdownMenuLink-4">
+            {/* <a class="dropdown-item" href="/Myaccount"><img className="drop-img-kyc" src={Images.path.op1}/> My Account</a>
+            <a class="dropdown-item" href="/MyDocument"><img className="drop-img-kyc" src={Images.path.op2}/> My Documents</a> */}
+            <a class="dropdown-item" href="/Kycpublicprivate"><img className="drop-img-kyc" src={Images.path.op4}/> KYC Public and Private Info </a>
+            {/* <a class="dropdown-item" href="/"><img className="drop-img-kyc" src={Images.path.op5}/> KYC Status</a>
+            <a class="dropdown-item" href="/MyKyckey"><img className="drop-img-kyc" src={Images.path.op6}/> My KYC key</a> */}
+            <a class="dropdown-item" href="/form"><img className="drop-img-kyc" src={Images.path.op8}/>Apply KYC </a>
+            {/* <a class="dropdown-item" href="/"><img className="drop-img-kyc" src={Images.path.op3}/> Express KYC </a> */}
+            <a class="dropdown-item" href="/"><img className="drop-img-kyc" src={Images.path.op7}/> Become a Conservator</a>
         </div>
       </li>
     </ul>
