@@ -5,7 +5,7 @@ import { Col, Button, Container, Row } from 'react-bootstrap';
 import Header from '../../Component/Header';
 import MultiStep from 'react-multistep';
 import Footer from '../../Component/Footer/Index';
-import { Formik, Field, Form, ErrorMessage ,useFormik } from 'formik';
+import { Formik, Field, Form, ErrorMessage, useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import Config from '../../Config';
@@ -64,23 +64,28 @@ const FirstLevel = (props) => {
                     confirmPassword: '',
                     PhoneNumber: '',
                     placeofbirth: '',
-                    maritialstatus:'',
-                    currentAdd:'',
-                    permAdd:'',
-                    idType:'',
-                    idNo:'',
+                    maritialstatus: '',
+                    currentAdd: '',
+                    permAdd: '',
+                    idType: '',
+                    idNo: '',
 
                 }}
                 validationSchema={Yup.object().shape({
                     title: Yup.string()
                         .required('Title is required'),
                     firstName: Yup.string()
+                        .min(3, 'Name must be at least 3 characters')
                         .required('First Name is required'),
+
                     MiddleName: Yup.string()
+                        .min(3, 'Middle Name must be at least 3 characters')
                         .required('Middle Name is required'),
                     lastName: Yup.string()
+                        .min(3, 'Last Name must be at least 3 characters')
                         .required('Last Name is required'),
                     UserName: Yup.string()
+                        .min(3, 'User Name must be at least 3 characters')
                         .required('UserName is required'),
                     email: Yup.string()
                         .email('Email is invalid')
@@ -90,6 +95,8 @@ const FirstLevel = (props) => {
                     Nationality: Yup.string()
                         .required('Nationality is required'),
                     PhoneNumber: Yup.string()
+                        .min(6, 'Minimum 6 digit phone Number')
+                        .max(10, 'Minimum 6 digit phone Number')
                         .required('Phone Number is required'),
                     placeofbirth: Yup.string()
                         .required('Place of Birth  is required'),
@@ -166,9 +173,9 @@ const FirstLevel = (props) => {
                                     <ErrorMessage name="PhoneNumber" component="div" className="invalid-feedback" />
                                 </div>
                                 <div className="form-group col">
-                                <label>Email</label>
-                                <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
-                                <ErrorMessage name="email" component="div" className="invalid-feedback" />
+                                    <label>Email</label>
+                                    <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
+                                    <ErrorMessage name="email" component="div" className="invalid-feedback" />
                                 </div>
                             </div>
                             <div className="form-row">
@@ -809,52 +816,52 @@ class KycLevel extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            token :'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTlhZjE2ZjkxNzQ0OTE1OWIzNWQ0ZTkiLCJ1c2VybmFtZSI6IjB4OWNjMTRhMjg4YmI1Y2I5ZWMwZTg1YjYwNmNiNjU4NWJiN2NhNmE4ZSIsImVtYWlsIjoiIiwiaWF0IjoxNTkzNTAyNTA5LCJleHAiOjE2MjIzMDI1MDl9.Bc8FNIGHIYcWMjKmVUCdyd4rficph5Mz_VVwyWrFMMY'
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTlhZjE2ZjkxNzQ0OTE1OWIzNWQ0ZTkiLCJ1c2VybmFtZSI6IjB4OWNjMTRhMjg4YmI1Y2I5ZWMwZTg1YjYwNmNiNjU4NWJiN2NhNmE4ZSIsImVtYWlsIjoiIiwiaWF0IjoxNTkzNTAyNTA5LCJleHAiOjE2MjIzMDI1MDl9.Bc8FNIGHIYcWMjKmVUCdyd4rficph5Mz_VVwyWrFMMY'
         };
     }
 
     componentDidMount() {
-      
-      }
 
-      submitLevelOne = () => {
+    }
+
+    submitLevelOne = () => {
         var token = this.state.token;
-          axios
+        axios
             .post(Config.url + '/apis/kyc-level-one/save', {
-              headers: {
-                'Content-Type': 'application/json',
-                'x-access-token': token
-              }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': token
+                }
             })
             .then(resp => {
                 console.log("check kyc form");
-              if (resp.data.status == 'success') {
-                this.setState({
-                  uploadStatus: 'Kyc submitted  successfully',
-                  statusType: 'success'
-                });
-                setTimeout(() => {
-                  this.setState({ uploadStatus: '', statusType: '' });
-                }, 3000);
-              } else {
-                this.setState({
-                  uploadStatus: 'update failed',
-                  statusType: 'danger'
-                });
-              }
+                if (resp.data.status == 'success') {
+                    this.setState({
+                        uploadStatus: 'Kyc submitted  successfully',
+                        statusType: 'success'
+                    });
+                    setTimeout(() => {
+                        this.setState({ uploadStatus: '', statusType: '' });
+                    }, 3000);
+                } else {
+                    this.setState({
+                        uploadStatus: 'update failed',
+                        statusType: 'danger'
+                    });
+                }
             })
             .catch(error => {
-              console.log('check error', error);
-              this.setState({
-                uploadStatus: ' update failed',
-                statusType: 'danger'
-              });
-              alert('Kyc Failed')
+                console.log('check error', error);
+                this.setState({
+                    uploadStatus: ' update failed',
+                    statusType: 'danger'
+                });
+                alert('Kyc Failed')
             });
-        
-      };
 
-    
+    };
+
+
     render() {
         return (
             <div className="kyclevel-page">
