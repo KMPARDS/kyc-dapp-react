@@ -5,6 +5,11 @@ import Header from '../../Component/Header';
 import { Col, Button, Container, Row } from 'react-bootstrap';
 import Footer from '../../Component/Footer/Index';
 import  MultiStep  from 'react-multistep';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
+
+
 
 class Kycpublicprivate extends Component {
     constructor(props) {
@@ -19,7 +24,6 @@ class Kycpublicprivate extends Component {
         return (
             <div>
                 <Header/>
-                
                 <div className="Kyclevel-container">
                     
                     <Container>
