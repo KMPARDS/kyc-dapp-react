@@ -21,12 +21,12 @@ class FirstLevel extends Component {
     }
 
     componentDidMount() {
-
-
+        this.fetchKycLevelOne();
     }
 
-    
+
     submitLevelOne = (values) => {
+        alert("hi I m der !!!!")
         var token = this.state.token;
         const formData = new FormData();
         formData.append('salutation', values.salutation);
@@ -54,7 +54,7 @@ class FirstLevel extends Component {
                 }
             })
             .then(resp => {
-                console.log("check kyc form");
+                console.log("check kyc form", resp);
                 if (resp.data.status == 'success') {
                     Swal.fire('KYC Form submitted!')
                     setTimeout(() => {
@@ -74,7 +74,27 @@ class FirstLevel extends Component {
 
     };
 
+    fetchKycLevelOne = () => {
+       axios
+       .get(Config.url + '/apis/kyc-level-one/', {
+         headers: {
+           'x-access-token':this.state.token
+         }
+       })
+            .then(resp => {
+                console.log('fetchKycLevelOne', resp);
+                if (resp.data.status == 'success') {
+                    this.setState({
+                       
+                    });
+                } else {
 
+                }
+            })
+            .catch(error => {
+                console.log('check error',error);
+            });
+    };
 
     render() {
         return (
@@ -119,7 +139,7 @@ class FirstLevel extends Component {
                     initialValues={{
                         title: '',
                         firstName: '',
-                        middleName: '',
+                        middleName:this.state.middleName,
                         lastName: '',
                         userName: '',
                         password: '',
@@ -302,7 +322,7 @@ class FirstLevel extends Component {
                                         <form>
                                             <div class="form-group">
                                                 <label htmlFor="idType">ID Type</label>
-                                                <Field name="idType" type="text" placeholder="Enter The ID type" className={'form-control' + (errors.idType && touched.idType ? ' is-invalid' : '')}/>
+                                                <Field name="idType" type="text" placeholder="Enter The ID type" className={'form-control' + (errors.idType && touched.idType ? ' is-invalid' : '')} />
                                                 <ErrorMessage name="idType" component="div" className="invalid-feedback" />
                                             </div>
                                         </form>
@@ -323,7 +343,7 @@ class FirstLevel extends Component {
 
                                         <div className="flex-choose">
                                             <form className="select-style" action="/action_page.php">
-                                            <Field type="file" id="myfile" name="idAttachment" className={'form-control' + (errors.idAttachment && touched.idAttachment ? ' is-invalid' : '')}/><br /><br />
+                                                <Field type="file" id="myfile" name="idAttachment" className={'form-control' + (errors.idAttachment && touched.idAttachment ? ' is-invalid' : '')} /><br /><br />
                                                 <ErrorMessage name="idAttachment" component="div" className="invalid-feedback" />
                                             </form>
                                         </div>
@@ -353,7 +373,7 @@ class FirstLevel extends Component {
 
                                         <div className="flex-choose">
                                             <form className="select-style" action="/action_page.php">
-                                                <Field type="file" id="myfile" name="addressProofAttachment" className={'form-control' + (errors.addressProofAttachment && touched.addressProofAttachment ? ' is-invalid' : '')}/><br /><br />
+                                                <Field type="file" id="myfile" name="addressProofAttachment" className={'form-control' + (errors.addressProofAttachment && touched.addressProofAttachment ? ' is-invalid' : '')} /><br /><br />
                                                 <ErrorMessage name="addressProofAttachment" component="div" className="invalid-feedback" />
                                             </form>
                                         </div>
@@ -379,8 +399,8 @@ class FirstLevel extends Component {
 
                                         <div className="flex-choose">
                                             <form className="select-style" action="/action_page.php">
-                                            <Field type="file" id="myfile" name="selfieAttachment" className={'form-control' + (errors.selfieAttachment && touched.selfieAttachment ? ' is-invalid' : '')}/><br /><br />
-                                            <ErrorMessage name="selfieAttachment" component="div" className="invalid-feedback" />
+                                                <Field type="file" id="myfile" name="selfieAttachment" className={'form-control' + (errors.selfieAttachment && touched.selfieAttachment ? ' is-invalid' : '')} /><br /><br />
+                                                <ErrorMessage name="selfieAttachment" component="div" className="invalid-feedback" />
                                             </form>
                                         </div>
                                         <div>
