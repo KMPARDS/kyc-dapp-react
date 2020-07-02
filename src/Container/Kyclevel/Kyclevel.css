@@ -24,12 +24,16 @@ label{
 
 .kyclevelbox .submit-btn, .kyclevelbox button{
     border: 0px;
-    width: 100px;
+    min-width: 100px;
     height: 40px;
     background-color: #9b2426;
     color: #ffffff;
     border-radius: 10px;
     margin-right: 15px;
+}
+.kyclevelbox .submit-btn:hover, .kyclevelbox button:hover{
+    background-color: #3c3c3c;
+    color: #ffffff;
 }
 
 .submit-btn-flex{
@@ -81,6 +85,7 @@ transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     opacity: inherit;
     outline: none;
     font-weight: 600;
+    word-wrap: break-word;
 
 }
 .es-trasnferbox .tot-ammount{
@@ -186,7 +191,9 @@ transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     color: #008e2c;
     font-size: 35px;
 }
-
 .form-control.textHt{
     height: 95px;
+}
+.kyclevel4 textarea {
+    height: 400px;
 }

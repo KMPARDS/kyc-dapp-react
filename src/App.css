@@ -125,6 +125,11 @@ legend.scheduler-border {
     border-bottom:none;
         color: #981d1f;
 }
+.kyclevelbox .submit-btn:hover, .kyclevelbox button:hover{
+    background-color: #3c3c3c;
+    color: #ffffff;
+}
+
 
 /* You can add global styles to this file, and also import other style files */
 
