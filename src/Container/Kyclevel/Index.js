@@ -707,7 +707,7 @@ const ThirdLevel = (props) => {
                             </div>
 
                    {/* <!-- info modall end here--> */}
-        <fieldset class="scheduler-border es-trasnferbox">
+        <fieldset class="scheduler-border es-trasnferbox kyclevel4">
                     <legend class="scheduler-border">Signing a message using your wallet</legend>
                                     <Row className="mt20">
                                         <Col sm={8} className="mx-auto ">
@@ -718,6 +718,9 @@ const ThirdLevel = (props) => {
                                                <h6>Update your message below and then click on sign</h6>
                                              
                                               <div className="yourwallet">
+
+                                                    <textarea id="w3review" name="w3review" rows="4" cols="100"  placeholder=""/>
+                                                   
                                                     <div class="form-group mt20">
                                                             <label for="formGroupExampleInput">I hereby declare and authorize info@eraswapfoundation.com to upgrade all my 
                                                             TimeAlly staking from 1 year to 2 years to participate in Era Swap Network Proof of Stake Consensus 
