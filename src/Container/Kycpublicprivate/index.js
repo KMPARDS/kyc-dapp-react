@@ -3,6 +3,11 @@ import './Kycpublicprivate.css'
 import Images from '../../Container/Images/Images';
 import { Col, Button, Container, Row } from 'react-bootstrap';
 import  MultiStep  from 'react-multistep';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
+
+
 
 class Kycpublicprivate extends Component {
     constructor(props) {
@@ -16,7 +21,6 @@ class Kycpublicprivate extends Component {
     render() {
         return (
             <div>
-                
                 <div className="Kyclevel-container">
                     
                     <Container>
