@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import './Kycpublicprivate.css'
 import Images from '../../Container/Images/Images';
-import Header from '../../Component/Header';
 import { Col, Button, Container, Row } from 'react-bootstrap';
-import Footer from '../../Component/Footer/Index';
 import  MultiStep  from 'react-multistep';
 
 class Kycpublicprivate extends Component {
@@ -18,7 +16,6 @@ class Kycpublicprivate extends Component {
     render() {
         return (
             <div>
-                <Header/>
                 
                 <div className="Kyclevel-container">
                     
@@ -166,7 +163,6 @@ class Kycpublicprivate extends Component {
                         </Col>
                     </Container>
                 </div>
-                <Footer/>
             </div>
         );
 
