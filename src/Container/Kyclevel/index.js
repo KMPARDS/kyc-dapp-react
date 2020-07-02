@@ -9,7 +9,6 @@ import LevelFour from './LevelFour';
 import LevelThree from './LevelThree';
 
 
-
 class KycLevel extends Component {
 	steps = [
 		{ name: 'FirstLevel', component: <LevelOne /> },
