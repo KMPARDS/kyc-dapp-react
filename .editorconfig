@@ -1,0 +1,5 @@
+# Indentation override for all JS under lib directory
+[**.js]
+indent_style = space
+indent_size = 2
+quote_type = single
