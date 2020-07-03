@@ -1,42 +1,34 @@
 export default class User {
-	token = '';
-	data = {};
-	walletAddress = '';
-	wallet = {};
+  _token;
+  _data;
+  _walletAddress;
+  _wallet;
 
-	static getToken() {
-		return this.token;
-	}
+  static getToken() {
+    return this._token;
+  }
+  static setToken(value) {
+    this._token = value;
+  }
 
-	static setToken(token) {
-		this.token = token;
-	}
-	
-	static getData() {
-		return this.data;
-	}
+  static getData() {
+    return this._data;
+  }
+  static setData(value) {
+    this._data = value;
+  }
 
-	static setData(data) {
-		this.data = data;
-	}
+  static getWalletAddress() {
+    return this._walletAddress;
+  }
+  static setWalletAddress(value) {
+    this._walletAddress = value;
+  }
 
-	static getWalletAddress() {
-		return this.walletAddress;
-	}
-
-	static setWalletAddress(walletAddress) {
-		this.walletAddress = walletAddress;
-	}
-
-	static getWallet() {
-		return this.wallet;
-	}
-
-	static setWallet(wallet) {
-		this.wallet = wallet;
-	}
-
-	get token() {
-		return this.token;
-	}
+  static getWallet() {
+    return this._wallet;
+  }
+  static setWallet(value) {
+    this._wallet = value;
+  }
 }
