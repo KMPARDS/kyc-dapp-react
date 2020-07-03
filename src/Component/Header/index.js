@@ -37,7 +37,8 @@ class Header extends Component {
     let countOfSession = 0, signature = '';
     if (message.substring) {
       if (message.substring(0, 2) === "0x") {
-        window.wallet = new ethers.Wallet(message);
+        User.setWallet(message);
+
         var token;
         if (countOfSession === 0) {
           countOfSession++;
@@ -47,14 +48,14 @@ class Header extends Component {
             }
           })
             .then((resp) => {
-              console.log(resp);
+              // console.log(resp);
               token = resp.data;
               if (typeof token !== undefined || token !== '') {
-                signature = window.wallet.signMessage(token);
+                signature = User.getWallet().signMessage(token);
                 signature.then((value) => {
                   instance.post(baseUrl + 'login',
                     {
-                      walletAddress: window.wallet.address,
+                      walletAddress: User.getWallet().address,
                       signature: value
                     },
                     {
@@ -63,7 +64,7 @@ class Header extends Component {
                       },
                     })
                     .then((resp) => {
-                      console.log(resp)
+                      // console.log(resp)
                       User.setToken(resp.data.token);
                       this.setState({
                         token: resp.data.token
@@ -102,7 +103,7 @@ class Header extends Component {
                 <li class="nav-item dropdown">
                   <button class="nav-link dropdown-toggle bgd-color-nav profile-btn" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                    <img className='' src={Images.path.kycdapp} alt='' /> Sanket parab
+                    <img className='' src={Images.path.kycdapp} alt='' /> {User.getWallet()?.address}
           <span class="sr-only">(current)</span></button>
                   <div class="dropdown-menu dropdown-menu-right dropdown-info com-drop-btn" aria-labelledby="navbarDropdownMenuLink-4">
                     {/* <Link class="dropdown-item" to="/Myaccount"><img className="drop-img-kyc" src={Images.path.op1}/> My Account</Link>

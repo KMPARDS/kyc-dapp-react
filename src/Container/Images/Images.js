@@ -8,7 +8,7 @@ const path = {
     grp1: require("../../assets/Images/grp1.png"),
     grp2: require("../../assets/Images/grp2.png"),
     grp3: require("../../assets/Images/grp3.png"),
-    kycdapp: require("../../assets/Images/kycdapp.png"), 
+    kycdapp: require("../../assets/Images/kycdapp.png"),
     illustr: require("../../assets/Images/illustr.png"),
     vshap: require("../../assets/Images/vshap.png"),
     section: require("../../assets/Images/section.png"),
@@ -66,9 +66,9 @@ const path = {
     coupondapp: require("../../assets/Images/logo/coupondapp.png"),
     recyclingdapp: require("../../assets/Images/logo/recyclingdapp.png"),
     poolingdapp: require("../../assets/Images/logo/poolingdapp.png"),
-
+    eraswap: require('../../assets/Images/S_LIFE.png')
 };
 
 export default {
     path
-}  
+}
