@@ -86,6 +86,7 @@ export default class FirstLevel extends Component {
             idAttachment: resp?.data?.data?.idAttachment || '',
             addressProofAttachment: resp?.data?.data?.addressProofAttachment || '',
             selfieAttachment: resp?.data?.data?.selfieAttachment || '',
+            status: resp?.data?.data?.status
           }
         },() => console.log(this.state.kyc));
       })
@@ -97,14 +98,19 @@ export default class FirstLevel extends Component {
       <div>
         <h4 className="m4-txt-level mb40 text-center">KYC Level 1 </h4>
         <div><i className="fa fa-info-circle themecolor" data-toggle="modal" data-target=".kyclevel1"></i></div>
-        <div className="kycapprove col-md-8 mx-auto mb40 ">
-          <h3>  <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                        Your KYC Has been Approved by the admin </h3>
-          <p>KYC DApp is powered on a decentralised network of Era Swap.
-          There is no centralized authority to obstructions means
-          inbuilt immutably that makes contained data more trustworthy.
-                    </p>
+        {this.state.kyc?.status === 'approved' &&
+          <div className="kycapprove col-md-8 mx-auto mb40 ">
+          <h3>
+            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+            Your KYC Has been Approved by the admin
+          </h3>
+          <p>
+              KYC DApp is powered on a decentralised network of Era Swap.
+            There is no centralized authority to obstructions means
+            inbuilt immutably that makes contained data more trustworthy.
+          </p>
         </div>
+        }
 
         {/* <!-- info modall start here--> */}
         <div class="modal fade kyclevel1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -263,7 +269,7 @@ export default class FirstLevel extends Component {
                 <legend class="scheduler-border">Personal Info</legend>
                 <div className="form-row">
                   <div class="form-group col-2">
-                    <label>salutation</label>
+                    <label>Salutation</label>
                     <Field value={this.state.kyc?.salutation} name="salutation" as="select" className={'form-control' + (errors.salutation && touched.salutation ? ' is-invalid' : '')}>
                       <option value=""></option>
                       <option value="Mr">Mr</option>
@@ -301,7 +307,7 @@ export default class FirstLevel extends Component {
                     <ErrorMessage name="dob" component="div" className="invalid-feedback" />
                   </div>
                   <div className="form-group col">
-                    <label htmlFor="nationality">nationality</label>
+                    <label htmlFor="nationality">Nationality</label>
                     <Field value={this.state.kyc?.nationality} name="nationality" type="text" className={'form-control' + (errors.nationality && touched.nationality ? ' is-invalid' : '')} />
                     <ErrorMessage name="nationality" component="div" className="invalid-feedback" />
                   </div>
@@ -442,9 +448,12 @@ export default class FirstLevel extends Component {
                   </Col>
                 </Row>
               </fieldset>
-              <div className="form-group">
-                <button type="submit" className="btn btn-primary mr-2">Submit</button>
-              </div>
+              { this.state.kyc?.status !== 'approved'
+                &&
+                <div className="form-group">
+                  <button type="submit" className="btn btn-primary mr-2">Submit</button>
+                </div>
+              }
             </Form>
           )}
         </Formik>

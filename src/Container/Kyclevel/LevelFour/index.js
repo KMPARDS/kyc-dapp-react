@@ -17,6 +17,7 @@ export default class LevelFour extends React.Component {
       try {
         await this.updateBalance();
       } catch (error) {
+        console.log(error);
         alert(error.message);
       }
     }, 20000);
@@ -41,6 +42,7 @@ export default class LevelFour extends React.Component {
     }
 
     const balance = await balanceOf(walletAddress);
+
     this.setState({ balanceDisplay: ethers.utils.formatEther(balance) });
   };
 
@@ -114,7 +116,7 @@ export default class LevelFour extends React.Component {
                   <div className="form-group mt20">
                     <label for="formGroupExampleInput">
                       Your Total old Token Liquid Balance{' '}
-                      <small>(This isonly Liquid Token Balance) </small>
+                      <small>(This is only Liquid Token Balance) </small>
                     </label>
                     <div className="tot-ammount">
                       {this.state.balanceDisplay

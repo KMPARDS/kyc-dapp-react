@@ -21,6 +21,7 @@ export default class LevelTwo extends React.Component {
       inputs: [],
       initialValues: {},
       validationSchema: {},
+      kycData: {},
       show: false
     };
     this.handleShow = this.handleShow.bind(this);
@@ -74,9 +75,29 @@ export default class LevelTwo extends React.Component {
         this.setState({
           validationSchema,
           initialValues
-        })
+        });
+
+        this.fetchSubmittedData();
       })
       .catch(handleError);
+  }
+
+  fetchSubmittedData(){
+    Axios.get(config.baseUrl + `apis/kyc-level-two/${this.activePlatformId}`,{
+      headers: {
+        Authorization: User.getToken()
+      }
+    })
+    .then(resp => {
+      console.log('fetch platform data',resp);
+      const kycData = {};
+      resp.data.data.documents.forEach((document,i) => {
+        kycData[document.documentId] = document.content;
+      });
+      console.log('kycData',kycData)
+      this.setState({ kycData });
+    })
+    .catch(handleError);
   }
 
   handleClose() {
@@ -187,8 +208,7 @@ export default class LevelTwo extends React.Component {
         <Modal.Body>
           <fieldset class="scheduler-border">
             <legend class="scheduler-border">Document Submission</legend>
-            <h5 className="mt30">Personal ID Proof</h5>
-            <hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80" />
+            {/* <hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80" /> */}
 
             <Formik
               initialValues={this.state.initialValues}
@@ -217,7 +237,7 @@ export default class LevelTwo extends React.Component {
                               placeholder={String("Enter the ").concat(input.name)}
                               touched={touched}
                               errors={errors}
-                            // value={this.state.kyc?.idType}
+                              value={this.state.kycData && this.state.kycData[input._id] ? this.state.kycData[input._id] : null}
                             />
                           </Col>
                         )
