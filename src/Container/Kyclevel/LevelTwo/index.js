@@ -92,10 +92,13 @@ export default class LevelTwo extends React.Component {
       console.log('fetch platform data',resp);
       const kycData = {};
       resp.data.data.documents.forEach((document,i) => {
-        kycData[document.documentId] = document.content;
+        kycData[document.documentId._id] = document.content;
       });
       console.log('kycData',kycData)
-      this.setState({ kycData });
+      this.setState({
+        kycData,
+        kycStatus: resp.data.data.status
+      });
     })
     .catch(handleError);
   }
@@ -143,14 +146,7 @@ export default class LevelTwo extends React.Component {
     return <div>
       <h4 className="m4-txt-level mb40 text-center">KYC Level 2 </h4>
       <div> <i className="fa fa-info-circle themecolor" data-toggle="modal" data-target=".kyclevel2"></i></div>
-      <div className="kycrejected mb40 col-md-8 mx-auto ">
-        <h3>  <i class="fa fa-times fa-6" aria-hidden="true"></i>
-            Your KYC Has been Rejected by the admin </h3>
-        <p>KYC DApp is powered on a decentralised network of Era Swap.
-        There is no centralized authority to obstructions means
-        inbuilt immutably that makes contained data more trustworthy.
-        </p>
-      </div>
+
 
       {/* <!-- info modall start here--> */}
       <div class="modal fade kyclevel2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -209,6 +205,36 @@ export default class LevelTwo extends React.Component {
           <fieldset class="scheduler-border">
             <legend class="scheduler-border">Document Submission</legend>
             {/* <hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80" /> */}
+        {
+          this.state.kycStatus === 'approved'
+          ?
+          <div className="kycapprove mb40 col-md-8 mx-auto ">
+            <h3>
+              <i class="fa fa-times fa-6" aria-hidden="true"></i>
+              Your KYC Has been Approved by the admin
+            </h3>
+            <p>
+              KYC DApp is powered on a decentralised network of Era Swap.
+              There is no centralized authority to obstructions means
+              inbuilt immutably that makes contained data more trustworthy.
+            </p>
+          </div>
+          :
+          this.state.kycStatus === 'rejected'
+          ?
+          <div className="kycrejected mb40 col-md-8 mx-auto ">
+            <h3>
+              <i class="fa fa-times fa-6" aria-hidden="true"></i>
+              Your KYC Has been Rejected by the admin
+            </h3>
+            <p>
+              KYC DApp is powered on a decentralised network of Era Swap.
+              There is no centralized authority to obstructions means
+              inbuilt immutably that makes contained data more trustworthy.
+            </p>
+          </div>
+          : null
+        }
 
             <Formik
               initialValues={this.state.initialValues}
@@ -225,7 +251,7 @@ export default class LevelTwo extends React.Component {
                     <Row className="mt20">
                       {
                         this.state.inputs.map((input, i) =>
-                          <Col sm={6} key={i}>
+                          <Col sm={input.type === 'text' ? 12 : 6} key={i}>
                             <Field
                               type={input.type}
                               id={input._id}

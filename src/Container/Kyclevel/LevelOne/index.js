@@ -98,7 +98,8 @@ export default class FirstLevel extends Component {
       <div>
         <h4 className="m4-txt-level mb40 text-center">KYC Level 1 </h4>
         <div><i className="fa fa-info-circle themecolor" data-toggle="modal" data-target=".kyclevel1"></i></div>
-        {this.state.kyc?.status === 'approved' &&
+        {
+          this.state.kyc?.status === 'approved' ?
           <div className="kycapprove col-md-8 mx-auto mb40 ">
           <h3>
             <i class="fa fa-check-square-o" aria-hidden="true"></i>
@@ -110,6 +111,21 @@ export default class FirstLevel extends Component {
             inbuilt immutably that makes contained data more trustworthy.
           </p>
         </div>
+        :
+        this.state.kyc?.status === 'rejected' ?
+          <div className="kycapprove col-md-8 mx-auto mb40 ">
+          <h3>
+            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+            Your KYC Has been Approved by the admin
+          </h3>
+          <p>
+              KYC DApp is powered on a decentralised network of Era Swap.
+            There is no centralized authority to obstructions means
+            inbuilt immutably that makes contained data more trustworthy.
+          </p>
+        </div>
+        :
+        null
         }
 
         {/* <!-- info modall start here--> */}
