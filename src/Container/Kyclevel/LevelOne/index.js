@@ -5,8 +5,8 @@ import config from '../../../config/config';
 import Swal from 'sweetalert2'
 import { Col, Row } from 'react-bootstrap';
 import { Formik, Field, Form, ErrorMessage, useFormik } from 'formik';
-import User from '../../../models/User';
 import { SUPPORTED_FORMATS, FILE_SIZE } from '../../../utils/constants';
+import User from '../../../models/User';
 import CustomFileInput from "../../../Component/CustomFileInput/CustomFileInput";
 import { handleError } from '../../../utils/Apis';
 export default class FirstLevel extends Component {
@@ -196,6 +196,11 @@ export default class FirstLevel extends Component {
             idAttachment: Yup
               .mixed()
               .test(
+                "idAttachementRequired",
+                'Id Attachment Required',
+                value => value
+              )
+              .test(
                 "idAttachmentSize",
                 "File is too large",
                 value => {
@@ -211,6 +216,11 @@ export default class FirstLevel extends Component {
             addressProofAttachment: Yup
               .mixed()
               .test(
+                "idAttachementRequired",
+                'Id Attachment Required',
+                value => value
+              )
+              .test(
                 "addressProofAttachmentSize",
                 "File is too large",
                 value => value && (value.size <= FILE_SIZE)
@@ -222,6 +232,11 @@ export default class FirstLevel extends Component {
               )
               .required('Address Proof Attachment  is required'),
             selfieAttachment: Yup.mixed()
+              .test(
+                "idAttachementRequired",
+                'Id Attachment Required',
+                value => value
+              )
               .test(
                 "selfieAttachmentSize",
                 "File is too large",
@@ -355,7 +370,7 @@ export default class FirstLevel extends Component {
                         type="text"
                         id="idType"
                         name="idType"
-                        salutation="ID Type"
+                        title="ID Type"
                         component={CustomFileInput}
                         setFieldValue={setFieldValue}
                         placeholder="Enter the ID Type"
@@ -369,7 +384,7 @@ export default class FirstLevel extends Component {
                         type="text"
                         id="idNumber"
                         name="idNumber"
-                        salutation="ID Number"
+                        title="ID Number"
                         errors={errors}
                         touched={touched}
                         component={CustomFileInput}
@@ -384,7 +399,7 @@ export default class FirstLevel extends Component {
                         type="file"
                         id="myfile"
                         name="idAttachment"
-                        salutation="ID Proof"
+                        title="ID Proof"
                         errors={errors}
                         touched={touched}
                         description="JPG OR PNG file only , Max Size allowed is 10 MB"
@@ -402,7 +417,7 @@ export default class FirstLevel extends Component {
                         type="file"
                         id="addressProofAttachment"
                         name="addressProofAttachment"
-                        salutation="Address Proof"
+                        title="Address Proof"
                         errors={errors}
                         touched={touched}
                         description="JPG OR PNG file only , Max Size allowed is 10 MB"
@@ -416,7 +431,7 @@ export default class FirstLevel extends Component {
                         type="file"
                         id="selfieAttachment"
                         name="selfieAttachment"
-                        salutation="Selfie with ID Card & holding ERASWAP written on paper 'For Eraswap Ecosystem'"
+                        title="Selfie with ID Card & holding ERASWAP written on paper 'For Eraswap Ecosystem'"
                         errors={errors}
                         touched={touched}
                         description="JPG OR PNG file only , Max Size allowed is 10 MB"

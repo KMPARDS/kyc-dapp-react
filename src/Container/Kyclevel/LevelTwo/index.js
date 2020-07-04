@@ -1,45 +1,121 @@
-import React from 'react';
-import { Col, Row } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Col, Row, Modal, Button } from 'react-bootstrap';
 import Images from '../../../Container/Images/Images';
 import Axios from 'axios';
 import config from '../../../config/config';
 import User from '../../../models/User';
 import { handleError } from '../../../utils/Apis';
+import * as Yup from 'yup';
+import { Formik, Field, Form, ErrorMessage, useFormik } from 'formik';
+import { SUPPORTED_FORMATS, FILE_SIZE } from '../../../utils/constants';
+import CustomFileInput from "../../../Component/CustomFileInput/CustomFileInput";
+import Swal from 'sweetalert2';
 
 export default class LevelTwo extends React.Component {
-  constructor(props){
+  activePlatformId = '';
+
+  constructor(props) {
     super(props);
     this.state = {
-      platforms: []
+      platforms: [],
+      inputs: [],
+      initialValues: {},
+      validationSchema: {},
+      show: false
     };
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.fetchPlatforms();
   }
 
-  fetchPlatforms(){
-    Axios.get(config.baseUrl + 'api/kyc-platforms/')
-    .then(resp => {
-      console.log(resp)
+  fetchInputs(platformId) {
+    this.activePlatformId = platformId;
+    this.handleShow();
+    Axios.get(config.baseUrl + `api/kyc-inputs/?platformId=${platformId}`)
+      .then(resp => {
+        this.setState({
+          inputs: resp.data.data
+        });
 
-      // if(resp.data?.data){
-      //   resp.data.
-      //    <Col lg={3} md={6} sm={12} >
-      //         <div class="jm-logo" data-toggle="modal" data-target=".bd-example-modal-lg">
-      //           <a href="#">
-      //             <span>
-      //               <img className='Img' src={Images.path.esn} />
-      //             </span>
-      //           </a>
-      //         </div>
-      //       </Col>;
-      // }
-      this.setState({
-        platforms: resp.data.data
-      });
+        const textValidator = (name) => Yup
+          .string()
+          .required(`${name} is required`);
+
+        const fileValidator = (name,title) => Yup.mixed()
+          .test(
+            `${name}Required`,
+            `${title} is required`,
+            value => value
+          )
+          .test(
+            `${name}Size`,
+            "File is too large",
+            value => value && (value.size <= FILE_SIZE)
+          )
+          .test(
+            `${name}Format`,
+            "Unsupported Format",
+            value => value && SUPPORTED_FORMATS.includes(value.type)
+          )
+          .required(`${title}  is required`);
+
+        const validationSchema = {},initialValues = {};
+        resp.data.data.forEach((input, i) => {
+          validationSchema[input._id] = input.type === 'file'
+            ? fileValidator(input._id,input.name)
+            : textValidator(input.name);
+
+          initialValues[input._id] = '';
+        });
+
+        this.setState({
+          validationSchema,
+          initialValues
+        })
+      })
+      .catch(handleError);
+  }
+
+  handleClose() {
+    this.setState({ show: false });
+  }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+
+  fetchPlatforms() {
+    Axios.get(config.baseUrl + 'api/kyc-platforms/')
+      .then(resp => {
+        console.log(resp)
+
+        this.setState({
+          platforms: resp.data.data
+        });
+      })
+      .catch(handleError);
+  }
+
+  submitLevelTwo(values) {
+    const formData = new FormData();
+    formData.append('platformId',this.activePlatformId);
+    for(var key in values){
+      formData.append(key,values[key]);
+    }
+
+    Axios.post(config.baseUrl + 'apis/kyc-level-two/save', formData,{
+      headers: {
+        Authorization: User.getToken()
+      }
     })
-    .catch(handleError);
+    .then(resp => {
+      console.log(resp);
+      Swal.fire('Success',resp.data.message,'success');
+    })
+    .catch(handleError)
   }
 
   render() {
@@ -85,361 +161,80 @@ export default class LevelTwo extends React.Component {
 
         <Row className="mt20">
           {this.state.platforms.length ?
-          this.state.platforms.map((platform,i) =>
-            <Col lg={3} md={6} sm={12} key={i}>
-              <div class="jm-logo" data-toggle="modal" data-target=".bd-example-modal-lg">
-                <a href="#">
+            this.state.platforms.map((platform, i) =>
+              <Col lg={3} md={6} sm={12} key={i}>
+                <div className="jm-logo" onClick={this.fetchInputs.bind(this, platform._id)}>
                   <span>
-                    <img className='Img' src={platform.logo} />
+                    <img className='Img' src={platform.logo} alt={platform.name} />
                   </span>
-                </a>
-              </div>
-            </Col>
+                </div>
+              </Col>
             )
             :
             <div className="text-center">No Platforms Listed Yet</div>
-        }
-
-
-          <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">ERASWAP Network</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-
-                  <fieldset class="scheduler-border">
-                    <legend class="scheduler-border">Document Submission</legend>
-                    <h5 className="mt30">Personal ID Proof</h5>
-                    <hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80" />
-
-                    <Row className="mt20">
-
-                      <Col sm={6} >
-                        <form>
-                          <div class="form-group">
-                            <label for="formGroupExampleInput">ID Type</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Enter your id type" />
-                          </div>
-                        </form>
-                      </Col>
-                      <Col sm={6} >
-                        <form>
-                          <div class="form-group">
-                            <label for="formGroupExampleInput">ID Number</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Enter your ID Number" />
-                          </div>
-                        </form>
-                      </Col>
-
-                      <Col sm={6} >
-                        <label for="formGroupExampleInput"> ID Proof</label>
-                        <p className="note-para">JPG OR PNG file only , Max Size allowed is 10 MB </p>
-
-                        <div className="flex-choose">
-                          <form className="select-style" action="/action_page.php">
-                            <input type="file" id="myfile" name="myfile" /><br /><br />
-                          </form>
-                        </div>
-                        <div>
-                          <Row>
-
-                            <Col sm={5}>
-                              <div className="border-style-img">
-                                <img className='kycdapp-plus-Img' src={Images.path.plusimg} />
-                              </div>
-
-                            </Col>
-                          </Row>
-
-                        </div>
-                      </Col>
-
-                    </Row>
-
-                    <Row className="mt20">
-                      <Col sm={6} >
-                        <h5 className="mt40">Addresss Proof</h5>
-                        <hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80" />
-
-                        <label for="formGroupExampleInput">Please upload your Addresss Proof herer</label>
-                        <p className="note-para">JPG OR PNG file only , Max Size allowed is 10 MB </p>
-
-                        <div className="flex-choose">
-                          <form className="select-style" action="/action_page.php">
-                            <input type="file" id="myfile" name="myfile" /><br /><br />
-                          </form>
-                        </div>
-                        <div>
-                          <Row>
-
-                            <Col sm={12}>
-                              <div className="border-style-img">
-                                <img className='kycdapp-plus-Img' src={Images.path.plusimg} />
-                              </div>
-
-                            </Col>
-                          </Row>
-                        </div>
-                      </Col>
-                      <Col sm={6} >
-                        <h5 className="mt40">Selfie with </h5>
-                        <hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80" />
-
-                        <label for="formGroupExampleInput"> Selfie with IC Card & holding ERASWAP written on paper "For Eraswap Ecosystem"</label>
-                        <p className="note-para">JPG OR PNG file only , Max Size allowed is 10 MB </p>
-
-                        <div className="flex-choose">
-                          <form className="select-style" action="/action_page.php">
-                            <input type="file" id="myfile" name="myfile" /><br /><br />
-                          </form>
-                        </div>
-                        <div>
-                          <Row>
-
-                            <Col sm={12}>
-                              <div className="border-style-img">
-                                <img className='kycdapp-plus-Img' src={Images.path.plusimg} />
-                              </div>
-
-                            </Col>
-                          </Row>
-
-                        </div>
-                      </Col>
-                    </Row>
-
-
-                    <Row className="mt20">
-                      <div className="submit-btn-flex">
-                        <button className="submit-btn">Submit</button>
-                      </div>
-                    </Row>
-                  </fieldset>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-{/*
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.swapperwall} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.timeally} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.timeallyclub} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.daap} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.eraswapwallet} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.timeswappers} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.dayswappers} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.buzcafe} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.eraswapacademy} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.betdeex} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.computeexmultiexchange} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.faithminus} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.vof} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.certidapp} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.kycdapp} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.bookingdapp} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.charitydapp} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.rentingdapp} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.curedapp} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.dateswappers} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.coupondapp} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.recyclingdapp} />
-                </span>
-              </a>
-            </div>
-          </Col>
-          <Col lg={3} md={6} sm={12} >
-            <div class="jm-logo">
-              <a href="#">
-                <span>
-                  <img className='Img' src={Images.path.poolingdapp} />
-                </span>
-              </a>
-            </div>
-          </Col> */}
-
-
+          }
         </Row>
       </fieldset>
 
+      <Modal
+        size="lg"
+        show={this.state.show}
+        onHide={this.handleClose}
+      >
+        <Modal.Header closeButton>
+          <h5 class="modal-title" id="exampleModalLabel">ERASWAP Network</h5>
+        </Modal.Header>
+        <Modal.Body>
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Document Submission</legend>
+            <h5 className="mt30">Personal ID Proof</h5>
+            <hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80" />
 
+            <Formik
+              initialValues={this.state.initialValues}
+              validationSchema={Yup.object().shape(this.state.validationSchema)}
+              onSubmit={values => this.submitLevelTwo(values)}
+            >
+              {({
+                errors,
+                touched,
+                values,
+                setFieldValue
+              }) => (
+                  <Form>
+                    <Row className="mt20">
+                      {
+                        this.state.inputs.map((input, i) =>
+                          <Col sm={6} key={i}>
+                            <Field
+                              type={input.type}
+                              id={input._id}
+                              name={input._id}
+                              title={input.name}
+                              description={input?.description}
+                              component={CustomFileInput}
+                              setFieldValue={setFieldValue}
+                              placeholder={String("Enter the ").concat(input.name)}
+                              touched={touched}
+                              errors={errors}
+                            // value={this.state.kyc?.idType}
+                            />
+                          </Col>
+                        )
+                      }
+                    </Row>
+                    <Row className="mt20">
+                      <div className="submit-btn-flex">
+                        <button className="submit-btn" type="submit">Submit</button>
+                      </div>
+                    </Row>
+                  </Form>
+                )}
+            </Formik>
+          </fieldset>
+
+        </Modal.Body>
+      </Modal>
     </div>;
   }
 }

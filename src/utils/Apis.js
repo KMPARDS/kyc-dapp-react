@@ -10,5 +10,5 @@ export const handleError = (error) => {
       text: 'Please Load Wallet First!',
       type: 'error'
     })
-  return Swal.fire('Oops...',error.response.data.message || 'Unable To Process Request, Try Again Later', 'error');
+  return Swal.fire('Oops...',error?.response?.data?.message || 'Unable To Process Request, Try Again Later', 'error');
 }

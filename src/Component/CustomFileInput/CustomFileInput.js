@@ -3,7 +3,10 @@ import './CustomFileInput.css';
 import { Row, Col } from "react-bootstrap";
 import Images from "../../Container/Images/Images";
 
+
 export default class CustomFileInput extends Component {
+  name = '';
+
   constructor(props) {
     super(props);
     this.fileUpload = React.createRef();
@@ -12,10 +15,16 @@ export default class CustomFileInput extends Component {
   }
 
   state = {
+    name: '',
     text: undefined,
     file: undefined,
     imagePreviewUrl: Images.path.plusimg
   };
+
+  componentDidMount() {
+    const { name } = this.props.field;
+    this.name = name;
+  }
 
   showFileUpload() {
     if (this.fileUpload) {
@@ -49,15 +58,28 @@ export default class CustomFileInput extends Component {
     }
   }
 
-  componentWillReceiveProps(props){
-    const { type, value } = props;
-    if(type === 'file') this.setState({ imagePreviewUrl: value });
+  componentWillReceiveProps(props) {
+    const { field: { name }, type, value, errors, touched } = props;
+
+    const newValues = {}
+    if (type === 'file'
+      && this.name === name
+      && value
+      && this.state.imagePreviewUrl !== value)
+        newValues.imagePreviewUrl = value;
+
+    if(this.name === name && errors[this.name] && touched[this.name])
+      newValues.error = errors[this.name];
+    else newValues.error = null;
+
+    this.setState({
+      ...newValues
+    });
   }
 
   render() {
     const { title, description, type, placeholder, errors, touched, value } = this.props;
     const { name, onBlur } = this.props.field;
-
     return (
       <div className="form-group">
         <label for={name}>{title}</label>
@@ -72,13 +94,13 @@ export default class CustomFileInput extends Component {
           onChange={this.handleChange}
           ref={this.fileUpload}
           onBlur={onBlur}
-          value={type === 'text' ? value : null }
+          value={type === 'text' ? value : null}
         />
-        {errors && errors[name] && touched[name] ? (
+        {this.state.error && (
           <div className="error">
-            {errors[name]}
+            {this.state.error}
           </div>
-        ) : null}
+        )}
 
         {type === 'file' &&
           <Row>
