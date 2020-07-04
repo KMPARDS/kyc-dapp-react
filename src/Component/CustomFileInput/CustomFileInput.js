@@ -42,21 +42,20 @@ export default class CustomFileInput extends Component {
         }
         break;
       case 'text':
+        onChange(e);
         break;
       default:
         break;
     }
-    onChange(e);
   }
 
-
-
-  componentDidMount() {
-    console.log(this.fileUpload.current);
+  componentWillReceiveProps(props){
+    const { type, value } = props;
+    if(type === 'file') this.setState({ imagePreviewUrl: value });
   }
 
   render() {
-    const { title, description, type, placeholder, errors, touched } = this.props;
+    const { title, description, type, placeholder, errors, touched, value } = this.props;
     const { name, onBlur } = this.props.field;
 
     return (
@@ -73,6 +72,7 @@ export default class CustomFileInput extends Component {
           onChange={this.handleChange}
           ref={this.fileUpload}
           onBlur={onBlur}
+          value={type === 'text' ? value : null }
         />
         {errors && errors[name] && touched[name] ? (
           <div className="error">

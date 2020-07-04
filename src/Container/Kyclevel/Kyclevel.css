@@ -116,12 +116,14 @@ transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
         margin-bottom: 10px;
 }
 .jm-logo  .Img {
-        height: 117px!important;
-    padding: 10px
+    height: 85% !important;
+    padding: 10px;
+    max-width: 100%;
 }
 .jm-logo a {
     position: relative;
     display: inline-block;
+    height: 150px;
 }
 .jm-logo a:before {
     pointer-events: none;

@@ -45,7 +45,7 @@ label{
     display: flex;
     justify-content: center;
     margin-left: 10px;
-  
+
 }
 
 .display-border-style{
@@ -54,11 +54,7 @@ label{
     margin-bottom: 20px;
 }
 
-.kycdapp-plus-Img{
-    width: 100px;
-    height: 100px;
-    margin-top: 40px;
-}
+
 textarea {
 height:90px;
 width: 100%;
@@ -140,8 +136,8 @@ transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     -webkit-transition-property: transform, opacity;
     transition-property: transform, opacity;
 }
-.jm-logo a:hover:before, 
-.jm-logo a:focus:before, 
+.jm-logo a:hover:before,
+.jm-logo a:focus:before,
 .jm-logo a:active:before {
     filter: alpha(opacity=100);
     opacity: 1;
@@ -152,8 +148,8 @@ transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     -webkit-transition-property: transform;
     transition-property: transform;
 }
-.jm-logo a:hover span, 
-.jm-logo a:focus span, 
+.jm-logo a:hover span,
+.jm-logo a:focus span,
 .jm-logo a:active span {
     -o-transform: translateY(-10px);
     -ms-transform: translateY(-10px);

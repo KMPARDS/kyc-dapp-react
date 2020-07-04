@@ -45,7 +45,7 @@ label{
     display: flex;
     justify-content: center;
     margin-left: 10px;
-  
+
 }
 
 .display-border-style{
@@ -54,11 +54,6 @@ label{
     margin-bottom: 20px;
 }
 
-.kycdapp-plus-Img{
-    width: 100px;
-    height: 100px;
-    margin-top: 40px;
-}
 .list-group-item {
     position: relative;
     display: block;
@@ -170,7 +165,7 @@ label{
     left: 74px;
     box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.2);
 }
- 
+
 /* Transition
 ========================== */
 .switch-label, .switch-handle {
