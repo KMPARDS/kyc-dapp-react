@@ -83,9 +83,9 @@ export default class FirstLevel extends Component {
             pincode: resp?.data?.data?.pincode || '',
             idType: resp?.data?.data?.idType || '',
             idNumber: resp?.data?.data?.idNumber || '',
-            idAttachment: resp?.data?.data?.idAttachment || '',
-            addressProofAttachment: resp?.data?.data?.addressProofAttachment || '',
-            selfieAttachment: resp?.data?.data?.selfieAttachment || '',
+            idAttachment: resp?.data?.data?.idAttachment || null,
+            addressProofAttachment: resp?.data?.data?.addressProofAttachment || null,
+            selfieAttachment: resp?.data?.data?.selfieAttachment || null,
             status: resp?.data?.data?.status
           }
         },() => console.log(this.state.kyc));
@@ -154,25 +154,26 @@ export default class FirstLevel extends Component {
 
         {/* <!-- info modall end here--> */}
         <Formik
+        enableReinitialize={true}
           initialValues={{
-            salutation: '',
-            firstname: '',
-            middlename: '',
-            lastname: '',
-            username: '',
-            dob: '',
-            nationality: '',
-            contactNumber: '',
-            email: '',
-            placeOfBirth: '',
-            maritalStatus: '',
-            address: '',
-            pincode: '',
-            idType: '',
-            idNumber: '',
-            idAttachment: '',
-            addressProofAttachment: '',
-            selfieAttachment: '',
+            salutation: this.state.kyc?.salutation || '',
+            firstname: this.state.kyc?.firstname || '',
+            middlename: this.state.kyc?.middlename || '',
+            lastname: this.state.kyc?.lastname || '',
+            username: this.state.kyc?.username || '',
+            dob: this.state.kyc?.dob || '',
+            nationality: this.state.kyc?.nationality || '',
+            contactNumber: this.state.kyc?.contactNumber || '',
+            email: this.state.kyc?.email || '',
+            placeOfBirth: this.state.kyc?.placeOfBirth || '',
+            maritalStatus: this.state.kyc?.maritalStatus || '',
+            address: this.state.kyc?.address || '',
+            pincode: this.state.kyc?.pincode || '',
+            idType: this.state.kyc?.idType || '',
+            idNumber: this.state.kyc?.idNumber || '',
+            idAttachment: this.state.kyc?.idAttachment || '',
+            addressProofAttachment: this.state.kyc?.addressProofAttachment || '',
+            selfieAttachment: this.state.kyc?.selfieAttachment || '',
           }}
           validationSchema={Yup.object().shape({
             salutation: Yup.string()
@@ -223,16 +224,16 @@ export default class FirstLevel extends Component {
                 value => value
               )
               .test(
+                "idAttachmentFormat",
+                "Unsupported Format",
+                value =>{ console.log('value',value);  return value && SUPPORTED_FORMATS.includes(value.type);}
+              )
+              .test(
                 "idAttachmentSize",
                 "File is too large",
                 value => {
                   return value && (value.size <= FILE_SIZE)
                 }
-              )
-              .test(
-                "idAttachmentFormat",
-                "Unsupported Format",
-                value => value && SUPPORTED_FORMATS.includes(value.type)
               )
               .required("Id Attachment is required"),
             addressProofAttachment: Yup
@@ -243,31 +244,31 @@ export default class FirstLevel extends Component {
                 value => value
               )
               .test(
+                "addressProofAttachmentFormat",
+                "Unsupported Format",
+                value => value && SUPPORTED_FORMATS.includes(value.type)
+              )
+              .test(
                 "addressProofAttachmentSize",
                 "File is too large",
                 value => value && (value.size <= FILE_SIZE)
               )
-              .test(
-                "addressProofAttachmentFormat",
-              "Unsupported Format",
-              value => value && SUPPORTED_FORMATS.includes(value.type)
-              )
               .required('Address Proof Attachment  is required'),
-            selfieAttachment: Yup.mixed()
+              selfieAttachment: Yup.mixed()
               .test(
                 "idAttachementRequired",
                 'Id Attachment Required',
                 value => value
               )
               .test(
-                "selfieAttachmentSize",
-                "File is too large",
-                value => value && (value.size <= FILE_SIZE)
-              )
-              .test(
                 "selfieAttachmentFormat",
                 "Unsupported Format",
                 value => value && SUPPORTED_FORMATS.includes(value.type)
+              )
+              .test(
+                "selfieAttachmentSize",
+                "File is too large",
+                value => value && (value.size <= FILE_SIZE)
               )
               .required('Selfie Attachment  is required'),
           })}
@@ -278,7 +279,8 @@ export default class FirstLevel extends Component {
             errors,
             touched,
             values,
-            setFieldValue
+            setFieldValue,
+            handleChange
           }) => (
             <Form>
               <fieldset class="scheduler-border">
@@ -428,6 +430,7 @@ export default class FirstLevel extends Component {
                         component={CustomFileInput}
                         setFieldValue={setFieldValue}
                         value={this.state.kyc?.idAttachment}
+                        
                       />
                   </Col>
 
@@ -446,6 +449,7 @@ export default class FirstLevel extends Component {
                         component={CustomFileInput}
                         setFieldValue={setFieldValue}
                         value={this.state.kyc?.addressProofAttachment}
+                        
                       />
                   </Col>
                   <Col sm={6} >
@@ -460,6 +464,7 @@ export default class FirstLevel extends Component {
                         component={CustomFileInput}
                         setFieldValue={setFieldValue}
                         value={this.state.kyc?.selfieAttachment}
+                        
                       />
                   </Col>
                 </Row>

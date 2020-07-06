@@ -51,7 +51,7 @@ export default class CustomFileInput extends Component {
         }
         break;
       case 'text':
-        onChange(e);
+        onChange(e);  
         break;
       default:
         break;
