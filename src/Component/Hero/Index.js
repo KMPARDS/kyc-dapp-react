@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './Hero.css'
 import { Col, Button, Container, Row } from 'react-bootstrap';
 import Images from '../../Container/Images/Images';
@@ -29,7 +30,7 @@ class Hero extends Component {
                                      <br />inbuilt immutably that makes contained data more trustworthy.
                                      </p>
                                      <div class="mt40">
-                                         <button className="knw-btn">Know Your Customer</button>
+                                         <Link to="/form" className="knw-btn">Know Your Customer</Link>
                                      </div>
                             </div>
                             <div className="col-12 col-lg-6">

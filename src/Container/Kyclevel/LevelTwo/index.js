@@ -123,7 +123,7 @@ export default class LevelTwo extends React.Component {
       .catch(handleError);
   }
 
-  submitLevelTwo(values) {
+  submitLevelTwo(values, { setSubmitting }) {
     const formData = new FormData();
     formData.append('platformId',this.activePlatformId);
     for(var key in values){
@@ -138,6 +138,7 @@ export default class LevelTwo extends React.Component {
     .then(resp => {
       console.log(resp);
       Swal.fire('Success',resp.data.message,'success');
+      setSubmitting(false);
     })
     .catch(handleError)
   }
@@ -233,19 +234,33 @@ export default class LevelTwo extends React.Component {
               inbuilt immutably that makes contained data more trustworthy.
             </p>
           </div>
+          :
+          this.state.kycStatus === 'pending'
+          ?
+          <div className="kycrejected mb40 col-md-8 mx-auto ">
+            <h3>
+              Pending
+            </h3>
+            <p>
+              KYC DApp is powered on a decentralised network of Era Swap.
+              There is no centralized authority to obstructions means
+              inbuilt immutably that makes contained data more trustworthy.
+            </p>
+          </div>
           : null
         }
 
             <Formik
               initialValues={this.state.initialValues}
               validationSchema={Yup.object().shape(this.state.validationSchema)}
-              onSubmit={values => this.submitLevelTwo(values)}
+              onSubmit={this.submitLevelTwo}
             >
               {({
                 errors,
                 touched,
                 values,
-                setFieldValue
+                setFieldValue,
+                isSubmitting
               }) => (
                   <Form>
                     <Row className="mt20">
@@ -271,7 +286,7 @@ export default class LevelTwo extends React.Component {
                     </Row>
                     <Row className="mt20">
                       <div className="submit-btn-flex">
-                        <button className="submit-btn" type="submit">Submit</button>
+                        <button className="submit-btn" type="submit">{isSubmitting ? 'Submitting' : 'Submit'}</button>
                       </div>
                     </Row>
                   </Form>

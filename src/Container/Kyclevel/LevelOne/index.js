@@ -22,7 +22,7 @@ export default class FirstLevel extends Component {
   }
 
 
-  submitLevelOne = (values) => {
+  submitLevelOne = (values,{ setSubmitting }) => {
     const formData = new FormData();
     formData.append('salutation', values.salutation);
     formData.append('firstname', values.firstname);
@@ -51,6 +51,7 @@ export default class FirstLevel extends Component {
       })
       .then(resp => {
         console.log("check kyc form", resp);
+        setSubmitting(false);
         Swal.fire('Success','Kyc form submitted', 'success');
       })
       .catch(handleError);
@@ -117,6 +118,18 @@ export default class FirstLevel extends Component {
           <h3>
             <i class="fa fa-check-square-o" aria-hidden="true"></i>
             Your KYC Has been Approved by the admin
+          </h3>
+          <p>
+              KYC DApp is powered on a decentralised network of Era Swap.
+            There is no centralized authority to obstructions means
+            inbuilt immutably that makes contained data more trustworthy.
+          </p>
+        </div>
+        :
+        this.state.kyc?.status === 'pending' ?
+          <div className="col-md-8 mx-auto mb40 ">
+          <h3>
+            Pending
           </h3>
           <p>
               KYC DApp is powered on a decentralised network of Era Swap.
@@ -273,14 +286,15 @@ export default class FirstLevel extends Component {
               .required('Selfie Attachment  is required'),
           })}
 
-          onSubmit={values => this.submitLevelOne(values)}
+          onSubmit={(values,{ setSubmitting }) => this.submitLevelOne(values,{ setSubmitting })}
         >
           {({
             errors,
             touched,
             values,
             setFieldValue,
-            handleChange
+            handleChange,
+            isSubmitting
           }) => (
             <Form>
               <fieldset class="scheduler-border">
@@ -472,7 +486,7 @@ export default class FirstLevel extends Component {
               { this.state.kyc?.status !== 'approved'
                 &&
                 <div className="form-group">
-                  <button type="submit" className="btn btn-primary mr-2">Submit</button>
+                  <button type="submit" className="btn btn-primary mr-2">{isSubmitting ? 'Submitting' : 'Submit'}</button>
                 </div>
               }
             </Form>
