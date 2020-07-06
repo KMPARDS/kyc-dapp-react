@@ -87,7 +87,8 @@ export default class FirstLevel extends Component {
             idAttachment: resp?.data?.data?.idAttachment || null,
             addressProofAttachment: resp?.data?.data?.addressProofAttachment || null,
             selfieAttachment: resp?.data?.data?.selfieAttachment || null,
-            status: resp?.data?.data?.status
+            status: resp?.data?.data?.status,
+            adminMessage: resp.data?.data?.adminMessage
           }
         },() => console.log(this.state.kyc));
       })
@@ -114,17 +115,28 @@ export default class FirstLevel extends Component {
         </div>
         :
         this.state.kyc?.status === 'rejected' ?
-          <div className="kycapprove col-md-8 mx-auto mb40 ">
-          <h3>
-            <i class="fa fa-check-square-o" aria-hidden="true"></i>
-            Your KYC Has been Approved by the admin
-          </h3>
-          <p>
+          <div className="kycrejected mb40 col-md-8 mx-auto ">
+            <h3>
+              <i class="fa fa-times fa-6" aria-hidden="true"></i>
+              Your KYC Has been Rejected by the admin
+            </h3>
+            <strong>
+              {
+                this.state.kyc?.adminMessage  
+                &&
+                <span>
+                  <hr />
+                  {this.state.kyc?.adminMessage}
+                  <hr />
+                </span>
+              }
+            </strong>
+            <p>
               KYC DApp is powered on a decentralised network of Era Swap.
-            There is no centralized authority to obstructions means
-            inbuilt immutably that makes contained data more trustworthy.
-          </p>
-        </div>
+              There is no centralized authority to obstructions means
+              inbuilt immutably that makes contained data more trustworthy.
+            </p>
+          </div>
         :
         this.state.kyc?.status === 'pending' ?
           <div className="col-md-8 mx-auto mb40 ">

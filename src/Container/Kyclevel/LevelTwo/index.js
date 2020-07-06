@@ -28,12 +28,14 @@ export default class LevelTwo extends React.Component {
     this.handleClose = this.handleClose.bind(this);
   }
 
-  componentDidMount() {
+  componentDidMount() { 
     this.fetchPlatforms();
   }
 
   fetchInputs(platformId) {
+    console.log('platformId',platformId)
     this.activePlatformId = platformId;
+    console.log('this.activePlatformId',this.activePlatformId)
     this.handleShow();
     Axios.get(config.baseUrl + `api/kyc-inputs/?platformId=${platformId}`)
       .then(resp => {
@@ -97,7 +99,8 @@ export default class LevelTwo extends React.Component {
       console.log('kycData',kycData)
       this.setState({
         kycData,
-        kycStatus: resp.data.data.status
+        kycStatus: resp.data.data.status,
+        adminMessage: resp.data.data.adminMessage
       });
     })
     .catch(handleError);
@@ -124,12 +127,14 @@ export default class LevelTwo extends React.Component {
   }
 
   submitLevelTwo(values, { setSubmitting }) {
+    console.log('called');
     const formData = new FormData();
     formData.append('platformId',this.activePlatformId);
     for(var key in values){
       formData.append(key,values[key]);
+      console.log(formData.get(key));
     }
-
+console.log('called2');
     Axios.post(config.baseUrl + 'apis/kyc-level-two/save', formData,{
       headers: {
         Authorization: User.getToken()
@@ -211,7 +216,7 @@ export default class LevelTwo extends React.Component {
           ?
           <div className="kycapprove mb40 col-md-8 mx-auto ">
             <h3>
-              <i class="fa fa-times fa-6" aria-hidden="true"></i>
+              <i class="fa fa-check-square-o fa-6" aria-hidden="true"></i>
               Your KYC Has been Approved by the admin
             </h3>
             <p>
@@ -228,6 +233,15 @@ export default class LevelTwo extends React.Component {
               <i class="fa fa-times fa-6" aria-hidden="true"></i>
               Your KYC Has been Rejected by the admin
             </h3>
+            {
+                this.state.adminMessage  
+                &&
+                <span>
+                  <hr />
+                  {this.state.adminMessage}
+                  <hr />
+                </span>
+              }
             <p>
               KYC DApp is powered on a decentralised network of Era Swap.
               There is no centralized authority to obstructions means
@@ -253,7 +267,7 @@ export default class LevelTwo extends React.Component {
             <Formik
               initialValues={this.state.initialValues}
               validationSchema={Yup.object().shape(this.state.validationSchema)}
-              onSubmit={this.submitLevelTwo}
+              onSubmit={(values, { setSubmitting }) => this.submitLevelTwo(values, { setSubmitting }) }
             >
               {({
                 errors,
