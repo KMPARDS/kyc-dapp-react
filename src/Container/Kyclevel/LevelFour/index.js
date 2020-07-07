@@ -109,7 +109,7 @@ export default class LevelFour extends React.Component {
                     Your Wallet Address
                   </h5>
 
-                  <div className="wallet-address">
+                  <div className="wallet-address"> 
                     {User.getWallet()?.address ??
                       'Error: please load your wallet'}
                   </div>
