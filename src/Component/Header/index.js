@@ -113,7 +113,7 @@ class Header extends Component {
               <Link class="dropdown-item" to="/MyKyckey"><img className="drop-img-kyc" src={Images.path.op6} alt=''/> My KYC key</Link> */}
                     <Link class="dropdown-item" to="/privacy"><img className="drop-img-kyc" src={Images.path.op4} alt='' /> KYC Public and Private Info </Link>
                     {/* <Link class="dropdown-item" to="/"><img className="drop-img-kyc" src={Images.path.op3} alt=''/> Express KYC </Link> */}
-                    <Link class="dropdown-item" to="/"><img className="drop-img-kyc" src={Images.path.op7} alt='' /> Become a Conservator</Link>
+                    <Link class="dropdown-item" to="/conservator"><img className="drop-img-kyc" src={Images.path.op7} alt='' /> Become a Conservator</Link>
                   </div>
                 </li>
                 :
