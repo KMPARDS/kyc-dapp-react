@@ -66,7 +66,11 @@ const path = {
     coupondapp: require("../../assets/Images/logo/coupondapp.png"),
     recyclingdapp: require("../../assets/Images/logo/recyclingdapp.png"),
     poolingdapp: require("../../assets/Images/logo/poolingdapp.png"),
-    eraswap: require('../../assets/Images/S_LIFE.png')
+    eraswap: require('../../assets/Images/S_LIFE.png'),
+    workinprogress: require('../../assets/Images/workinprogress.png'),
+    addressproof: require('../../assets/Images/addres-proof.png'),
+    idproof: require('../../assets/Images/id-proof.png'),
+    selfiproof: require('../../assets/Images/selfi-proof.png'),
 };
 
 export default {

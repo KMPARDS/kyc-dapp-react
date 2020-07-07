@@ -9,7 +9,7 @@ export default class LevelFour extends React.Component {
     transfering: false,
   };
 
-  ADMIN_WALLET = '0xC8e1F3B9a0CdFceF9fFd2343B943989A22517b26';
+  ADMIN_WALLET = '0x397Fa088Ff98ecdB5Ed0B9A2E3c0a8877B6279A6';
   intervalId = null;
 
   componentDidMount = () => {
