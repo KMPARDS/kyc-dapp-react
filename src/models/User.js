@@ -30,8 +30,7 @@ export default class User {
   }
   static setWallet(value) {
     this._wallet = new ethers.Wallet(value).connect(ethers.getDefaultProvider('homestead'));
-    this._esInstance = new ethers.Contract(
-      config.CONTRACT_ADDRESS || '0xef1344bdf80bef3ff4428d8becec3eea4a2cf574',
+    this._esInstance = new ethers.Contract('0xef1344bdf80bef3ff4428d8becec3eea4a2cf574',
       require('../ethereum/ERC20.json').abi,
       this._wallet
     );
