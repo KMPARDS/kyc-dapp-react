@@ -3,21 +3,22 @@ import { Col, Row } from 'react-bootstrap';
 import Images from '../../../Container/Images/Images';
 import User from '../../../models/User';
 import Swal from 'sweetalert2';
-import { PRESET } from '../../../utils/constants';
+import { PRESET, ACCEPT_ESN, REJECT_ESN, ACCEPT_PRESET, REJECT_PRESET } from '../../../utils/constants';
 import Axios from 'axios';
 import config from '../../../config/config';
 import { errors } from 'ethers';
-
 export default class LevelThree extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      message: '',
+      message: ACCEPT_PRESET,
       signature: '',
+      authorizeESN: ACCEPT_ESN
     }
 
     this.signMessage = this.signMessage.bind(this);
-    this.preset = this.preset.bind(this);
+    this.declineAuthorizeESN = this.declineAuthorizeESN.bind(this);
+    this.acceptAuthorizeESN = this.acceptAuthorizeESN.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -72,6 +73,7 @@ export default class LevelThree extends React.Component {
         const formData = new FormData();
         formData.append('signature',signature);
         formData.append('message',this.state.message);
+        formData.append('authorizeESN',this.state.authorizeESN);
         const signApiResponse = await Axios.post(config.baseUrl + 'apis/kyc-level-three/save',
         formData,
         {
@@ -94,14 +96,18 @@ export default class LevelThree extends React.Component {
     }
   }
 
-  preset(){
+  acceptAuthorizeESN(){
     this.setState({
-      message: PRESET,
-      errors: {
-        ...this.state.errors,
-        message: null
-      }
-    });
+      authorizeESN: ACCEPT_ESN,
+      message: ACCEPT_PRESET
+    })
+  }
+
+  declineAuthorizeESN(){
+    this.setState({
+      authorizeESN: REJECT_ESN,
+      message: REJECT_PRESET
+    }) 
   }
 
   render() {
@@ -170,20 +176,27 @@ export default class LevelThree extends React.Component {
                   <button
                     className="btn"
                     type="button"
-                    onClick={this.preset}
+                    onClick={this.acceptAuthorizeESN.bind(this,true)}
                   >
-                    TimeAlly Era Swap Network
+                    Authorize TimeAlly Era Swap Network
+                  </button>
+                  <button
+                    className="btn btn-default"
+                    type="button"
+                    onClick={this.declineAuthorizeESN.bind(this,true)}
+                  >
+                    Decline TimeAlly Era Swap Network
                   </button>
                 </h6>
                 <h6>Update your message below and then click on sign</h6>
 
                 <div className="yourwallet">
                   <textarea
-                    id="w3review"
-                    rows="4"
-                    cols="100"
-                    placeholder=""
-                    name="message"
+                      id="w3review"
+                      rows="4"
+                      cols="100"
+                      placeholder=""
+                      name="message"
                     value={this.state.message}
                     onChange={this.handleChange}
                   />
