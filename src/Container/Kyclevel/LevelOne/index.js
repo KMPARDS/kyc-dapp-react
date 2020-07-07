@@ -171,7 +171,7 @@ export default class FirstLevel extends Component {
         delete this.validationSchema.addressProofAttachment;
         delete this.validationSchema.idAttachment;
         delete this.validationSchema.selfieAttachment;
-        
+
         this.setState({
           kyc: {
             salutation: resp?.data?.data?.salutation || '',
@@ -206,7 +206,7 @@ export default class FirstLevel extends Component {
         <h4 className="m4-txt-level mb40 text-center">KYC Level 1 </h4>
         <div><i className="fa fa-info-circle themecolor" data-toggle="modal" data-target=".kyclevel1"></i></div>
         {
-          this.state.kyc?.status === 'approved' ?
+          this.state.kyc?.status === 'approved' || User.getData?.kycdappVerified ?
           <div className="kycapprove col-md-8 mx-auto mb40 ">
           <h3>
             <i class="fa fa-check-square-o" aria-hidden="true"></i>
@@ -538,7 +538,8 @@ export default class FirstLevel extends Component {
               { this.state.kyc?.status !== 'approved'
                 &&
                 <div className="form-group">
-                  <button type="submit" className="btn btn-primary mr-2">{isSubmitting ? 'Submitting' : 'Submit'}</button>
+                  <button type="submit" className="btn btn-primary mr-2" disabled={User.getData?.kycdappVerified || false}>
+                    {isSubmitting ? 'Submitting' : 'Submit'}</button>
                 </div>
               }
             </Form>

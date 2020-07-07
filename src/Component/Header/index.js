@@ -64,8 +64,9 @@ class Header extends Component {
                       },
                     })
                     .then((resp) => {
-                      // console.log(resp)
+                      console.log(resp)
                       User.setToken(resp.data.token);
+                      User.setData(resp.data.user);
                       this.setState({
                         token: resp.data.token
                       });
