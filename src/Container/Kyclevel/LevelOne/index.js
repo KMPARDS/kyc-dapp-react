@@ -10,10 +10,111 @@ import User from '../../../models/User';
 import CustomFileInput from "../../../Component/CustomFileInput/CustomFileInput";
 import { handleError } from '../../../utils/Apis';
 export default class FirstLevel extends Component {
+
+  validationSchema = {};
+
   constructor(props) {
     super(props);
     this.state = {
       kyc: null
+    };
+
+    this.validationSchema = {
+      salutation: Yup.string()
+        .required('salutation is required'),
+      firstname: Yup.string()
+        .min(3, 'Name must be at least 3 characters')
+        .required('First Name is required'),
+
+      middlename: Yup.string()
+        .min(3, 'Middle Name must be at least 3 characters')
+        .required('Middle Name is required'),
+      lastname: Yup.string()
+        .min(3, 'Last Name must be at least 3 characters')
+        .required('Last Name is required'),
+      username: Yup.string()
+        .min(3, 'User Name must be at least 3 characters')
+        .required('User Name is required'),
+      email: Yup.string()
+        .email('Email is invalid')
+        .required('Email is required'),
+      dob: Yup.string()
+        .required('Date of Birth is required'),
+      nationality: Yup.string()
+        .required('nationality is required'),
+      contactNumber: Yup.string()
+        .min(6, 'Minimum 6 digit phone Number')
+        .max(10, 'Maximum 10 digit phone Number')
+        .required('Phone Number is required'),
+      placeOfBirth: Yup.string()
+        .required('Place of Birth  is required'),
+      maritalStatus: Yup.string()
+        .required('Maritial status  is required'),
+      address: Yup.string()
+        .required('Current Address  is required'),
+      pincode: Yup.string()
+        .min(4, 'Minimum 6 digit phone Number')
+        .max(6, 'Maximum 10 digit phone Number')
+        .required('Pincode is required'),
+      idType: Yup.string()
+        .required('Id Type is required'),
+      idNumber: Yup.string()
+        .required('Id Number  is required'),
+      idAttachment: Yup
+        .mixed()
+        .test(
+          "idAttachementRequired",
+          'Id Attachment Required',
+          value => value
+        )
+        .test(
+          "idAttachmentFormat",
+          "Unsupported Format",
+          value =>{ console.log('value',value);  return value && SUPPORTED_FORMATS.includes(value.type);}
+        )
+        .test(
+          "idAttachmentSize",
+          "File is too large",
+          value => {
+            return value && (value.size <= FILE_SIZE)
+          }
+        )
+        .required("Id Attachment is required"),
+      addressProofAttachment: Yup
+        .mixed()
+        .test(
+          "idAttachementRequired",
+          'Id Attachment Required',
+          value => value
+        )
+        .test(
+          "addressProofAttachmentFormat",
+          "Unsupported Format",
+          value => value && SUPPORTED_FORMATS.includes(value.type)
+        )
+        .test(
+          "addressProofAttachmentSize",
+          "File is too large",
+          value => value && (value.size <= FILE_SIZE)
+        )
+        .required('Address Proof Attachment  is required'),
+        selfieAttachment: Yup.mixed()
+        .test(
+          "idAttachementRequired",
+          'Id Attachment Required',
+          value => value
+        )
+        .test(
+          "selfieAttachmentFormat",
+          "Unsupported Format",
+          value => value && SUPPORTED_FORMATS.includes(value.type)
+        )
+        .test(
+          "selfieAttachmentSize",
+          "File is too large",
+          value => value && (value.size <= FILE_SIZE)
+        )
+        .required('Selfie Attachment  is required'),
     };
   }
 
@@ -67,6 +168,10 @@ export default class FirstLevel extends Component {
       })
       .then(resp => {
         console.log(resp)
+        delete this.validationSchema.addressProofAttachment;
+        delete this.validationSchema.idAttachment;
+        delete this.validationSchema.selfieAttachment;
+        
         this.setState({
           kyc: {
             salutation: resp?.data?.data?.salutation || '',
@@ -230,103 +335,7 @@ export default class FirstLevel extends Component {
             addressProofAttachment: this.state.kyc?.addressProofAttachment || '',
             selfieAttachment: this.state.kyc?.selfieAttachment || '',
           }}
-          validationSchema={Yup.object().shape({
-            salutation: Yup.string()
-              .required('salutation is required'),
-            firstname: Yup.string()
-              .min(3, 'Name must be at least 3 characters')
-              .required('First Name is required'),
-
-            middlename: Yup.string()
-              .min(3, 'Middle Name must be at least 3 characters')
-              .required('Middle Name is required'),
-            lastname: Yup.string()
-              .min(3, 'Last Name must be at least 3 characters')
-              .required('Last Name is required'),
-            username: Yup.string()
-              .min(3, 'User Name must be at least 3 characters')
-              .required('User Name is required'),
-            email: Yup.string()
-              .email('Email is invalid')
-              .required('Email is required'),
-            dob: Yup.string()
-              .required('Date of Birth is required'),
-            nationality: Yup.string()
-              .required('nationality is required'),
-            contactNumber: Yup.string()
-              .min(6, 'Minimum 6 digit phone Number')
-              .max(10, 'Maximum 10 digit phone Number')
-              .required('Phone Number is required'),
-            placeOfBirth: Yup.string()
-              .required('Place of Birth  is required'),
-            maritalStatus: Yup.string()
-              .required('Maritial status  is required'),
-            address: Yup.string()
-              .required('Current Address  is required'),
-            pincode: Yup.string()
-              .min(4, 'Minimum 6 digit phone Number')
-              .max(6, 'Maximum 10 digit phone Number')
-              .required('Pincode is required'),
-            idType: Yup.string()
-              .required('Id Type is required'),
-            idNumber: Yup.string()
-              .required('Id Number  is required'),
-            idAttachment: Yup
-              .mixed()
-              .test(
-                "idAttachementRequired",
-                'Id Attachment Required',
-                value => value
-              )
-              .test(
-                "idAttachmentFormat",
-                "Unsupported Format",
-                value =>{ console.log('value',value);  return value && SUPPORTED_FORMATS.includes(value.type);}
-              )
-              .test(
-                "idAttachmentSize",
-                "File is too large",
-                value => {
-                  return value && (value.size <= FILE_SIZE)
-                }
-              )
-              .required("Id Attachment is required"),
-            addressProofAttachment: Yup
-              .mixed()
-              .test(
-                "idAttachementRequired",
-                'Id Attachment Required',
-                value => value
-              )
-              .test(
-                "addressProofAttachmentFormat",
-                "Unsupported Format",
-                value => value && SUPPORTED_FORMATS.includes(value.type)
-              )
-              .test(
-                "addressProofAttachmentSize",
-                "File is too large",
-                value => value && (value.size <= FILE_SIZE)
-              )
-              .required('Address Proof Attachment  is required'),
-              selfieAttachment: Yup.mixed()
-              .test(
-                "idAttachementRequired",
-                'Id Attachment Required',
-                value => value
-              )
-              .test(
-                "selfieAttachmentFormat",
-                "Unsupported Format",
-                value => value && SUPPORTED_FORMATS.includes(value.type)
-              )
-              .test(
-                "selfieAttachmentSize",
-                "File is too large",
-                value => value && (value.size <= FILE_SIZE)
-              )
-              .required('Selfie Attachment  is required'),
-          })}
+          validationSchema={Yup.object().shape(this.validationSchema)}
 
           onSubmit={(values,{ setSubmitting }) => this.submitLevelOne(values,{ setSubmitting })}
         >

@@ -92,9 +92,10 @@ export default class LevelTwo extends React.Component {
     })
     .then(resp => {
       console.log('fetch platform data',resp);
-      const kycData = {};
+      const kycData = {}, validationSchema = this.state.validationSchema;
       resp.data.data.documents.forEach((document,i) => {
         kycData[document.documentId._id] = document.content;
+        if(document.documentId.type === 'file') delete validationSchema[document.documentId._id];
       });
       console.log('kycData',kycData)
       this.setState({

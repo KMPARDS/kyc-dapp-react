@@ -70,12 +70,10 @@ export default class CustomFileInput extends Component {
       && this.name === name
       && value
       && this.state.imagePreviewUrl !== value){
-        console.log('typeof value',typeof value)
         if(typeof value === 'string')
           newValues.imagePreviewUrl = value;
         else if(typeof value === 'object')
           this.readFile(value);
-
       }
 
     if(this.name === name && errors[this.name] && touched[this.name])
