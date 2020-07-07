@@ -164,12 +164,42 @@ export default class FirstLevel extends Component {
                 </button>
               </div>
               <div class="modal-body">
-
-                <h6>KYC on Blockchain Network
-                                            Done More Quickly & Securly</h6>
-                <p>KYC DApp is powered on a decentralised network of Era Swap.
-                There is no centralized authority to obstructions means
-                                            inbuilt immutably that makes contained data more trustworthy.</p>
+                                         <ul  class="kyctext mt-20">
+                                               <li>
+                                                  <i class="fa fa-arrow-right fa-ora"></i> All users should submit minimum 2 photographs for KYC as described below :
+                                                  <ul class="kyctextlist" type="none">
+                                                    <li>
+                                                        <i class="fa fa-arrow-right fa-ora"></i> PICTURE WITH ID Please submit a picture in which you are holding your government-issued ID and a paper note. On the note you should handwrite your user full name, the current date, DOB, signature, and the words "For Time Swappers ." Make sure the picture you are submitting meets the following requirements:
+                                                        <ul class="kyctextlist1">
+                                                          <li> It is taken in good light;</li>
+                                                          <li> The photo is clear, high-resolution, and in color;</li>
+                                                          <li> Your face must be clearly visible;</li>
+                                                          <li> The text in the note must be handwritten by you and not typed;</li>
+                                                          <li> The document you are holding must be the same you are submitting for your identity verification; and </li>
+                                                          <li> Neither the photos nor the documents have been edited or manipulated.</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li >
+                                                        <i class="fa fa-arrow-right fa-ora"></i> PHOTO ID :- Please provide a picture of any of the following:
+                                                        <ul class="kyctextlist1">
+                                                          <li> Passport (open to the double-page spread showing your photo, your name, your date of birth, and the passport expiration date);</li>
+                                                          <li> Driver's license (front and back); </li>
+                                                          <li> Government Provided National identity document (front and back). </li>
+                                                        </ul>
+                                                        Make sure the ID the scan of which you are submitting meets the following requirements:
+                                                        <ul class="kyctextlist1">
+                                                          <li> The document remains valid for at least 3 months from the submission date or it will not be accepted; </li>
+                                                          <li> It is an original document; photos of copies will not be accepted; </li>
+                                                          <li> Your photos or scans are clear, high-resolution and in color; </li>
+                                                          <li> Neither the documents nor their photos or scans have been edited or manipulated; and </li>
+                                                          <li> Photos of front and back sides, if applicable, must be uploaded separately.</li>
+                                                        </ul>
+                                                    </li>
+                                                  </ul>
+                                              </li>
+                                               <li><i class="fa fa-arrow-right fa-ora"></i> Add email ID</li>
+                                               <li><i class="fa fa-arrow-right fa-ora"></i> Add Phone number</li>
+                                            </ul>
 
               </div>
 
@@ -484,6 +514,7 @@ export default class FirstLevel extends Component {
                         id="selfieAttachment"
                         name="selfieAttachment"
                         title="Selfie with ID Card & holding ERASWAP written on paper 'For Eraswap Ecosystem'"
+                        defaultImage=""
                         errors={errors}
                         touched={touched}
                         description="JPG OR PNG file only , Max Size allowed is 10 MB"

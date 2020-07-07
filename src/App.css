@@ -113,7 +113,7 @@ fieldset.scheduler-border {
     border: 1px groove #dddddd47 !important;
     padding: 0 1.4em 1.4em 1.4em !important;
     margin: 0 0 1.5em 0 !important;
-   
+
 }
 
 legend.scheduler-border {
@@ -217,5 +217,24 @@ Padding space
 }
 
 
+ul.kyctext .fa-ora {
+  color: #ffc107;
+}
 
+ul.kyctext {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  line-height: 28px;
+  font-size: 14px;
+}
+.kyctextlist{
+  list-style: none;
+  margin: 0 0 0 20px;
+  padding: 0;
+}
+.kyctextlist1{
 
+  margin: 0 0 0 20px;
+  padding: 0;
+}
