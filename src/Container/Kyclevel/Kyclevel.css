@@ -107,6 +107,7 @@ transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     color: #8a8a8a;
     font-weight: 400 !important;
     letter-spacing: inherit;
+    text-align: justify;
 }
 /*level 2 css*/
 .jm-logo {

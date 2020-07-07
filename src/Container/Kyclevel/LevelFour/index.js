@@ -97,12 +97,12 @@ export default class LevelFour extends React.Component {
         <fieldset class="scheduler-border es-trasnferbox">
           <legend class="scheduler-border">Transfer Old Tokens</legend>
           <Row className="mt20">
-            <Col sm={8} className="mx-auto ">
+            <Col sm={10} className="mx-auto ">
               <form>
                 <h6>
-                  TimeAlly stakings, PET and TSGAP will be migrated
-                  automatically and you do not need to do anything. Only liquid
-                  tokens are required to transfer for migration.
+                TimeAlly (1/2 Year) Stakings, PET and TSGAP will be migrated automatically and you do not need to
+                 perform any additional activity. Only ES Liquid tokens are required to be transferd back to
+                  admin wallet for migration. Please load your wallet and send ES Liquid to admin wallet mentioned below:
                 </h6>
                 <div className="yourwallet ">
                   <h5 className="feature-head text-left">

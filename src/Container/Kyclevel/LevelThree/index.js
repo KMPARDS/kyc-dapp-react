@@ -107,7 +107,7 @@ export default class LevelThree extends React.Component {
     this.setState({
       authorizeESN: REJECT_ESN,
       message: REJECT_PRESET
-    }) 
+    })
   }
 
   render() {
@@ -163,7 +163,7 @@ export default class LevelThree extends React.Component {
             Signing a message using your wallet
           </legend>
           <Row className="mt20">
-            <Col sm={8} className="mx-auto ">
+            <Col sm={10} className="mx-auto ">
                 <h6>
                   On the blockchain, identity is the wallet address and not a
                   human name or face. When you sign a message, a unique
@@ -174,14 +174,14 @@ export default class LevelThree extends React.Component {
                 <h6>
                   Presets:
                   <button
-                    className="btn"
+                    className="btn btn-sm mb10"
                     type="button"
                     onClick={this.acceptAuthorizeESN.bind(this,true)}
                   >
                     Authorize TimeAlly Era Swap Network
                   </button>
                   <button
-                    className="btn btn-default"
+                    className="btn btn-default btn-sm mb10"
                     type="button"
                     onClick={this.declineAuthorizeESN.bind(this,true)}
                   >
