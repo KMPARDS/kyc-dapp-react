@@ -37,36 +37,46 @@ export default class CustomFileInput extends Component {
     e.preventDefault();
     switch (e.target.type) {
       case 'file':
-        let reader = new FileReader();
+
         let file = e.target.files[0];
         if (file) {
-          reader.onloadend = () => {
-            this.setState({
-              file: file,
-              imagePreviewUrl: reader.result
-            });
-          };
-          reader.readAsDataURL(file);
+          this.readFile(file);
           this.props.setFieldValue(this.props.field.name, file);
         }
         break;
       case 'text':
-        onChange(e);  
+        onChange(e);
         break;
       default:
         break;
     }
   }
 
+  readFile(file){
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
   componentWillReceiveProps(props) {
     const { field: { name }, type, value, errors, touched } = props;
-
     const newValues = {}
     if (type === 'file'
       && this.name === name
       && value
-      && this.state.imagePreviewUrl !== value)
-        newValues.imagePreviewUrl = value;
+      && this.state.imagePreviewUrl !== value){
+        console.log('typeof value',typeof value)
+        if(typeof value === 'string')
+          newValues.imagePreviewUrl = value;
+        else if(typeof value === 'object')
+          this.readFile(value);
+
+      }
 
     if(this.name === name && errors[this.name] && touched[this.name])
       newValues.error = errors[this.name];

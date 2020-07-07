@@ -28,7 +28,7 @@ export default class LevelTwo extends React.Component {
     this.handleClose = this.handleClose.bind(this);
   }
 
-  componentDidMount() { 
+  componentDidMount() {
     this.fetchPlatforms();
   }
 
@@ -99,6 +99,7 @@ export default class LevelTwo extends React.Component {
       console.log('kycData',kycData)
       this.setState({
         kycData,
+        initialValues: kycData,
         kycStatus: resp.data.data.status,
         adminMessage: resp.data.data.adminMessage
       });
@@ -234,7 +235,7 @@ console.log('called2');
               Your KYC Has been Rejected by the admin
             </h3>
             {
-                this.state.adminMessage  
+                this.state.adminMessage
                 &&
                 <span>
                   <hr />
@@ -265,6 +266,7 @@ console.log('called2');
         }
 
             <Formik
+              enableReinitialize={true}
               initialValues={this.state.initialValues}
               validationSchema={Yup.object().shape(this.state.validationSchema)}
               onSubmit={(values, { setSubmitting }) => this.submitLevelTwo(values, { setSubmitting }) }
@@ -292,7 +294,7 @@ console.log('called2');
                               placeholder={String("Enter the ").concat(input.name)}
                               touched={touched}
                               errors={errors}
-                              value={this.state.kycData && this.state.kycData[input._id] ? this.state.kycData[input._id] : null}
+                              value={values && values[input._id] ? values[input._id] : ''}
                             />
                           </Col>
                         )

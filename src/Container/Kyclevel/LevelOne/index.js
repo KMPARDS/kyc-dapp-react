@@ -122,7 +122,7 @@ export default class FirstLevel extends Component {
             </h3>
             <strong>
               {
-                this.state.kyc?.adminMessage  
+                this.state.kyc?.adminMessage
                 &&
                 <span>
                   <hr />
@@ -314,7 +314,7 @@ export default class FirstLevel extends Component {
                 <div className="form-row">
                   <div class="form-group col-2">
                     <label>Salutation</label>
-                    <Field value={this.state.kyc?.salutation} name="salutation" as="select" className={'form-control' + (errors.salutation && touched.salutation ? ' is-invalid' : '')}>
+                    <Field value={values?.salutation} name="salutation" as="select" className={'form-control' + (errors.salutation && touched.salutation ? ' is-invalid' : '')}>
                       <option value=""></option>
                       <option value="Mr">Mr</option>
                       <option value="Mrs">Mrs</option>
@@ -325,58 +325,58 @@ export default class FirstLevel extends Component {
                   </div>
                   <div className="form-group col-3">
                     <label htmlFor="firstname">First Name</label>
-                    <Field value={this.state.kyc?.firstname} name="firstname" type="text" placeholder="First Name" className={'form-control' + (errors.firstname && touched.firstname ? ' is-invalid' : '')} />
+                    <Field value={values?.firstname} name="firstname" type="text" placeholder="First Name" className={'form-control' + (errors.firstname && touched.firstname ? ' is-invalid' : '')} />
                     <ErrorMessage name="firstname" component="div" className="invalid-feedback" />
                   </div>
                   <div className="form-group col-3">
                     <label htmlFor="middlename">Middle Name</label>
-                    <Field value={this.state.kyc?.middlename} name="middlename" type="text" placeholder="Middle Name" className={'form-control' + (errors.middlename && touched.middlename ? ' is-invalid' : '')} />
+                    <Field value={values?.middlename} name="middlename" type="text" placeholder="Middle Name" className={'form-control' + (errors.middlename && touched.middlename ? ' is-invalid' : '')} />
                     <ErrorMessage name="middlename" component="div" className="invalid-feedback" />
                   </div>
                   <div className="form-group col-3">
                     <label htmlFor="lastname">Last Name</label>
-                    <Field value={this.state.kyc?.lastname} name="lastname" type="text" placeholder="Last Name" className={'form-control' + (errors.lastname && touched.lastname ? ' is-invalid' : '')} />
+                    <Field value={values?.lastname} name="lastname" type="text" placeholder="Last Name" className={'form-control' + (errors.lastname && touched.lastname ? ' is-invalid' : '')} />
                     <ErrorMessage name="lastname" component="div" className="invalid-feedback" />
                   </div>
                 </div>
                 <div className="form-group">
                   <label htmlFor="username">User Name</label>
-                  <Field value={this.state.kyc?.username} name="username" type="text" placeholder="Enter your User Name" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
+                  <Field value={values?.username} name="username" type="text" placeholder="Enter your User Name" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
                   <ErrorMessage name="username" component="div" className="invalid-feedback" />
                 </div>
                 <div className="form-row">
                   <div className="form-group col">
                     <label htmlFor="dob">Date of Birth</label>
-                    <Field value={this.state.kyc?.dob} name="dob" type="date" placeholder="YYYY/MM/DD" className={'form-control' + (errors.dob && touched.dob ? ' is-invalid' : '')} />
+                    <Field value={values?.dob} name="dob" type="date" placeholder="YYYY/MM/DD" className={'form-control' + (errors.dob && touched.dob ? ' is-invalid' : '')} />
                     <ErrorMessage name="dob" component="div" className="invalid-feedback" />
                   </div>
                   <div className="form-group col">
                     <label htmlFor="nationality">Nationality</label>
-                    <Field value={this.state.kyc?.nationality} name="nationality" type="text" className={'form-control' + (errors.nationality && touched.nationality ? ' is-invalid' : '')} />
+                    <Field value={values?.nationality} name="nationality" type="text" className={'form-control' + (errors.nationality && touched.nationality ? ' is-invalid' : '')} />
                     <ErrorMessage name="nationality" component="div" className="invalid-feedback" />
                   </div>
                 </div>
                 <div className="form-row">
                   <div className="form-group col">
                     <label htmlFor="contactNumber">Phone Number</label>
-                    <Field value={this.state.kyc?.contactNumber} name="contactNumber" type="text" className={'form-control' + (errors.contactNumber && touched.contactNumber ? ' is-invalid' : '')} />
+                    <Field value={values?.contactNumber} name="contactNumber" type="text" className={'form-control' + (errors.contactNumber && touched.contactNumber ? ' is-invalid' : '')} />
                     <ErrorMessage name="contactNumber" component="div" className="invalid-feedback" />
                   </div>
                   <div className="form-group col">
                     <label>Email</label>
-                    <Field value={this.state.kyc?.email} name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
+                    <Field value={values?.email} name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
                     <ErrorMessage name="email" component="div" className="invalid-feedback" />
                   </div>
                 </div>
                 <div className="form-row">
                   <div className="form-group col">
                     <label htmlFor="placeOfBirth">Place of Birth</label>
-                    <Field value={this.state.kyc?.placeOfBirth} name="placeOfBirth" type="text" className={'form-control' + (errors.placeOfBirth && touched.placeOfBirth ? ' is-invalid' : '')} />
+                    <Field value={values?.placeOfBirth} name="placeOfBirth" type="text" className={'form-control' + (errors.placeOfBirth && touched.placeOfBirth ? ' is-invalid' : '')} />
                     <ErrorMessage name="placeOfBirth" component="div" className="invalid-feedback" />
                   </div>
                   <div className="form-group col">
                     <label htmlFor="maritalStatus">Martial Status</label>
-                    <Field value={this.state.kyc?.maritalStatus} name="maritalStatus" as="select" className={'form-control' + (errors.maritalStatus && touched.maritalStatus ? ' is-invalid' : '')}>
+                    <Field value={values?.maritalStatus} name="maritalStatus" as="select" className={'form-control' + (errors.maritalStatus && touched.maritalStatus ? ' is-invalid' : '')}>
                       <option value=""></option>
                       <option value="single">Single</option>
                       <option value="Married">Married</option>
@@ -394,7 +394,7 @@ export default class FirstLevel extends Component {
                     <form>
                       <div class="form-group">
                         <label htmlFor="address"> Address</label>
-                        <Field value={this.state.kyc?.address} id="address" name="address" rows="4" cols="100" placeholder="Enter your Current Address" className={'form-control textHt' + (errors.address && touched.address ? ' is-invalid' : '')} />
+                        <Field value={values?.address} id="address" name="address" rows="4" cols="100" placeholder="Enter your Current Address" className={'form-control textHt' + (errors.address && touched.address ? ' is-invalid' : '')} />
                         <ErrorMessage name="address" component="div" className="invalid-feedback" />
                       </div>
                     </form>
@@ -403,7 +403,7 @@ export default class FirstLevel extends Component {
                 <div className="form-row">
                   <div className="form-group col">
                     <label htmlFor="pincode">Pincode</label>
-                    <Field value={this.state.kyc?.pincode} name="pincode" type="text" placeholder="Pincode" className={'form-control' + (errors.placeOfBirth && touched.placeOfBirth ? ' is-invalid' : '')} />
+                    <Field value={values?.pincode} name="pincode" type="text" placeholder="Pincode" className={'form-control' + (errors.placeOfBirth && touched.placeOfBirth ? ' is-invalid' : '')} />
                     <ErrorMessage name="pincode" component="div" className="invalid-feedback" />
                   </div>
                   <div className="form-group col">
@@ -426,7 +426,8 @@ export default class FirstLevel extends Component {
                         placeholder="Enter the ID Type"
                         touched={touched}
                         errors={errors}
-                        value={this.state.kyc?.idType}
+                        value={values?.idType}
+                        values={values}
                       />
                   </Col>
                   <Col sm={6} >
@@ -440,7 +441,7 @@ export default class FirstLevel extends Component {
                         component={CustomFileInput}
                         setFieldValue={setFieldValue}
                         placeholder="Enter the ID Number"
-                        value={this.state.kyc?.idNumber}
+                        value={values?.idNumber}
                       />
                   </Col>
 
@@ -455,8 +456,7 @@ export default class FirstLevel extends Component {
                         description="JPG OR PNG file only , Max Size allowed is 10 MB"
                         component={CustomFileInput}
                         setFieldValue={setFieldValue}
-                        value={this.state.kyc?.idAttachment}
-                        
+                        value={values?.idAttachment}
                       />
                   </Col>
 
@@ -474,8 +474,8 @@ export default class FirstLevel extends Component {
                         description="JPG OR PNG file only , Max Size allowed is 10 MB"
                         component={CustomFileInput}
                         setFieldValue={setFieldValue}
-                        value={this.state.kyc?.addressProofAttachment}
-                        
+                        value={values?.addressProofAttachment}
+
                       />
                   </Col>
                   <Col sm={6} >
@@ -489,8 +489,8 @@ export default class FirstLevel extends Component {
                         description="JPG OR PNG file only , Max Size allowed is 10 MB"
                         component={CustomFileInput}
                         setFieldValue={setFieldValue}
-                        value={this.state.kyc?.selfieAttachment}
-                        
+                        value={values?.selfieAttachment}
+
                       />
                   </Col>
                 </Row>
