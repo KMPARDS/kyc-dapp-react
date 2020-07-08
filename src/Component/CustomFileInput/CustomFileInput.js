@@ -64,8 +64,10 @@ export default class CustomFileInput extends Component {
   }
 
   componentWillReceiveProps(props) {
-    const { field: { name }, type, value, errors, touched } = props;
-    const newValues = {}
+    const { field: { name }, type, value, errors, touched, disabled } = props;
+    const newValues = {
+      disabled
+    }
     if (type === 'file'
       && this.name === name
       && value
@@ -94,6 +96,7 @@ export default class CustomFileInput extends Component {
         {description && <p className="note-para">{description}</p>}
 
         <input
+          disabled={this.state.disabled}
           id={name}
           name={name}
           type={type}
