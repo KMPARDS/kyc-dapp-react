@@ -163,7 +163,7 @@ export default class LevelThree extends React.Component {
             Signing a message using your wallet
           </legend>
           <Row className="mt20">
-            <Col sm={10} className="mx-auto ">
+            <Col sm={12} className="mx-auto ">
                 <h6>
                   On the blockchain, identity is the wallet address and not a
                   human name or face. When you sign a message, a unique
@@ -172,16 +172,16 @@ export default class LevelThree extends React.Component {
                   the ownership of the private key.
                 </h6>
                 <h6>
-                  Presets:
+                  Presets:<br/>
                   <button
-                    className="btn btn-sm mb10"
+                    className="btn btn-sm mb10 mt10"
                     type="button"
                     onClick={this.acceptAuthorizeESN.bind(this,true)}
                   >
                     Authorize TimeAlly Era Swap Network
                   </button>
                   <button
-                    className="btn btn-default btn-sm mb10"
+                    className="btn btn-default btn-sm mb10 mt10"
                     type="button"
                     onClick={this.declineAuthorizeESN.bind(this,true)}
                   >

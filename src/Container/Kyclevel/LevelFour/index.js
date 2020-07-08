@@ -97,7 +97,7 @@ export default class LevelFour extends React.Component {
         <fieldset class="scheduler-border es-trasnferbox">
           <legend class="scheduler-border">Transfer Old Tokens</legend>
           <Row className="mt20">
-            <Col sm={10} className="mx-auto ">
+            <Col sm={12} className="mx-auto ">
               <form>
                 <h6>
                 TimeAlly (1/2 Year) Stakings, PET and TSGAP will be migrated automatically and you do not need to
@@ -109,7 +109,7 @@ export default class LevelFour extends React.Component {
                     Your Wallet Address
                   </h5>
 
-                  <div className="wallet-address"> 
+                  <div className="wallet-address">
                     {User.getWallet()?.address ??
                       'Error: please load your wallet'}
                   </div>

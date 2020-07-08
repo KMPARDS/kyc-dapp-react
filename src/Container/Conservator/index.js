@@ -30,7 +30,7 @@ class Conservator extends Component {
                                 <hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80"/>
 
                                 <Col sm={12} className="text-center">
-                                  <img className=' mt20' src={Images.path.workinprogress} alt="" width="400"/>
+                                  <img className='img-fluid mt20 mb40' src={Images.path.workinprogress} alt="" width="400"/>
                                 </Col>
 
 

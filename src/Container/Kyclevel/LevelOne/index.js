@@ -351,7 +351,7 @@ export default class FirstLevel extends Component {
               <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Personal Info</legend>
                 <div className="form-row">
-                  <div class="form-group col-2">
+                  <div class="form-group col-lg-3">
                     <label>Salutation</label>
                     <Field value={values?.salutation} name="salutation" as="select" className={'form-control' + (errors.salutation && touched.salutation ? ' is-invalid' : '')}>
                       <option value=""></option>
@@ -362,17 +362,17 @@ export default class FirstLevel extends Component {
                     </Field>
                     <ErrorMessage name="salutation" component="div" className="invalid-feedback" />
                   </div>
-                  <div className="form-group col-3">
+                  <div className="form-group col-lg-3">
                     <label htmlFor="firstname">First Name</label>
                     <Field value={values?.firstname} name="firstname" type="text" placeholder="First Name" className={'form-control' + (errors.firstname && touched.firstname ? ' is-invalid' : '')} />
                     <ErrorMessage name="firstname" component="div" className="invalid-feedback" />
                   </div>
-                  <div className="form-group col-3">
+                  <div className="form-group col-lg-3">
                     <label htmlFor="middlename">Middle Name</label>
                     <Field value={values?.middlename} name="middlename" type="text" placeholder="Middle Name" className={'form-control' + (errors.middlename && touched.middlename ? ' is-invalid' : '')} />
                     <ErrorMessage name="middlename" component="div" className="invalid-feedback" />
                   </div>
-                  <div className="form-group col-3">
+                  <div className="form-group col-lg-3">
                     <label htmlFor="lastname">Last Name</label>
                     <Field value={values?.lastname} name="lastname" type="text" placeholder="Last Name" className={'form-control' + (errors.lastname && touched.lastname ? ' is-invalid' : '')} />
                     <ErrorMessage name="lastname" component="div" className="invalid-feedback" />
@@ -384,36 +384,36 @@ export default class FirstLevel extends Component {
                   <ErrorMessage name="username" component="div" className="invalid-feedback" />
                 </div>
                 <div className="form-row">
-                  <div className="form-group col">
+                  <div className="form-group col-lg-6">
                     <label htmlFor="dob">Date of Birth</label>
                     <Field value={values?.dob} name="dob" type="date" placeholder="YYYY/MM/DD" className={'form-control' + (errors.dob && touched.dob ? ' is-invalid' : '')} />
                     <ErrorMessage name="dob" component="div" className="invalid-feedback" />
                   </div>
-                  <div className="form-group col">
+                  <div className="form-group col-lg-6">
                     <label htmlFor="nationality">Nationality</label>
                     <Field value={values?.nationality} name="nationality" type="text" className={'form-control' + (errors.nationality && touched.nationality ? ' is-invalid' : '')} />
                     <ErrorMessage name="nationality" component="div" className="invalid-feedback" />
                   </div>
                 </div>
                 <div className="form-row">
-                  <div className="form-group col">
+                  <div className="form-group col-lg-6">
                     <label htmlFor="contactNumber">Phone Number</label>
                     <Field value={values?.contactNumber} name="contactNumber" type="text" className={'form-control' + (errors.contactNumber && touched.contactNumber ? ' is-invalid' : '')} />
                     <ErrorMessage name="contactNumber" component="div" className="invalid-feedback" />
                   </div>
-                  <div className="form-group col">
+                  <div className="form-group col-lg-6">
                     <label>Email</label>
                     <Field value={values?.email} name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
                     <ErrorMessage name="email" component="div" className="invalid-feedback" />
                   </div>
                 </div>
                 <div className="form-row">
-                  <div className="form-group col">
+                  <div className="form-group col-lg-6">
                     <label htmlFor="placeOfBirth">Place of Birth</label>
                     <Field value={values?.placeOfBirth} name="placeOfBirth" type="text" className={'form-control' + (errors.placeOfBirth && touched.placeOfBirth ? ' is-invalid' : '')} />
                     <ErrorMessage name="placeOfBirth" component="div" className="invalid-feedback" />
                   </div>
-                  <div className="form-group col">
+                  <div className="form-group col-lg-6">
                     <label htmlFor="maritalStatus">Martial Status</label>
                     <Field value={values?.maritalStatus} name="maritalStatus" as="select" className={'form-control' + (errors.maritalStatus && touched.maritalStatus ? ' is-invalid' : '')}>
                       <option value=""></option>
@@ -440,7 +440,7 @@ export default class FirstLevel extends Component {
                   </Col>
                 </Row>
                 <div className="form-row">
-                  <div className="form-group col">
+                  <div className="form-group col-lg-6">
                     <label htmlFor="pincode">Pincode</label>
                     <Field value={values?.pincode} name="pincode" type="text" placeholder="Pincode" className={'form-control' + (errors.placeOfBirth && touched.placeOfBirth ? ' is-invalid' : '')} />
                     <ErrorMessage name="pincode" component="div" className="invalid-feedback" />
@@ -454,7 +454,7 @@ export default class FirstLevel extends Component {
                 <h5 className="mt30">Personal ID Proof</h5>
                 <hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80" />
                 <Row className="mt20">
-                  <Col sm={6} >
+                  <Col lg={6}>
                     <Field
                         type="text"
                         id="idType"
@@ -469,7 +469,7 @@ export default class FirstLevel extends Component {
                         values={values}
                       />
                   </Col>
-                  <Col sm={6} >
+                  <Col lg={6}>
                     <Field
                         type="text"
                         id="idNumber"
@@ -484,7 +484,7 @@ export default class FirstLevel extends Component {
                       />
                   </Col>
 
-                  <Col sm={6} >
+                  <Col lg={6}>
                       <Field
                         type="file"
                         id="myfile"
@@ -502,7 +502,7 @@ export default class FirstLevel extends Component {
                 </Row>
 
                 <Row className="mt20">
-                  <Col sm={6} >
+                  <Col lg={6} >
                     <Field
                         type="file"
                         id="addressProofAttachment"
@@ -517,7 +517,7 @@ export default class FirstLevel extends Component {
 
                       />
                   </Col>
-                  <Col sm={6} >
+                  <Col lg={6} >
                     <Field
                         type="file"
                         id="selfieAttachment"
@@ -537,7 +537,7 @@ export default class FirstLevel extends Component {
               </fieldset>
               { this.state.kyc?.status !== 'approved'
                 &&
-                <div className="form-group">
+                <div className="form-group submit-btn1">
                   <button type="submit" className="btn btn-primary mr-2" disabled={User.getData?.kycdappVerified || false}>
                     {isSubmitting ? 'Submitting' : 'Submit'}</button>
                 </div>
