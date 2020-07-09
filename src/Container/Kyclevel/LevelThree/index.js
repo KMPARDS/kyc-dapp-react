@@ -180,13 +180,15 @@ export default class LevelThree extends React.Component {
                   >
                     Authorize TimeAlly Era Swap Network
                   </button>
-                  <button
-                    className="btn btn-default btn-sm mb10 mt10"
+
+
+                  {/* <button
+                    className="btn btn-default btn-sm mb10"
                     type="button"
                     onClick={this.declineAuthorizeESN.bind(this,true)}
                   >
                     Decline TimeAlly Era Swap Network
-                  </button>
+                  </button> */}
                 </h6>
                 <h6>Update your message below and then click on sign</h6>
 

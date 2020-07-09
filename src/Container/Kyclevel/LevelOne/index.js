@@ -16,7 +16,8 @@ export default class FirstLevel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      kyc: null
+      kyc: null,
+      canApply: true
     };
 
     this.validationSchema = {
@@ -70,7 +71,7 @@ export default class FirstLevel extends Component {
         .test(
           "idAttachmentFormat",
           "Unsupported Format",
-          value =>{ console.log('value',value);  return value && SUPPORTED_FORMATS.includes(value.type);}
+          value => { console.log('value', value); return value && SUPPORTED_FORMATS.includes(value.type); }
         )
         .test(
           "idAttachmentSize",
@@ -98,7 +99,7 @@ export default class FirstLevel extends Component {
           value => value && (value.size <= FILE_SIZE)
         )
         .required('Address Proof Attachment  is required'),
-        selfieAttachment: Yup.mixed()
+      selfieAttachment: Yup.mixed()
         .test(
           "idAttachementRequired",
           'Id Attachment Required',
@@ -123,7 +124,7 @@ export default class FirstLevel extends Component {
   }
 
 
-  submitLevelOne = (values,{ setSubmitting }) => {
+  submitLevelOne = (values, { setSubmitting }) => {
     const formData = new FormData();
     formData.append('salutation', values.salutation);
     formData.append('firstname', values.firstname);
@@ -153,7 +154,7 @@ export default class FirstLevel extends Component {
       .then(resp => {
         console.log("check kyc form", resp);
         setSubmitting(false);
-        Swal.fire('Success','Kyc form submitted', 'success');
+        Swal.fire('Success', 'Kyc form submitted', 'success');
       })
       .catch(handleError);
 
@@ -173,6 +174,7 @@ export default class FirstLevel extends Component {
         delete this.validationSchema.selfieAttachment;
 
         this.setState({
+          canApply: resp?.data?.canApply,
           kyc: {
             salutation: resp?.data?.data?.salutation || '',
             firstname: resp?.data?.data?.firstname || '',
@@ -195,9 +197,17 @@ export default class FirstLevel extends Component {
             status: resp?.data?.data?.status,
             adminMessage: resp.data?.data?.adminMessage
           }
-        },() => console.log(this.state.kyc));
+        }, () => console.log(this.state.kyc));
       })
-      .catch(handleError);
+      .catch(error => {
+        if (error?.response?.status === 403)
+          return Swal.fire('Sign In', 'Please Load Wallet First!', 'warning');
+        if (error?.response?.status === 400)
+          return Swal.fire('Oops...', error?.response?.data?.message || 'Unable To Process Request, Try Again Later', 'error');
+        if (error?.response?.canApply) {
+          this.setState({ canApply: error?.response?.canApply });
+        }
+      });
   };
 
   render() {
@@ -206,56 +216,56 @@ export default class FirstLevel extends Component {
         <h4 className="m4-txt-level mb40 text-center">KYC Level 1 </h4>
         <div><i className="fa fa-info-circle themecolor" data-toggle="modal" data-target=".kyclevel1"></i></div>
         {
-          this.state.kyc?.status === 'approved' || User.getData?.kycdappVerified ?
-          <div className="kycapprove col-md-8 mx-auto mb40 ">
-          <h3>
-            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+          this.state.kyc?.status === 'approved' || User.getData()?.kycdappVerified ?
+            <div className="kycapprove col-md-8 mx-auto mb40 ">
+              <h3>
+                <i class="fa fa-check-square-o" aria-hidden="true"></i>
             Your KYC Has been Approved by the admin
           </h3>
-          <p>
-              KYC DApp is powered on a decentralised network of Era Swap.
-            There is no centralized authority to obstructions means
-            inbuilt immutably that makes contained data more trustworthy.
+              <p>
+                KYC DApp is powered on a decentralised network of Era Swap.
+                There is no centralized authority to obstructions means
+                inbuilt immutably that makes contained data more trustworthy.
           </p>
-        </div>
-        :
-        this.state.kyc?.status === 'rejected' ?
-          <div className="kycrejected mb40 col-md-8 mx-auto ">
-            <h3>
-              <i class="fa fa-times fa-6" aria-hidden="true"></i>
+            </div>
+            :
+            this.state.kyc?.status === 'rejected' ?
+              <div className="kycrejected mb40 col-md-8 mx-auto ">
+                <h3>
+                  <i class="fa fa-times fa-6" aria-hidden="true"></i>
               Your KYC Has been Rejected by the admin
             </h3>
-            <strong>
-              {
-                this.state.kyc?.adminMessage
-                &&
-                <span>
-                  <hr />
-                  {this.state.kyc?.adminMessage}
-                  <hr />
-                </span>
-              }
-            </strong>
-            <p>
-              KYC DApp is powered on a decentralised network of Era Swap.
-              There is no centralized authority to obstructions means
-              inbuilt immutably that makes contained data more trustworthy.
+                <strong>
+                  {
+                    this.state.kyc?.adminMessage
+                    &&
+                    <span>
+                      <hr />
+                      {this.state.kyc?.adminMessage}
+                      <hr />
+                    </span>
+                  }
+                </strong>
+                <p>
+                  KYC DApp is powered on a decentralised network of Era Swap.
+                  There is no centralized authority to obstructions means
+                  inbuilt immutably that makes contained data more trustworthy.
             </p>
-          </div>
-        :
-        this.state.kyc?.status === 'pending' ?
-          <div className="col-md-8 mx-auto mb40 ">
-          <h3>
-            Pending
+              </div>
+              :
+              this.state.kyc?.status === 'pending' ?
+                <div className="col-md-8 mx-auto mb40 ">
+                  <h3>
+                    Pending
           </h3>
-          <p>
-              KYC DApp is powered on a decentralised network of Era Swap.
-            There is no centralized authority to obstructions means
-            inbuilt immutably that makes contained data more trustworthy.
+                  <p>
+                    KYC DApp is powered on a decentralised network of Era Swap.
+                    There is no centralized authority to obstructions means
+                    inbuilt immutably that makes contained data more trustworthy.
           </p>
-        </div>
-        :
-        null
+                </div>
+                :
+                null
         }
 
         {/* <!-- info modall start here--> */}
@@ -269,42 +279,42 @@ export default class FirstLevel extends Component {
                 </button>
               </div>
               <div class="modal-body">
-                                         <ul  class="kyctext mt-20">
-                                               <li>
-                                                  <i class="fa fa-arrow-right fa-ora"></i> All users should submit minimum 2 photographs for KYC as described below :
+                <ul class="kyctext mt-20">
+                  <li>
+                    <i class="fa fa-arrow-right fa-ora"></i> All users should submit minimum 2 photographs for KYC as described below :
                                                   <ul class="kyctextlist" type="none">
-                                                    <li>
-                                                        <i class="fa fa-arrow-right fa-ora"></i> PICTURE WITH ID Please submit a picture in which you are holding your government-issued ID and a paper note. On the note you should handwrite your user full name, the current date, DOB, signature, and the words "For Time Swappers ." Make sure the picture you are submitting meets the following requirements:
+                      <li>
+                        <i class="fa fa-arrow-right fa-ora"></i> PICTURE WITH ID Please submit a picture in which you are holding your government-issued ID and a paper note. On the note you should handwrite your user full name, the current date, DOB, signature, and the words "For Time Swappers ." Make sure the picture you are submitting meets the following requirements:
                                                         <ul class="kyctextlist1">
-                                                          <li> It is taken in good light;</li>
-                                                          <li> The photo is clear, high-resolution, and in color;</li>
-                                                          <li> Your face must be clearly visible;</li>
-                                                          <li> The text in the note must be handwritten by you and not typed;</li>
-                                                          <li> The document you are holding must be the same you are submitting for your identity verification; and </li>
-                                                          <li> Neither the photos nor the documents have been edited or manipulated.</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li >
-                                                        <i class="fa fa-arrow-right fa-ora"></i> PHOTO ID :- Please provide a picture of any of the following:
+                          <li> It is taken in good light;</li>
+                          <li> The photo is clear, high-resolution, and in color;</li>
+                          <li> Your face must be clearly visible;</li>
+                          <li> The text in the note must be handwritten by you and not typed;</li>
+                          <li> The document you are holding must be the same you are submitting for your identity verification; and </li>
+                          <li> Neither the photos nor the documents have been edited or manipulated.</li>
+                        </ul>
+                      </li>
+                      <li >
+                        <i class="fa fa-arrow-right fa-ora"></i> PHOTO ID :- Please provide a picture of any of the following:
                                                         <ul class="kyctextlist1">
-                                                          <li> Passport (open to the double-page spread showing your photo, your name, your date of birth, and the passport expiration date);</li>
-                                                          <li> Driver's license (front and back); </li>
-                                                          <li> Government Provided National identity document (front and back). </li>
-                                                        </ul>
+                          <li> Passport (open to the double-page spread showing your photo, your name, your date of birth, and the passport expiration date);</li>
+                          <li> Driver's license (front and back); </li>
+                          <li> Government Provided National identity document (front and back). </li>
+                        </ul>
                                                         Make sure the ID the scan of which you are submitting meets the following requirements:
                                                         <ul class="kyctextlist1">
-                                                          <li> The document remains valid for at least 3 months from the submission date or it will not be accepted; </li>
-                                                          <li> It is an original document; photos of copies will not be accepted; </li>
-                                                          <li> Your photos or scans are clear, high-resolution and in color; </li>
-                                                          <li> Neither the documents nor their photos or scans have been edited or manipulated; and </li>
-                                                          <li> Photos of front and back sides, if applicable, must be uploaded separately.</li>
-                                                        </ul>
-                                                    </li>
-                                                  </ul>
-                                              </li>
-                                               <li><i class="fa fa-arrow-right fa-ora"></i> Add email ID</li>
-                                               <li><i class="fa fa-arrow-right fa-ora"></i> Add Phone number</li>
-                                            </ul>
+                          <li> The document remains valid for at least 3 months from the submission date or it will not be accepted; </li>
+                          <li> It is an original document; photos of copies will not be accepted; </li>
+                          <li> Your photos or scans are clear, high-resolution and in color; </li>
+                          <li> Neither the documents nor their photos or scans have been edited or manipulated; and </li>
+                          <li> Photos of front and back sides, if applicable, must be uploaded separately.</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li><i class="fa fa-arrow-right fa-ora"></i> Add email ID</li>
+                  <li><i class="fa fa-arrow-right fa-ora"></i> Add Phone number</li>
+                </ul>
 
               </div>
 
@@ -314,7 +324,7 @@ export default class FirstLevel extends Component {
 
         {/* <!-- info modall end here--> */}
         <Formik
-        enableReinitialize={true}
+          enableReinitialize={true}
           initialValues={{
             salutation: this.state.kyc?.salutation || '',
             firstname: this.state.kyc?.firstname || '',
@@ -337,7 +347,7 @@ export default class FirstLevel extends Component {
           }}
           validationSchema={Yup.object().shape(this.validationSchema)}
 
-          onSubmit={(values,{ setSubmitting }) => this.submitLevelOne(values,{ setSubmitting })}
+          onSubmit={(values, { setSubmitting }) => this.submitLevelOne(values, { setSubmitting })}
         >
           {({
             errors,
@@ -347,115 +357,115 @@ export default class FirstLevel extends Component {
             handleChange,
             isSubmitting
           }) => (
-            <Form>
-              <fieldset class="scheduler-border">
-                <legend class="scheduler-border">Personal Info</legend>
-                <div className="form-row">
-                  <div class="form-group col-lg-3">
-                    <label>Salutation</label>
-                    <Field value={values?.salutation} name="salutation" as="select" className={'form-control' + (errors.salutation && touched.salutation ? ' is-invalid' : '')}>
-                      <option value=""></option>
-                      <option value="Mr">Mr</option>
-                      <option value="Mrs">Mrs</option>
-                      <option value="Miss">Miss</option>
-                      <option value="Ms">Ms</option>
-                    </Field>
-                    <ErrorMessage name="salutation" component="div" className="invalid-feedback" />
+              <Form>
+                <fieldset class="scheduler-border">
+                  <legend class="scheduler-border">Personal Info</legend>
+                  <div className="form-row">
+                    <div class="form-group col-lg-3">
+                      <label>Salutation</label>
+                      <Field disabled={!this.state.canApply} value={values?.salutation} name="salutation" as="select" className={'form-control' + (errors.salutation && touched.salutation ? ' is-invalid' : '')}>
+                        <option value=""></option>
+                        <option value="Mr">Mr</option>
+                        <option value="Mrs">Mrs</option>
+                        <option value="Miss">Miss</option>
+                        <option value="Ms">Ms</option>
+                      </Field>
+                      <ErrorMessage name="salutation" component="div" className="invalid-feedback" />
+                    </div>
+                    <div className="form-group col-lg-3">
+                      <label htmlFor="firstname">First Name</label>
+                      <Field disabled={!this.state.canApply} value={values?.firstname} name="firstname" type="text" placeholder="First Name" className={'form-control' + (errors.firstname && touched.firstname ? ' is-invalid' : '')} />
+                      <ErrorMessage name="firstname" component="div" className="invalid-feedback" />
+                    </div>
+                    <div className="form-group col-lg-3">
+                      <label htmlFor="middlename">Middle Name</label>
+                      <Field disabled={!this.state.canApply} value={values?.middlename} name="middlename" type="text" placeholder="Middle Name" className={'form-control' + (errors.middlename && touched.middlename ? ' is-invalid' : '')} />
+                      <ErrorMessage name="middlename" component="div" className="invalid-feedback" />
+                    </div>
+                    <div className="form-group col-lg-3">
+                      <label htmlFor="lastname">Last Name</label>
+                      <Field disabled={!this.state.canApply} value={values?.lastname} name="lastname" type="text" placeholder="Last Name" className={'form-control' + (errors.lastname && touched.lastname ? ' is-invalid' : '')} />
+                      <ErrorMessage name="lastname" component="div" className="invalid-feedback" />
+                    </div>
                   </div>
-                  <div className="form-group col-lg-3">
-                    <label htmlFor="firstname">First Name</label>
-                    <Field value={values?.firstname} name="firstname" type="text" placeholder="First Name" className={'form-control' + (errors.firstname && touched.firstname ? ' is-invalid' : '')} />
-                    <ErrorMessage name="firstname" component="div" className="invalid-feedback" />
+                  <div className="form-group">
+                    <label htmlFor="username">User Name</label>
+                    <Field disabled={!this.state.canApply} value={values?.username} name="username" type="text" placeholder="Enter your User Name" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
+                    <ErrorMessage name="username" component="div" className="invalid-feedback" />
                   </div>
-                  <div className="form-group col-lg-3">
-                    <label htmlFor="middlename">Middle Name</label>
-                    <Field value={values?.middlename} name="middlename" type="text" placeholder="Middle Name" className={'form-control' + (errors.middlename && touched.middlename ? ' is-invalid' : '')} />
-                    <ErrorMessage name="middlename" component="div" className="invalid-feedback" />
+                  <div className="form-row">
+                    <div className="form-group col-lg-6">
+                      <label htmlFor="dob">Date of Birth</label>
+                      <Field disabled={!this.state.canApply} value={values?.dob} name="dob" type="date" placeholder="YYYY/MM/DD" className={'form-control' + (errors.dob && touched.dob ? ' is-invalid' : '')} />
+                      <ErrorMessage name="dob" component="div" className="invalid-feedback" />
+                    </div>
+                    <div className="form-group col-lg-6">
+                      <label htmlFor="nationality">Nationality</label>
+                      <Field disabled={!this.state.canApply} value={values?.nationality} name="nationality" type="text" className={'form-control' + (errors.nationality && touched.nationality ? ' is-invalid' : '')} />
+                      <ErrorMessage name="nationality" component="div" className="invalid-feedback" />
+                    </div>
                   </div>
-                  <div className="form-group col-lg-3">
-                    <label htmlFor="lastname">Last Name</label>
-                    <Field value={values?.lastname} name="lastname" type="text" placeholder="Last Name" className={'form-control' + (errors.lastname && touched.lastname ? ' is-invalid' : '')} />
-                    <ErrorMessage name="lastname" component="div" className="invalid-feedback" />
+                  <div className="form-row">
+                    <div className="form-group col-lg-6">
+                      <label htmlFor="contactNumber">Phone Number</label>
+                      <Field disabled={!this.state.canApply} value={values?.contactNumber} name="contactNumber" type="text" className={'form-control' + (errors.contactNumber && touched.contactNumber ? ' is-invalid' : '')} />
+                      <ErrorMessage name="contactNumber" component="div" className="invalid-feedback" />
+                    </div>
+                    <div className="form-group col-lg-6">
+                      <label>Email</label>
+                      <Field disabled={!this.state.canApply} value={values?.email} name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
+                      <ErrorMessage name="email" component="div" className="invalid-feedback" />
+                    </div>
                   </div>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="username">User Name</label>
-                  <Field value={values?.username} name="username" type="text" placeholder="Enter your User Name" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
-                  <ErrorMessage name="username" component="div" className="invalid-feedback" />
-                </div>
-                <div className="form-row">
-                  <div className="form-group col-lg-6">
-                    <label htmlFor="dob">Date of Birth</label>
-                    <Field value={values?.dob} name="dob" type="date" placeholder="YYYY/MM/DD" className={'form-control' + (errors.dob && touched.dob ? ' is-invalid' : '')} />
-                    <ErrorMessage name="dob" component="div" className="invalid-feedback" />
+                  <div className="form-row">
+                    <div className="form-group col-lg-6">
+                      <label htmlFor="placeOfBirth">Place of Birth</label>
+                      <Field disabled={!this.state.canApply} value={values?.placeOfBirth} name="placeOfBirth" type="text" className={'form-control' + (errors.placeOfBirth && touched.placeOfBirth ? ' is-invalid' : '')} />
+                      <ErrorMessage name="placeOfBirth" component="div" className="invalid-feedback" />
+                    </div>
+                    <div className="form-group col-lg-6">
+                      <label htmlFor="maritalStatus">Martial Status</label>
+                      <Field disabled={!this.state.canApply} value={values?.maritalStatus} name="maritalStatus" as="select" className={'form-control' + (errors.maritalStatus && touched.maritalStatus ? ' is-invalid' : '')}>
+                        <option value=""></option>
+                        <option value="single">Single</option>
+                        <option value="Married">Married</option>
+                      </Field>
+                      <ErrorMessage name="maritalStatus" component="div" className="invalid-feedback" />
+                    </div>
                   </div>
-                  <div className="form-group col-lg-6">
-                    <label htmlFor="nationality">Nationality</label>
-                    <Field value={values?.nationality} name="nationality" type="text" className={'form-control' + (errors.nationality && touched.nationality ? ' is-invalid' : '')} />
-                    <ErrorMessage name="nationality" component="div" className="invalid-feedback" />
-                  </div>
-                </div>
-                <div className="form-row">
-                  <div className="form-group col-lg-6">
-                    <label htmlFor="contactNumber">Phone Number</label>
-                    <Field value={values?.contactNumber} name="contactNumber" type="text" className={'form-control' + (errors.contactNumber && touched.contactNumber ? ' is-invalid' : '')} />
-                    <ErrorMessage name="contactNumber" component="div" className="invalid-feedback" />
-                  </div>
-                  <div className="form-group col-lg-6">
-                    <label>Email</label>
-                    <Field value={values?.email} name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
-                    <ErrorMessage name="email" component="div" className="invalid-feedback" />
-                  </div>
-                </div>
-                <div className="form-row">
-                  <div className="form-group col-lg-6">
-                    <label htmlFor="placeOfBirth">Place of Birth</label>
-                    <Field value={values?.placeOfBirth} name="placeOfBirth" type="text" className={'form-control' + (errors.placeOfBirth && touched.placeOfBirth ? ' is-invalid' : '')} />
-                    <ErrorMessage name="placeOfBirth" component="div" className="invalid-feedback" />
-                  </div>
-                  <div className="form-group col-lg-6">
-                    <label htmlFor="maritalStatus">Martial Status</label>
-                    <Field value={values?.maritalStatus} name="maritalStatus" as="select" className={'form-control' + (errors.maritalStatus && touched.maritalStatus ? ' is-invalid' : '')}>
-                      <option value=""></option>
-                      <option value="single">Single</option>
-                      <option value="Married">Married</option>
-                    </Field>
-                    <ErrorMessage name="maritalStatus" component="div" className="invalid-feedback" />
-                  </div>
-                </div>
 
-
-              </fieldset>
-              <fieldset class="scheduler-border">
-                <legend class="scheduler-border">Address Details</legend>
-                <Row className="mt20">
-                  <Col>
-                    <form>
-                      <div class="form-group">
-                        <label htmlFor="address"> Address</label>
-                        <Field value={values?.address} id="address" name="address" rows="4" cols="100" placeholder="Enter your Current Address" className={'form-control textHt' + (errors.address && touched.address ? ' is-invalid' : '')} />
-                        <ErrorMessage name="address" component="div" className="invalid-feedback" />
-                      </div>
-                    </form>
-                  </Col>
-                </Row>
-                <div className="form-row">
-                  <div className="form-group col-lg-6">
-                    <label htmlFor="pincode">Pincode</label>
-                    <Field value={values?.pincode} name="pincode" type="text" placeholder="Pincode" className={'form-control' + (errors.placeOfBirth && touched.placeOfBirth ? ' is-invalid' : '')} />
-                    <ErrorMessage name="pincode" component="div" className="invalid-feedback" />
+                </fieldset>
+                <fieldset class="scheduler-border">
+                  <legend class="scheduler-border">Address Details</legend>
+                  <Row className="mt20">
+                    <Col>
+                      <form>
+                        <div class="form-group">
+                          <label htmlFor="address"> Address</label>
+                          <Field disabled={!this.state.canApply} value={values?.address} id="address" name="address" rows="4" cols="100" placeholder="Enter your Current Address" className={'form-control textHt' + (errors.address && touched.address ? ' is-invalid' : '')} />
+                          <ErrorMessage name="address" component="div" className="invalid-feedback" />
+                        </div>
+                      </form>
+                    </Col>
+                  </Row>
+                  <div className="form-row">
+                    <div className="form-group  col-lg-6">
+                      <label htmlFor="pincode">Pincode</label>
+                      <Field disabled={!this.state.canApply} value={values?.pincode} name="pincode" type="text" placeholder="Pincode" className={'form-control' + (errors.placeOfBirth && touched.placeOfBirth ? ' is-invalid' : '')} />
+                      <ErrorMessage name="pincode" component="div" className="invalid-feedback" />
+                    </div>
+                    <div className="form-group col">
+                    </div>
                   </div>
-                  <div className="form-group col">
-                  </div>
-                </div>
-              </fieldset>
-              <fieldset class="scheduler-border">
-                <legend class="scheduler-border">Document Submission</legend>
-                <h5 className="mt30">Personal ID Proof</h5>
-                <hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80" />
-                <Row className="mt20">
-                  <Col lg={6}>
-                    <Field
+                </fieldset>
+                <fieldset class="scheduler-border">
+                  <legend class="scheduler-border">Document Submission</legend>
+                  <h5 className="mt30">Personal ID Proof</h5>
+                  <hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80" />
+                  <Row className="mt20">
+                    <Col sm={6} >
+                      <Field
+                        disabled={!this.state.canApply}
                         type="text"
                         id="idType"
                         name="idType"
@@ -468,9 +478,10 @@ export default class FirstLevel extends Component {
                         value={values?.idType}
                         values={values}
                       />
-                  </Col>
-                  <Col lg={6}>
-                    <Field
+                    </Col>
+                    <Col sm={6} >
+                      <Field
+                        disabled={!this.state.canApply}
                         type="text"
                         id="idNumber"
                         name="idNumber"
@@ -482,10 +493,11 @@ export default class FirstLevel extends Component {
                         placeholder="Enter the ID Number"
                         value={values?.idNumber}
                       />
-                  </Col>
-
+                    </Col>
                   <Col lg={6}>
+
                       <Field
+                        disabled={!this.state.canApply}
                         type="file"
                         id="myfile"
                         name="idAttachment"
@@ -497,13 +509,14 @@ export default class FirstLevel extends Component {
                         setFieldValue={setFieldValue}
                         value={values?.idAttachment}
                       />
-                  </Col>
+                    </Col>
 
-                </Row>
+                  </Row>
 
-                <Row className="mt20">
-                  <Col lg={6} >
-                    <Field
+                  <Row className="mt20">
+                    <Col sm={6} >
+                      <Field
+                        disabled={!this.state.canApply}
                         type="file"
                         id="addressProofAttachment"
                         name="addressProofAttachment"
@@ -516,9 +529,10 @@ export default class FirstLevel extends Component {
                         value={values?.addressProofAttachment}
 
                       />
-                  </Col>
-                  <Col lg={6} >
-                    <Field
+                    </Col>
+                    <Col sm={6} >
+                      <Field
+                        disabled={!this.state.canApply}
                         type="file"
                         id="selfieAttachment"
                         name="selfieAttachment"
@@ -532,18 +546,15 @@ export default class FirstLevel extends Component {
                         value={values?.selfieAttachment}
 
                       />
-                  </Col>
-                </Row>
-              </fieldset>
-              { this.state.kyc?.status !== 'approved'
-                &&
-                <div className="form-group submit-btn1">
-                  <button type="submit" className="btn btn-primary mr-2" disabled={User.getData?.kycdappVerified || false}>
-                    {isSubmitting ? 'Submitting' : 'Submit'}</button>
-                </div>
-              }
-            </Form>
-          )}
+                    </Col>
+                  </Row>
+                </fieldset>
+                  <div className="form-group submit-btn1">
+                    <button type="submit" className="btn btn-primary mr-2" disabled={!this.state.canApply}>
+                      {isSubmitting ? 'Submitting' : 'Submit'}</button>
+                  </div>
+              </Form>
+            )}
         </Formik>
       </div>
     );
