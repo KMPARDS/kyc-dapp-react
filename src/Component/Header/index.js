@@ -119,7 +119,7 @@ class Header extends Component {
                 </li>
                 :
                 <li class="nav-item active">
-                  <button class="nav-link bgd-color-nav" href="#" onClick={this.openEraswap}>
+                  <button class="nav-link bgd-color-nav connect-btn" href="#" onClick={this.openEraswap}>
                     Connect To wallet
             <span class="sr-only">(current)</span>
                   </button>
