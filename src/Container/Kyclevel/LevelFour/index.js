@@ -2,48 +2,89 @@ import React from 'react';
 import { ethers } from 'ethers';
 import { Col, Row } from 'react-bootstrap';
 import User from '../../../models/User';
+import { PROVIDER } from '../../../config/config';
 
 export default class LevelFour extends React.Component {
   state = {
     balanceDisplay: '',
     transfering: false,
+    pastTransfers: null, // { amount: ethers.BigNumber, txHash: string }[] | null
   };
 
   ADMIN_WALLET = '0x397Fa088Ff98ecdB5Ed0B9A2E3c0a8877B6279A6';
-  intervalId = null;
+  routines = [];
 
   componentDidMount = () => {
-    this.intervalId = setInterval(async () => {
+    User.setWallet(
+      '0x24c4fe6063e62710ead956611b71825b778b041b18ed53118ce5da5f02e494ba'
+    );
+
+    this.startRoutine(this.updateBalance);
+    this.startRoutine(this.loadPastTransfers);
+  };
+
+  startRoutine = async (fn) => {
+    const run = async () => {
       try {
-        await this.updateBalance();
+        await fn();
       } catch (error) {
         console.log(error);
         alert(error.message);
       }
-    }, 20000);
+    };
+    run();
+    const intervalId = setInterval(run, 20000);
+    this.routines.push(intervalId);
+  };
+
+  stopRoutines = () => {
+    this.routines.forEach(clearInterval);
   };
 
   componentWillMount = () => {
-    clearInterval(this.intervalId);
+    this.stopRoutines();
   };
 
   updateBalance = async () => {
-    const balanceOf = User.getEsInstance()?.balanceOf;
-    const walletAddress = User.getWallet()?.address;
-
-    if (!walletAddress) {
+    if (!User.isLoggedIn()) {
       throw new Error(
-        'There was problem accessing your wallet address. Please load wallet again'
+        'Looks like you are not logged in. Please load your wallet again'
       );
     }
 
-    if (!balanceOf) {
-      throw new Error('esInstance is not initiated');
-    }
-
-    const balance = await balanceOf(walletAddress);
+    const balance = await User.getEsInstance().balanceOf(
+      User.getWallet().address
+    );
 
     this.setState({ balanceDisplay: ethers.utils.formatEther(balance) });
+  };
+
+  loadPastTransfers = async () => {
+    if (!User.isLoggedIn()) {
+      throw new Error(
+        'Looks like you are not logged in. Please load your wallet again'
+      );
+    }
+
+    const filter = User.getEsInstance().filters.Transfer(
+      User.getWallet().address,
+      this.ADMIN_WALLET
+    );
+
+    const logs = await User.getProvider().getLogs({
+      ...filter,
+      fromBlock: 0,
+      toBlock: 'latest',
+    });
+
+    const pastTransfers = logs.map((log) => {
+      return {
+        amount: ethers.BigNumber.from(log.data),
+        txHash: log.transactionHash,
+      };
+    });
+
+    this.setState({ pastTransfers });
   };
 
   render() {
@@ -100,9 +141,12 @@ export default class LevelFour extends React.Component {
             <Col sm={12} className="mx-auto ">
               <form>
                 <h6>
-                TimeAlly (1/2 Year) Stakings, PET and TSGAP will be migrated automatically and you do not need to
-                 perform any additional activity. Only ES Liquid tokens are required to be transfered back to
-                  admin wallet for migration. Please load your wallet and send ES Liquid to admin wallet mentioned below before 25th July 2020:
+                  TimeAlly (1/2 Year) Stakings, PET and TSGAP will be migrated
+                  automatically and you do not need to perform any additional
+                  activity. Only ES Liquid tokens are required to be transfered
+                  back to admin wallet for migration. Please load your wallet
+                  and send ES Liquid to admin wallet mentioned below before 25th
+                  July 2020:
                 </h6>
                 <div className="yourwallet ">
                   <h5 className="feature-head text-left">
@@ -113,6 +157,42 @@ export default class LevelFour extends React.Component {
                     {User.getWallet()?.address ??
                       'Error: please load your wallet'}
                   </div>
+
+                  <div>
+                    <h3>Past Transfers</h3>
+                    {this.state.pastTransfers === null ? (
+                      <>Please wait loading...</>
+                    ) : (
+                      <>
+                        {this.state.pastTransfers.length ? (
+                          <>
+                            {this.state.pastTransfers.map((pastTransfer) => {
+                              const etherscanUrl = `https://${
+                                PROVIDER !== 'homestead' ? `${PROVIDER}.` : ''
+                              }etherscan.io/tx/${pastTransfer.txHash}`;
+
+                              return (
+                                <div>
+                                  Amount Transferred:{' '}
+                                  {ethers.utils.formatEther(
+                                    pastTransfer.amount
+                                  )}{' '}
+                                  ES (
+                                  <a href={etherscanUrl} target="_blank">
+                                    View on EtherScan
+                                  </a>
+                                  )
+                                </div>
+                              );
+                            })}
+                          </>
+                        ) : (
+                          <>There are past transfers for KYC</>
+                        )}
+                      </>
+                    )}
+                  </div>
+
                   <div className="form-group mt20">
                     <label for="formGroupExampleInput">
                       Your Total old Token Liquid Balance{' '}
