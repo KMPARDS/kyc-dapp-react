@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 import { Col, Row } from 'react-bootstrap';
 import User from '../../../models/User';
 import { PROVIDER } from '../../../config/config';
+import Transfer from './transfer'; // component
 
 export default class LevelFour extends React.Component {
   state = {
@@ -206,31 +207,42 @@ export default class LevelFour extends React.Component {
                   </div>
                 </div>
 
-                <h6>You have to send this old token to this admin wallet </h6>
+                <h6>
+                  You have to send this old token to this admin wallet, you can
+                  send via any application like ES Life or 1DAPP or
+                  MyEtherWallet.
+                </h6>
                 <div className="yourwallet ">
                   <h5 className="feature-head text-left">Admin Wallet</h5>
                   <div className="wallet-address">{this.ADMIN_WALLET}</div>
                 </div>
+
+                {this.state.balanceDisplay ? (
+                  <Transfer
+                    ADMIN_WALLET={this.ADMIN_WALLET}
+                    balance={this.state.balanceDisplay}
+                  />
+                ) : null}
                 <div className="submit-btn-flex">
                   <button
                     className="submit-btn"
                     disabled={this.state.transfering}
                     onClick={async (event) => {
-                      event.preventDefault();
-                      this.setState({ transfering: true });
-                      try {
-                        const tx = await User.getEsInstance().transfer(
-                          this.ADMIN_WALLET,
-                          ethers.utils.parseEther(
-                            // TODO: remove this when done
-                            '1' || this.state.balanceDisplay
-                          )
-                        );
-                        alert(`Your transaction is sent! Tx hash: ${tx.hash}`);
-                      } catch (error) {
-                        alert(error.message);
-                      }
-                      this.setState({ transfering: false });
+                      // event.preventDefault();
+                      // this.setState({ transfering: true });
+                      // try {
+                      //   const tx = await User.getEsInstance().transfer(
+                      //     this.ADMIN_WALLET,
+                      //     ethers.utils.parseEther(
+                      //       // TODO: remove this when done
+                      //       '1' || this.state.balanceDisplay
+                      //     )
+                      //   );
+                      //   alert(`Your transaction is sent! Tx hash: ${tx.hash}`);
+                      // } catch (error) {
+                      //   alert(error.message);
+                      // }
+                      // this.setState({ transfering: false });
                     }}
                   >
                     {this.state.transfering ? (
