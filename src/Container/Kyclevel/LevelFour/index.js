@@ -101,7 +101,7 @@ export default class LevelFour extends React.Component {
               <form>
                 <h6>
                 TimeAlly (1/2 Year) Stakings, PET and TSGAP will be migrated automatically and you do not need to
-                 perform any additional activity. Only ES Liquid tokens are required to be transferd back to
+                 perform any additional activity. Only ES Liquid tokens are required to be transfered back to
                   admin wallet for migration. Please load your wallet and send ES Liquid to admin wallet mentioned below before 25th July 2020:
                 </h6>
                 <div className="yourwallet ">
