@@ -91,8 +91,12 @@ export default class LevelFour extends React.Component {
     return (
       <>
         {this.state.estimatedGasUnits === null ? (
-          <button className="submit-btn" onClick={this.estimateGas}>
-            Estimate Gas
+          <button
+            className="submit-btn"
+            onClick={this.estimateGas}
+            disabled={this.state.estimating}
+          >
+            {this.state.estimating ? <>Estimating...</> : <>Estimate Gas</>}
           </button>
         ) : (
           <>
@@ -118,8 +122,16 @@ export default class LevelFour extends React.Component {
               <>
                 <p>Esimated transaction cost is {ethCost} ETH</p>
                 {this.state.etherscanUrl === null ? (
-                  <button className="submit-btn" onClick={this.transfer}>
-                    Sign and send transaction
+                  <button
+                    className="submit-btn"
+                    onClick={this.transfer}
+                    disabled={this.state.transferring}
+                  >
+                    {this.state.transferring ? (
+                      <>Signing tx...</>
+                    ) : (
+                      <>Sign and send transaction</>
+                    )}
                   </button>
                 ) : (
                   <>
