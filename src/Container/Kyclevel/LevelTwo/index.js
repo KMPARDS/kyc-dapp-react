@@ -219,7 +219,7 @@ console.log('called2');
           <div className="kycapprove mb40 col-md-8 mx-auto ">
             <h3>
               <i class="fa fa-check-square-o fa-6" aria-hidden="true"></i>
-              Your KYC Has been Approved by the admin
+              Kycs are verified by curators
             </h3>
             <p>
               KYC DApp is powered on a decentralised network of Era Swap.
@@ -233,7 +233,7 @@ console.log('called2');
           <div className="kycrejected mb40 col-md-8 mx-auto ">
             <h3>
               <i class="fa fa-times fa-6" aria-hidden="true"></i>
-              Your KYC Has been Rejected by the admin
+              Your KYC Has been Rejected by curators
             </h3>
             {
                 this.state.adminMessage
