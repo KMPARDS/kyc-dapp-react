@@ -91,13 +91,16 @@ export default class LevelFour extends React.Component {
     return (
       <>
         {this.state.estimatedGasUnits === null ? (
-          <button
-            className="submit-btn"
-            onClick={this.estimateGas}
-            disabled={this.state.estimating}
-          >
-            {this.state.estimating ? <>Estimating...</> : <>Estimate Gas</>}
-          </button>
+          <>
+            <p>Press below button to estimate transaction fees</p>
+            <button
+              className="submit-btn"
+              onClick={this.estimateGas}
+              disabled={this.state.estimating}
+            >
+              {this.state.estimating ? <>Estimating...</> : <>Estimate Gas</>}
+            </button>
+          </>
         ) : (
           <>
             {Object.entries(this.state.recommendations).map((entry, i) => (

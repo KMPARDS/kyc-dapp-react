@@ -8,7 +8,7 @@ import Transfer from './transfer'; // component
 export default class LevelFour extends React.Component {
   state = {
     balanceDisplay: '',
-    transfering: false,
+    showTransferComponent: false,
     pastTransfers: null, // { amount: ethers.BigNumber, txHash: string }[] | null
   };
 
@@ -217,40 +217,24 @@ export default class LevelFour extends React.Component {
                   <div className="wallet-address">{this.ADMIN_WALLET}</div>
                 </div>
 
-                {this.state.balanceDisplay ? (
-                  <Transfer
-                    ADMIN_WALLET={this.ADMIN_WALLET}
-                    balance={this.state.balanceDisplay}
-                  />
-                ) : null}
                 <div className="submit-btn-flex">
-                  <button
-                    className="submit-btn"
-                    disabled={this.state.transfering}
-                    onClick={async (event) => {
-                      // event.preventDefault();
-                      // this.setState({ transfering: true });
-                      // try {
-                      //   const tx = await User.getEsInstance().transfer(
-                      //     this.ADMIN_WALLET,
-                      //     ethers.utils.parseEther(
-                      //       // TODO: remove this when done
-                      //       '1' || this.state.balanceDisplay
-                      //     )
-                      //   );
-                      //   alert(`Your transaction is sent! Tx hash: ${tx.hash}`);
-                      // } catch (error) {
-                      //   alert(error.message);
-                      // }
-                      // this.setState({ transfering: false });
-                    }}
-                  >
-                    {this.state.transfering ? (
-                      <>Transfering...</>
-                    ) : (
-                      <>Transfer Now</>
-                    )}
-                  </button>
+                  {!this.state.showTransferComponent ? (
+                    <button
+                      className="submit-btn"
+                      disabled={this.state.showTransferComponent}
+                      onClick={async (event) => {
+                        event.preventDefault();
+                        this.setState({ showTransferComponent: true });
+                      }}
+                    >
+                      Send Tokens to Admin
+                    </button>
+                  ) : (
+                    <Transfer
+                      ADMIN_WALLET={this.ADMIN_WALLET}
+                      balance={this.state.balanceDisplay}
+                    />
+                  )}
                 </div>
               </form>
             </Col>
