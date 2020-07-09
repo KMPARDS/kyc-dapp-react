@@ -217,7 +217,7 @@ export default class LevelFour extends React.Component {
                   <div className="wallet-address">{this.ADMIN_WALLET}</div>
                 </div>
 
-                <div className="submit-btn-flex">
+                <div className="">
                   {!this.state.showTransferComponent ? (
                     <button
                       className="submit-btn"
