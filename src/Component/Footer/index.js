@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Footer.css'
 import Images from '../../Container/Images/Images';
 import { Col, Button, Container, Row } from 'react-bootstrap';
-
+import TC from '../../assets/docs/tc.pdf'
 
 
 class Footer extends Component {
@@ -39,9 +39,9 @@ class Footer extends Component {
                                 <Col offset-xl={1} xl={2} lg={4} md={4} col={12}>
                                     <h4 className="footer-head">Documents</h4>
                                     <ul>
-                                        <li><a className="footer-sub">Whitepaper</a></li>
+                                        <li><a href="https://eraswaptoken.io/pdf/eraswap_whitepaper.pdf" className="footer-sub">Whitepaper</a></li>
                                         <li><a className="footer-sub">Privacy Policy</a></li>
-                                        <li><a href="#" className="footer-sub">Terms of Use</a></li>
+                                        <li><a href={TC} target='_blank' className="footer-sub">Terms of Use</a></li>
 
                                     </ul>
                                 </Col>
