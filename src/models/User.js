@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { PROVIDER } from '../config/config';
+import { PROVIDER, CONTRACT_ADDRESS } from '../config/config';
 
 export default class User {
   _token;
@@ -41,7 +41,7 @@ export default class User {
   static setWallet(value) {
     this._wallet = new ethers.Wallet(value).connect(this.getProvider());
     this._esInstance = new ethers.Contract(
-      '0xef1344bdf80bef3ff4428d8becec3eea4a2cf574',
+      CONTRACT_ADDRESS,
       require('../ethereum/ERC20.json').abi,
       this._wallet
     );
