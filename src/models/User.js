@@ -8,6 +8,10 @@ export default class User {
   _wallet;
   _esInstance;
 
+  static isLoggedIn() {
+    return !!this.getWallet() && !!this.getEsInstance() && this.getProvider();
+  }
+
   static getEsInstance() {
     return this._esInstance;
   }
