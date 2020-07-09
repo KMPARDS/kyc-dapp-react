@@ -103,23 +103,27 @@ export default class LevelFour extends React.Component {
           </>
         ) : (
           <>
-            {Object.entries(this.state.recommendations).map((entry, i) => (
-              <div
-                key={'gasprice' + i}
-                onClick={() => this.setState({ gasPriceInput: entry[1] })}
-                style={{ cursor: 'pointer' }}
-              >
-                {entry[0]}: {entry[1]}
-              </div>
-            ))}
-            <input
-              type="text"
-              placeholder="Enter custom gas price in gwei"
-              value={this.state.gasPriceInput}
-              onChange={(event) =>
-                this.setState({ gasPriceInput: event.target.value })
-              }
-            />
+            {this.state.etherscanUrl === null ? (
+              <>
+                {Object.entries(this.state.recommendations).map((entry, i) => (
+                  <div
+                    key={'gasprice' + i}
+                    onClick={() => this.setState({ gasPriceInput: entry[1] })}
+                    style={{ cursor: 'pointer', display: 'block' }}
+                  >
+                    {entry[0]}: {entry[1]}
+                  </div>
+                ))}
+                <input
+                  type="text"
+                  placeholder="Enter custom gas price in gwei"
+                  value={this.state.gasPriceInput}
+                  onChange={(event) =>
+                    this.setState({ gasPriceInput: event.target.value })
+                  }
+                />
+              </>
+            ) : null}
             <br />
             {ethCost !== null ? (
               <>
