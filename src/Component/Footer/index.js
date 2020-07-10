@@ -40,6 +40,7 @@ class Footer extends Component {
                                     <h4 className="footer-head">Documents</h4>
                                     <ul>
                                         <li><a className="footer-sub">Whitepaper</a></li>
+                                        <li><a href="https://eraswaptoken.io/pdf/eraswap-terms-conditions.pdf" target="_blank">Era Swap Terms & Conditions</a></li>
                                         <li><a className="footer-sub">Privacy Policy</a></li>
                                         <li><a href="#" className="footer-sub">Terms of Use</a></li>
 
