@@ -2,13 +2,15 @@ import React from 'react';
 import { ethers } from 'ethers';
 import { Col, Row } from 'react-bootstrap';
 import User from '../../../models/User';
-import { PROVIDER } from '../../../config/config';
+import  { PROVIDER, baseUrl } from '../../../config/config';
 import Transfer from './transfer'; // component
+import Axios from 'axios';
+import { handleError } from '../../../utils/Apis';
 
 export default class LevelFour extends React.Component {
   state = {
     balanceDisplay: '',
-    showTransferComponent: false,
+    showTransferComponent: null,
     pastTransfers: null, // { amount: ethers.BigNumber, txHash: string }[] | null
   };
 
@@ -22,7 +24,26 @@ export default class LevelFour extends React.Component {
 
     this.startRoutine(this.updateBalance);
     this.startRoutine(this.loadPastTransfers);
+    // this.fetchKycLevelOne = this.fetchKycLevelOne.bind(this);
+    this.fetchKycLevelOne();
   };
+
+  fetchKycLevelOne = async () => {
+    let resp = {};
+    try{
+      resp = await Axios.get(baseUrl + 'apis/kyc-level-one/', {
+          headers: {
+            'Authorization': User.getToken()
+          }
+        });
+    }catch(e){
+      console.log(e);
+      if(e.response) handleError(e);
+    } finally {
+      if(resp.data || User.getData()?.kycdappVerified)
+        this.setState({ showTransferComponent: true });
+    }
+  }
 
   startRoutine = async (fn) => {
     const run = async () => {
@@ -218,23 +239,26 @@ export default class LevelFour extends React.Component {
                 </div>
 
                 <div className="">
-                  {!this.state.showTransferComponent ? (
+                  {this.state.showTransferComponent ? (
                     <button
-                      className="submit-btn"
-                      disabled={this.state.showTransferComponent}
+                      className="btn"
+                      disabled={!this.state.showTransferComponent}
                       onClick={async (event) => {
                         event.preventDefault();
-                        this.setState({ showTransferComponent: true });
+                        this.setState({ showTransferComponent: false });
                       }}
                     >
                       Send Tokens to Admin
                     </button>
-                  ) : (
+                  ) :
+                  this.state.showTransferComponent === false ?
+                  (
                     <Transfer
                       ADMIN_WALLET={this.ADMIN_WALLET}
                       balance={this.state.balanceDisplay}
                     />
-                  )}
+                  )
+                : null}
                 </div>
               </form>
             </Col>

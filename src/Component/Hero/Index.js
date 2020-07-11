@@ -1,20 +1,13 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import './Hero.css'
 import { Col, Button, Container, Row } from 'react-bootstrap';
 import Images from '../../Container/Images/Images';
+import User from '../../models/User';
 
+function Hero()  {
+  const history = useHistory();
 
-
-class Hero extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-
-        };
-    }
-
-    render() {
         return (
             <div>
                 <div className='kyc-hero-bgd' >
@@ -40,7 +33,17 @@ class Hero extends Component {
                                                 <li><i class="fa fa-chevron-right" aria-hidden="true"></i> In KYC Level 4, Click on 'Send tokens to Admin'</li>
                                      </ul>
                                      <div class="mt40">
-                                         <Link to="/form" className="knw-btn">Start Your KYC</Link>
+                                       {
+                                         <Link
+                                          className="knw-btn"
+                                          onClick={e => {
+                                          if(User.getToken())
+                                            history.push('/form');
+                                          else
+                                            window.open("https://eraswap.life/", "", "width=1003,height=650");
+                                         }}>Know Your Customer</Link>
+                                       }
+
                                      </div>
                             </div>
                             <div className="col-12 col-lg-6">
@@ -51,8 +54,6 @@ class Hero extends Component {
                 </div>
             </div>
         );
-
-    }
 }
 
 
