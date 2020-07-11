@@ -107,7 +107,7 @@
   0%, 50%, 100% {
     width: 0;
   }
-  
+
   60%, 90% {
     width: 21.2em;
   }
@@ -131,3 +131,14 @@
   }
 }
 
+ul.kycsteps{
+  margin-left: 0px;
+  list-style-type: none;
+  color: #000;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 29px;
+}
+ul.kycsteps .fa{
+color:#981d1f;
+}
