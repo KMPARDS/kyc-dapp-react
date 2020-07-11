@@ -15,7 +15,7 @@ class Section extends Component {
 
     render() {
         return (
-            <div>
+            <div id="">
                 <div className='kyc-section1-bgd'>
                 <div className="svg-shape--top w-100 z-index1">
                     <img className="svg w-100 fill--white" src={Images.path.braces}/>
@@ -29,7 +29,7 @@ class Section extends Component {
                             <Col lg={6}>
                             <div className="current-container-style">
                                 <h2 class="mb-2-h3-font">Current Problems of <br />traditional KYC</h2>
-                                <p className="opacity-txt-para mt30">Era Swap powered KYC DApp allows active monitoring of everything from account opening to day to day transactions. With the handy immutability aspect of Blockchain and Combination of Smart Contracts, it has predetermined criteria to spot fraudulent activity. </p>
+                                <p className="opacity-txt-para mt30">Era Swap powered KYC DApp offers solution to existing problems of traditional KYC. With the handy immutability aspect of Blockchain and Combination of Smart Contracts, KYC DApp has predetermined criteria to spot fraudulent activity. </p>
                                 <Container>
                                     <Row className="mt60">
                                         <Col sm={6}>
@@ -77,23 +77,23 @@ class Section extends Component {
                         </Row>
                     </Container>
                 </div>
-                <div className='kyc-section2-bgd pdt80'>
+                <div className='kyc-section2-bgd pdt80' id="verification">
                     <Container>
                         <Row>
-             
+
                             <Col lg={6}>
                                 <h2 class="mb-2-h3-font">KYC DApp decentralized  <br />solution for Identity Verification.</h2>
                                 <p class="opacity-txt-para mt30">Financial and other sectors has been seeking solutions for their “Identity” problem for a long time, Era Swap have now come up with a viable solution powered on blockchain – KYC DApp. KYC Verification using blockchain has the potential to be faster, easier safer and more efficient than the centralized traditional verification process. <br /> <br /> Financial and other sectors has been seeking solutions for their “Identity” problem for a long time, Era Swap have now come up with a viable solution powered on blockchain – KYC DApp. KYC Verification using blockchain has the potential to be faster, easier safer and more efficient than the centralized traditional verification process.
                             </p>
                             </Col>
-                          
+
                             <Col lg={6} className="pos-abs-lg-vertical-center ">
                                 <img className='img-fluid dec-img' src={Images.path.section} />
                             </Col>
                         </Row>
                     </Container>
                 </div>
-                <div className="four-wrapper">
+                <div className="four-wrapper" id="features">
                     <Container>
                         <Row>
                             <Col sm={6} lg={3}>
@@ -123,7 +123,9 @@ class Section extends Component {
                             </Col>
                              <Col sm={6} lg={3}>
                                 <div className="fr-section text-center">
-                                    <div className="red-circle"><i class="fa fa-database" aria-hidden="true"></i></div>
+                                    <div className="red-circle">
+                                    <img className='' src={Images.path.decentralized} alt="" width="42"/>
+                             </div>
                                     <h3 class="h5-font-mb">Decentralized</h3>
                                     <p class="txt-fr-para">
                                         With decentralized approach KYC DApp is not only limited to banks or financial institutions, there is a wider scope of application among other industries
@@ -133,7 +135,7 @@ class Section extends Component {
                         </Row>
                     </Container>
                 </div>
-                
+
             </div>
         );
 

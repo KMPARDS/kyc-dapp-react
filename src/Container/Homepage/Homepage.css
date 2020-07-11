@@ -43,11 +43,18 @@ color: #9b2426;
 
 .v-shape-img-style{
     width: 100%;
+    height: 600px;
+    position: relative;
+    margin-bottom: 0;
+    bottom: 345px;
+    margin-bottom: -275px;
+    z-index: 1;
+    /* width: 100%;
     height: 500px;
     position: relative;
     margin-bottom: 0;
     bottom: 225px;
-    margin-bottom: -155px;
+    margin-bottom: -155px; */
 }
 
 p {
@@ -71,10 +78,11 @@ p {
       padding-top: 20px;
     }
     .v-shape-img-style {
-        width: 100%;
-        height: 280px;
-        bottom: 75px;
-        margin-bottom: 5px;
+      width: 100% !important;
+      height: 280px!important;
+      bottom: 195px!important;
+      margin-bottom: 5px!important;
+      margin-bottom: -145px!important;
     }
 }
 
@@ -95,3 +103,16 @@ p {
     height: 3px;
     margin-bottom: 31px !important;
 }
+
+@media (max-width: 1024px) {
+
+  .v-shape-img-style{
+    width: 100%;
+    height: 480px;
+    position: relative;
+    margin-bottom: 0;
+    bottom: 265px;
+    margin-bottom: -255px;
+    z-index: 1;
+  }
+  }

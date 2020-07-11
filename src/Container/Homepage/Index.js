@@ -18,18 +18,18 @@ class Homepage extends Component {
 
     render() {
         return (
-            <div>
+            <div >
                 <div className='wrapper-container-home'>
                     <Hero/>
                 </div>
-                <div className="future-container">
+                <div className="future-container" id="solution">
                     <h2 className="future-head">The future of Identity<br /> <span className="red-color-txt">Verification</span> is here</h2>
                     <p className="para-txt-future">
                         Efficient,Quick & Cost-saving alternative to any industry that relies on Identity Verification. </p>
                     <div className="kyc-feature-circle">
                         <Container>
                             <Row>
-                     
+
                                 <Col lg={4} md={6} sm={8} className="mx-auto">
                                     <div className="feature-centr">
                                          <img className='feature-Img' src={Images.path.grp1} />
@@ -41,7 +41,7 @@ class Homepage extends Component {
                                                 process with the decentralized approach.</p>
                                     </div>
                                 </Col>
-                               
+
                                 <Col lg={4} md={6} sm={8} className="mx-auto">
                                     <div className="feature-centr">
                                         <img className='feature-Img' src={Images.path.grp2} />
@@ -52,7 +52,7 @@ class Homepage extends Component {
                                         <p className="text-center">There are multiple decentralized platforms powered on Era Swap Network that uses secured KYC DApp for identification process </p>
                                     </div>
                                 </Col>
-                               
+
                                 <Col lg={4} md={6} sm={8} className="mx-auto">
                                     <div className="feature-centr">
                                         <img className='feature-Img' src={Images.path.grp3} />
@@ -66,7 +66,7 @@ class Homepage extends Component {
                             </Row>
                         </Container>
                     </div>
-              
+
                 <div className="kyc-section-wrapper">
                     <Section/>
                 </div>
@@ -77,7 +77,7 @@ class Homepage extends Component {
                             <h2 className="mb-3-head"><span class="color--primary">Next generation</span> Decentralized Platforms <br /> of Era Swap .</h2>
                             <p className="mb-4-para mt30">The potential of Blockchain technology to disrupt nearly every industry and solve its current flaws cannot be dismissed. With Era Swap Utility you can access to a secure, reliable and self-sustainable the decentralized network consists of multiple utility platforms and middlemen free marketplaces for the community. The most beneficial fact about Era Swap decentralized platforms is that it is not controlled by any central authority means you doesn’t have to worry about multi-layer charges nor your data can be accessed by any Central Authority for their own benefits  </p>
                         </div>
-                       
+
                     </Container>
                 </div>
                 <div className="svg-shape--top w-100 z-index1">
@@ -87,7 +87,7 @@ class Homepage extends Component {
                     <img className="v-shape-img-style" src={Images.path.vshap}/>
                     </div>
                 </div>
-                
+
             </div>
 
         );
