@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './Kyclevel.css';
 import { Col, Button, Container, Row } from 'react-bootstrap';
-import MultiStep from 'react-multistep';
+// import MultiStep from 'react-multistep';
+import MultiStep from '../../Component/MultiLevel';
 import axios from 'axios';
 import LevelOne from './LevelOne/'
 import LevelTwo from './LevelTwo';
@@ -11,7 +12,7 @@ import LevelThree from './LevelThree';
 
 class KycLevel extends Component {
 	steps = [
-		{ name: 'FirstLevel', component: <LevelOne /> },
+		{ name: 'FirstLevel', component: <LevelOne showNext={this.showNext} /> },
 		{ name: 'SecondLevel', component: <LevelTwo /> },
 		{ name: 'ThirdLevel', component: <LevelThree /> },
 		{ name: 'FourthLevel', component: <LevelFour /> },
@@ -20,9 +21,14 @@ class KycLevel extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-
+      showNext: false,
+      showPrev: false
 		};
-	}
+  }
+
+  showNext(){
+
+  }
 
 	render() {
 		return (
@@ -33,7 +39,7 @@ class KycLevel extends Component {
 							<div className="kyc-white-box innerpage-box kyclevelbox">
 								<h4 className="feature-head text-left">KYC LEVEL</h4>
 								<hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80" />
-								<MultiStep showNavigation={true} steps={this.steps} />
+								<MultiStep showNavigation={true} steps={this.steps} showNext={false} showPrev={false} />
 							</div>
 						</Col>
 					</Container>
