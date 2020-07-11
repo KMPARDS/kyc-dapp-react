@@ -42,6 +42,7 @@ class Footer extends Component {
                                         <li><a href="https://eraswaptoken.io/pdf/eraswap_whitepaper.pdf" className="footer-sub">Whitepaper</a></li>
                                         <li><a className="footer-sub">Privacy Policy</a></li>
                                         <li><a href={TC} target='_blank' className="footer-sub">Terms of Use</a></li>
+                                        <li><a className="footer-sub" href="https://eraswaptoken.io/pdf/eraswap-terms-conditions.pdf" target="_blank">Era Swap Terms & Conditions</a></li>
 
                                     </ul>
                                 </Col>
