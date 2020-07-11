@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { ethers } from 'ethers';
+import { browserHistory} from 'react-router';
 
 //Pages
 import Homepage from './Container/Homepage/Index';
@@ -27,7 +28,6 @@ import NotFound from './Container/NotFound';
 function App() {
   return (
     <div className="App">
-
         <Router>
           <Header/>
           <Switch>
