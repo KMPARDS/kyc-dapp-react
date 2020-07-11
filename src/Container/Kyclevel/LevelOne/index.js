@@ -161,6 +161,7 @@ export default class FirstLevel extends Component {
   };
 
   fetchKycLevelOne = () => {
+
     axios
       .get(config.baseUrl + 'apis/kyc-level-one/', {
         headers: {
@@ -169,10 +170,10 @@ export default class FirstLevel extends Component {
       })
       .then(resp => {
         console.log(resp)
+        // this.props.toggleNext(true);     //show next button if applied
         delete this.validationSchema.addressProofAttachment;
         delete this.validationSchema.idAttachment;
         delete this.validationSchema.selfieAttachment;
-
         this.setState({
           canApply: resp?.data?.canApply,
           kyc: {
@@ -200,10 +201,16 @@ export default class FirstLevel extends Component {
         }, () => console.log(this.state.kyc));
       })
       .catch(error => {
+
         if (error?.response?.status === 403)
           return Swal.fire('Sign In', 'Please Load Wallet First!', 'warning');
         if (error?.response?.status === 400)
           return Swal.fire('Oops...', error?.response?.data?.message || 'Unable To Process Request, Try Again Later', 'error');
+
+        // if(User.getData()?.kycdappVerified)
+        //   this.props.toggleNext(true);
+        // else this.props.toggleNext(false);
+
         if (error?.response?.canApply) {
           this.setState({ canApply: error?.response?.canApply });
         }

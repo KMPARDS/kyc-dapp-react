@@ -61,7 +61,7 @@ const getNavStyles = (indx, length) => {
   return styles
 }
 
-const getButtonsState = (indx, length,showNext = true, showPrev = true) => {
+const getButtonsState = (indx, length,showNext, showPrev) => {
   if (indx > 0 && indx < length - 1) {
     return {
       showPreviousBtn: showPrev,
@@ -80,7 +80,7 @@ const getButtonsState = (indx, length,showNext = true, showPrev = true) => {
   }
 }
 
-export default function MultiStep(props) {
+const MultiStep = (props) => {
   let showNavigation = true
   if(props.showNavigation && props.showNavigation)showNavigation = props.showNavigation
 
@@ -151,3 +151,5 @@ export default function MultiStep(props) {
     </div>
   )
 }
+
+export default MultiStep;
