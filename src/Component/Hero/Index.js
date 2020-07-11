@@ -24,12 +24,14 @@ function Hero()  {
                                      </p>
                                      <div class="mt40">
                                        {
-                                         <Button onClick={e => {
+                                         <Link
+                                          className="knw-btn"
+                                          onClick={e => {
                                           if(User.getToken())
                                             history.push('/form');
                                           else
                                             window.open("https://eraswap.life/", "", "width=1003,height=650");
-                                         }} className="btn btn-custom">Know Your Customer</Button>
+                                         }}>Know Your Customer</Link>
                                        }
 
                                      </div>
