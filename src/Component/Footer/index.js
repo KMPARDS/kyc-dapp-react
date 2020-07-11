@@ -23,20 +23,20 @@ class Footer extends Component {
 
                         <Container>
                             <Row>
-                                <Col lg={6} md={9} col={12}>
+                                <Col lg={5} md={9} col={12}>
                                     <img className="logo-img-style" src={Images.path.kycdapwhite} />
-                                    <p className="logo-sub-txt mt30">The main objectives of the project are to meet the needs of Digital assests projects and users, and to provide access to Required. </p>
+                                    <p className="logo-sub-txt mt30"></p>
                                 </Col>
-                                <Col xl={3} lg={4} md={4} col={12}>
+                                <Col xl={4} lg={4} md={4} col={12}>
                                     <h4 className="footer-head">Useful Link</h4>
                                     <ul>
-                                        <li><a className="footer-sub">How it works</a></li>
-                                        <li><a className="footer-sub">Features</a></li>
-                                        <li><a className="footer-sub">Verification</a></li>
-                                        <li><a className="footer-sub">Roadmap</a></li>
+                                        <li><a className="footer-sub" href="#home">Home</a></li>
+                                        <li><a className="footer-sub" href="#solution">Solutions</a></li>
+                                        <li><a className="footer-sub" href="#verification">Verification</a></li>
+                                        <li><a className="footer-sub" href="#features">Features</a></li>
                                     </ul>
                                 </Col>
-                                <Col offset-xl={1} xl={2} lg={4} md={4} col={12}>
+                                <Col offset-xl={1} xl={3} lg={4} md={4} col={12}>
                                     <h4 className="footer-head">Documents</h4>
                                     <ul>
                                         <li><a href="https://eraswaptoken.io/pdf/eraswap_whitepaper.pdf" className="footer-sub">Whitepaper</a></li>

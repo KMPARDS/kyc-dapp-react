@@ -91,7 +91,7 @@ class Header extends Component {
 
   render() {
     return (
-      <div className="header-bgd-color">
+      <div className="header-bgd-color" id="home">
         <nav class="mb-1 navbar navbar-expand-lg navbar-dark info-color">
           <Link class="navbar-brand" to="/"> <img className='kycdapp-Img' src={Images.path.kycdapp} alt=""/></Link>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"

@@ -17,11 +17,11 @@ class Homepage extends Component {
 
     render() {
         return (
-            <div>
+            <div >
                 <div className='wrapper-container-home'>
                     <Hero/>
                 </div>
-                <div className="future-container">
+                <div className="future-container" id="solution">
                     <h2 className="future-head">The future of Identity<br /> <span className="red-color-txt">Verification</span> is here</h2>
                     <p className="para-txt-future">
                         Efficient,Quick & Cost-saving alternative to any industry that relies on Identity Verification. </p>
