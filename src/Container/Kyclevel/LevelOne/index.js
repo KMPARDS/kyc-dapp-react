@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { RecordRTCPromisesHandler } from 'recordrtc';
 import config from '../../../config/config';
 import Swal from 'sweetalert2'
 import { Col, Row } from 'react-bootstrap';
@@ -216,6 +217,21 @@ export default class FirstLevel extends Component {
         }
       });
   };
+
+  async recordVideo(){
+    const stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
+    const recorder = new RecordRTCPromisesHandler(stream, {
+        type: 'video'
+    });
+    recorder.startRecording();
+
+    const sleep = m => new Promise(r => setTimeout(r, m));
+    await sleep(3000);
+
+    await recorder.stopRecording();
+    const blob = await recorder.getBlob();
+    console.log('video blob',blob);
+  }
 
   render() {
     return (
