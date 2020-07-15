@@ -88,8 +88,8 @@ export default class CustomFileInput extends Component {
   }
 
   render() {
-    const { title, description, type, placeholder, errors, touched, value } = this.props;
-    const { name, onBlur } = this.props.field;
+    const { title,  type, placeholder, errors, touched, value } = this.props;
+    const { name, onBlur,description } = this.props.field;
     return (
       <div className="form-group">
         <label for={name}>{title}</label>

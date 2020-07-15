@@ -27,7 +27,7 @@ class KycLevel extends Component {
       { name: 'FirstLevel', component: <LevelOne toggleNext={this.toggleNext} togglePrev={this.togglePrev} /> },
       { name: 'SecondLevel', component: <LevelTwo /> },
       { name: 'ThirdLevel', component: <LevelThree /> },
-      { name: 'FourthLevel', component: <LevelFour /> },
+      // { name: 'FourthLevel', component: <LevelFour /> },
     ];
   }
 

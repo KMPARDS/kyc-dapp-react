@@ -221,7 +221,7 @@ export default class FirstLevel extends Component {
     return (
       <div>
         <h4 className="m4-txt-level mb40 text-center">KYC Level 1 </h4>
-        <div><i className="fa fa-info-circle themecolor" data-toggle="modal" data-target=".kyclevel1"></i></div>
+        {/* <div><i className="fa fa-info-circle themecolor" data-toggle="modal" data-target=".kyclevel1"></i></div> */}
         {
           this.state.kyc?.status === 'approved' || User.getData()?.kycdappVerified ?
             <div className="kycapprove col-md-8 mx-auto mb40 ">
@@ -276,7 +276,7 @@ export default class FirstLevel extends Component {
         }
 
         {/* <!-- info modall start here--> */}
-        <div class="modal fade kyclevel1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        {/* <div class="modal fade kyclevel1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -327,7 +327,7 @@ export default class FirstLevel extends Component {
 
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* <!-- info modall end here--> */}
         <Formik
@@ -501,8 +501,40 @@ export default class FirstLevel extends Component {
                         value={values?.idNumber}
                       />
                     </Col>
-                  <Col lg={6}>
+                    </Row>
+                    <hr />
+                    <Row>
+                  <Col lg={9}>
+                  <ul class="kyctext mt-20">
+                      <li>
+                        <i class="fa fa-arrow-right fa-ora"></i> PROOF OF IDENTITY/ PHOTO ID :-
+                        <p>Please provide a picture of any of the following:</p>
+                          <ul class="kyctextlist" type="none">
+                                <li>
+                                  <i class="fa fa-arrow-right fa-ora"></i> Passport
+                                  <ul class="kyctextlist1">
+                                    <li> Required the first double-page spread showing your photo, signature below, passport number, your name, your date of birth, and the passport expiration date;</li>
+                                    <li> Required the Last double-page spread showing your name of father, name of mother, name of spouse, address, old passport no with date and place of issue, and file number;</li>
+                                  </ul>
+                                </li>
+                                <li> <i class="fa fa-arrow-right fa-ora"></i> Driver's license (front and back);</li>
+                                <li>  <i class="fa fa-arrow-right fa-ora"></i> Government Provided National identity document (front and back)</li>
+                                <li>  <i class="fa fa-arrow-right fa-ora"></i> Make sure the ID the scan of which you are submitting meets the following requirements
+                                      <ul class="kyctextlist1">
+                                          <li>The document remains valid for at least 3 months from the submission date or it will not be accepted;</li>
+                                          <li> It is an original document; photos of copies or xerox will not be accepted;</li>
+                                          <li>Your photos or scans are clear, high-resolution and in color of the original document;</li>
+                                          <li>Neither the documents nor their photos or scans have been edited or manipulated of the original document; and</li>
+                                          <li>Photos of front and back sides, if applicable, must be uploaded separately.</li>
+                                        </ul>
 
+
+                                </li>
+                          </ul>
+                      </li>
+                     </ul>
+                     </Col>
+                     <Col lg={3}>
                       <Field
                         disabled={!this.state.canApply}
                         type="file"
@@ -516,28 +548,36 @@ export default class FirstLevel extends Component {
                         setFieldValue={setFieldValue}
                         value={values?.idAttachment}
                       />
+
                     </Col>
 
                   </Row>
+                  <hr />
+                    <Row className="mt20">
+                    <Col sm={9} >
+                    <ul class="kyctext mt-20">
+                      <li>
+                        <i class="fa fa-arrow-right fa-ora"></i> SELFIE WITH PHOTO ID :-
 
-                  <Row className="mt20">
-                    <Col sm={6} >
-                      <Field
-                        disabled={!this.state.canApply}
-                        type="file"
-                        id="addressProofAttachment"
-                        name="addressProofAttachment"
-                        title="Address Proof"
-                        errors={errors}
-                        touched={touched}
-                        description="JPG OR PNG file only , Max Size allowed is 10 MB"
-                        component={CustomFileInput}
-                        setFieldValue={setFieldValue}
-                        value={values?.addressProofAttachment}
+                          <ul class="kyctextlist" type="none">
+                                <li>
+                                  <i class="fa fa-arrow-right fa-ora"></i> Please submit a picture in which you are holding your government-issued ID and a paper note. On the note you should hand write your registered email ID, the current date, signature, and the words "For Era Swap Ecosystem." Make sure the picture you are submitting meets the following requirements:
+                                  <ul class="kyctextlist1">
+                                    <li>It is taken in good light;</li>
+                                    <li>The photo is clear, high-resolution, and in color;</li>
+                                    <li>Your face must be clearly visible;</li>
+                                    <li>The text in the note must be handwritten by you and not typed;</li>
+                                     <li>The document you are holding must be the same you are submitting for your identity verification; and</li>
+                                     <li>Neither the photos nor the documents have been edited or manipulated.</li>
 
-                      />
-                    </Col>
-                    <Col sm={6} >
+                                  </ul>
+                                </li>
+
+                          </ul>
+                      </li>
+                     </ul>
+                     </Col>
+                     <Col sm={3} >
                       <Field
                         disabled={!this.state.canApply}
                         type="file"
@@ -554,7 +594,68 @@ export default class FirstLevel extends Component {
 
                       />
                     </Col>
+                    </Row>
+                    <hr />
+                    <Row className="mt20">
+                    <Col sm={9} >
+                    <ul class="kyctext mt-20">
+                      <li>
+                        <i class="fa fa-arrow-right fa-ora"></i> VIDEO FOR FACE VERIFICATION :-
+
+                          <ul class="kyctextlist" type="none">
+                                <li>
+                                  <i class="fa fa-arrow-right fa-ora"></i> Please submit a 5-10 secs video saying "My name is XYZ (Full name to be mentioned in the video as per the photo ID submitted) applying KYC for Era Swap Ecosystem.
+                                  <ul class="kyctextlist1">
+                                    <li>Please allow permission for the 1DAAP App in mobile or for eraswap.life site on desktop use your camera </li>
+                                    <li>Avoid wearing hats</li>
+                                    <li>Avoid wearing glasses</li>
+                                    <li>Avoid using filters</li>
+                                    <li>Use enough lighting (Face should be clearly visible in video)</li>
+
+                                  </ul>
+                                </li>
+
+                          </ul>
+                      </li>
+                     </ul>
+                     </Col>
+                    <Col sm={3} >
+                      <Field
+                        disabled={!this.state.canApply}
+                        type="file"
+                        id="selfieAttachment"
+                        name="selfieAttachment"
+                        title="VIDEO FOR FACE VERIFICATION"
+                        defaultImage=""
+                        errors={errors}
+                        touched={touched}
+                        description="JPG OR PNG file only , Max Size allowed is 10 MB"
+                        component={CustomFileInput}
+                        setFieldValue={setFieldValue}
+                        value={values?.selfieAttachment}
+
+                      />
+                    </Col>
                   </Row>
+                  <hr />
+                  <Row className="mt20">
+                    <Col sm={12} >
+                      <Field
+                        disabled={!this.state.canApply}
+                        type="file"
+                        id="addressProofAttachment"
+                        name="addressProofAttachment"
+                        title="Address Proof"
+                        errors={errors}
+                        touched={touched}
+                        description="JPG OR PNG file only , Max Size allowed is 10 MB"
+                        component={CustomFileInput}
+                        setFieldValue={setFieldValue}
+                        value={values?.addressProofAttachment}
+
+                      />
+                    </Col>
+                    </Row>
                 </fieldset>
                   <div className="form-group submit-btn1">
                     <button type="submit" className="btn btn-primary mr-2" disabled={!this.state.canApply}>
