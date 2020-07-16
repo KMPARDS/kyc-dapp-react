@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Hero.css'
 import { Col, Button, Container, Row } from 'react-bootstrap';
 import Images from '../../Container/Images/Images';
-import User from '../../models/User';
 
-function Hero()  {
-  const history = useHistory();
 
+
+class Hero extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        };
+    }
+
+    render() {
         return (
             <div>
                 <div className='kyc-hero-bgd' >
@@ -23,19 +30,9 @@ KYC DAPP works like the gatekeeper to restrict the entry of imposters, scammers 
 
 <br/>KYC through KYC DAPP is implemented for the good and long-term success of the Era Swap community altogether. After successful KYC Process via KYC DApp; Era Swap Community Members become eligible to use Era Swap.
                                      </p>
-                                  
+                                   
                                      <div class="mt40">
-                                       {
-                                         <Link
-                                          className="knw-btn"
-                                          onClick={e => {
-                                          if(User.getToken())
-                                            history.push('/form');
-                                          else
-                                            window.open("https://eraswap.life/", "", "width=1003,height=650");
-                                         }}>Know Your Customer</Link>
-                                       }
-
+                                         <Link to="/form" className="knw-btn">Start Your KYC</Link>
                                      </div>
                             </div>
                             <div className="col-12 col-lg-6">
@@ -46,6 +43,8 @@ KYC DAPP works like the gatekeeper to restrict the entry of imposters, scammers 
                 </div>
             </div>
         );
+
+    }
 }
 
 

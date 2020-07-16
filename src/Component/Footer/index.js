@@ -34,6 +34,9 @@ class Footer extends Component {
                                         <li><a className="footer-sub" href="#solution">Solutions</a></li>
                                         <li><a className="footer-sub" href="#verification">Verification</a></li>
                                         <li><a className="footer-sub" href="#features">Features</a></li>
+                                        <li><a href="http://eraswaptoken.io/pdf/es-aml-policy.pdf" target='_blank' className="footer-sub">AML Policy</a></li>
+                                        <li><a href="http://eraswaptoken.io/pdf/es-disclaimer.pdf" target='_blank' className="footer-sub">Disclaimer</a></li>
+                                        <li><a href="http://eraswaptoken.io/pdf/es-statuary-warning.pdf" target='_blank' className="footer-sub">Statuary Warning</a></li>
                                     </ul>
                                 </Col>
                                 <Col offset-xl={1} xl={3} lg={4} md={4} col={12}>
@@ -43,7 +46,8 @@ class Footer extends Component {
                                         <li><a className="footer-sub">Privacy Policy</a></li>
                                         <li><a href={TC} target='_blank' className="footer-sub">Terms of Use</a></li>
                                         <li><a className="footer-sub" href="https://eraswaptoken.io/pdf/eraswap-terms-conditions.pdf" target="_blank">Era Swap Terms & Conditions</a></li>
-
+                                        <li><a className="footer-sub" href="http://eraswaptoken.io/pdf/era-swap-howey-test-letter-august7-2018.pdf" target="_blank">Howey Test</a></li>
+                                        <li><a className="footer-sub" href="http://eraswaptoken.io/pdf/eraswap_whitepaper.pdf" target="_blank">ES White Paper </a></li>
                                     </ul>
                                 </Col>
                             </Row>
