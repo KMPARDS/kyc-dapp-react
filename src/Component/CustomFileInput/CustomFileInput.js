@@ -88,8 +88,8 @@ export default class CustomFileInput extends Component {
   }
 
   render() {
-    const { title, description, type, placeholder, errors, touched, value } = this.props;
-    const { name, onBlur } = this.props.field;
+    const { title,  type, placeholder, errors, touched, value } = this.props;
+    const { name, onBlur,description } = this.props.field;
     return (
       <div className="form-group">
         <label for={name}>{title}</label>
@@ -114,13 +114,16 @@ export default class CustomFileInput extends Component {
         )}
 
         {type === 'file' &&
+        <div>
+            <p>Click below "+" to select file</p>
           <Row>
             <Col sm={5}>
               <div className="border-style-img" onClick={this.showFileUpload}>
                 <img className='kycdapp-plus-Img' src={this.state.imagePreviewUrl} alt="" />
               </div>
             </Col>
-          </Row>}
+          </Row>
+          </div>}
       </div>
     );
   }

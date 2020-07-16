@@ -223,3 +223,6 @@ transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   top: 4px;
   right: 16px;
 }
+.col-border{
+  border: 1px solid #eee;
+}
