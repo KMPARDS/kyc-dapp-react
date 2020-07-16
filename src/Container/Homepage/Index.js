@@ -7,7 +7,6 @@ import Section from '../../Component/Section/Index';
 import Images from '../../Container/Images/Images';
 
 
-
 class Homepage extends Component {
     constructor(props) {
         super(props);

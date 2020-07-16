@@ -7,6 +7,7 @@ import { PRESET, ACCEPT_ESN, REJECT_ESN, ACCEPT_PRESET, REJECT_PRESET } from '..
 import Axios from 'axios';
 import config from '../../../config/config';
 import { errors } from 'ethers';
+import { handleError } from '../../../utils/Apis';
 export default class LevelThree extends React.Component {
   constructor(props){
     super(props);
@@ -50,6 +51,8 @@ export default class LevelThree extends React.Component {
 
   async signMessage(){
     try {
+      if(!User.getWallet())
+        return Swal.fire('Connect To Wallet', 'Please Connect to wallet and try again','warning');
       if(!this.state.message?.length)
           return this.setState({
             errors: {
@@ -91,8 +94,9 @@ export default class LevelThree extends React.Component {
         )
       }
     } catch(e) {
-      console.log(e);
-      Swal.fire('Sign In!','Please try to connect to wallet and try again','warning');
+      console.log(e.response);
+      handleError(e);
+      // Swal.fire('Sign In!','Please try to connect to wallet and try again','warning');
     }
   }
 
