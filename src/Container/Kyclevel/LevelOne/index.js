@@ -221,7 +221,14 @@ export default class FirstLevel extends Component {
   async recordVideo(){
     const stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
     const recorder = new RecordRTCPromisesHandler(stream, {
-        type: 'video'
+        type: 'video',
+        previewStream: function(stream) {},
+        canvas: {
+          width: 640,
+          height: 480
+        },
+        // used by MultiStreamRecorder - to access HTMLCanvasElement
+        elementClass: 'multi-streams-mixer'
     });
     recorder.startRecording();
 
@@ -611,7 +618,7 @@ export default class FirstLevel extends Component {
                       />
                     </Col>
                     </Row>
-                    <hr />
+                    {/* <hr />
                     <Row className="mt20">
                     <Col sm={9} >
                     <ul class="kyctext mt-20">
@@ -652,7 +659,7 @@ export default class FirstLevel extends Component {
 
                       />
                     </Col>
-                  </Row>
+                  </Row> */}
                   <hr />
                   <Row className="mt20">
                     <Col sm={12} >
