@@ -10,6 +10,7 @@ import { SUPPORTED_FORMATS, FILE_SIZE } from '../../../utils/constants';
 import User from '../../../models/User';
 import CustomFileInput from "../../../Component/CustomFileInput/CustomFileInput";
 import { handleError } from '../../../utils/Apis';
+import  Images  from '../../Images/Images';
 export default class FirstLevel extends Component {
 
   validationSchema = {};
@@ -17,7 +18,11 @@ export default class FirstLevel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      kyc: null,
+      kyc: {
+        // idAttachment: Images.path.idProof,
+        // addressProofAttachment: '',
+        // selfieAttachment: ''
+      },
       canApply: true
     };
 
@@ -121,6 +126,12 @@ export default class FirstLevel extends Component {
   }
 
   componentDidMount() {
+    console.log('path.IdProof',Images.path.idProof)
+    // this.setState({
+    //   kyc: {
+    //     idAttachment: Images.path.idProof
+    //   }
+    // })
     this.fetchKycLevelOne();
   }
 
@@ -243,7 +254,7 @@ export default class FirstLevel extends Component {
   render() {
     return (
       <div>
-      
+
         <h4 className="m4-txt-level mb40 text-center">KYC Level 1 </h4>
 
         {/* <div><i className="fa fa-info-circle themecolor" data-toggle="modal" data-target=".kyclevel1"></i></div> */}
@@ -572,6 +583,7 @@ export default class FirstLevel extends Component {
                         component={CustomFileInput}
                         setFieldValue={setFieldValue}
                         value={values?.idAttachment}
+                        altFile={Images.path.idProof}
                       />
 
                     </Col>
@@ -616,7 +628,7 @@ export default class FirstLevel extends Component {
                         component={CustomFileInput}
                         setFieldValue={setFieldValue}
                         value={values?.selfieAttachment}
-
+                        altFile={Images.path.selfieProof}
                       />
                     </Col>
                     </Row>
@@ -677,7 +689,7 @@ export default class FirstLevel extends Component {
                         component={CustomFileInput}
                         setFieldValue={setFieldValue}
                         value={values?.addressProofAttachment}
-
+                        altFile={Images.path.addressProof}
                       />
                     </Col>
                     </Row>

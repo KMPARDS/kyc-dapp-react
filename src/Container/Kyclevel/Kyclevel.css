@@ -117,7 +117,7 @@ transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
         margin-bottom: 10px;
 }
 .jm-logo  .Img {
-    height: 85% !important;
+    height: 100px !important;
     padding: 10px;
     max-width: 100%;
 }

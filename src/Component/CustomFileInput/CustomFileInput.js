@@ -18,7 +18,7 @@ export default class CustomFileInput extends Component {
     name: '',
     text: undefined,
     file: undefined,
-    imagePreviewUrl: Images.path.plusimg
+    imagePreviewUrl: this.props.altFile || Images.path.plusimg
   };
 
   componentDidMount() {
@@ -68,6 +68,7 @@ export default class CustomFileInput extends Component {
     const newValues = {
       disabled
     }
+    
     if (type === 'file'
       && this.name === name
       && value
@@ -85,6 +86,12 @@ export default class CustomFileInput extends Component {
     this.setState({
       ...newValues
     });
+  }
+
+  fileError(e){
+    const { altFile } = this.props;
+    e.onerror = null;
+    this.readFile(altFile);
   }
 
   render() {
@@ -106,6 +113,7 @@ export default class CustomFileInput extends Component {
           ref={this.fileUpload}
           onBlur={onBlur}
           value={type === 'text' ? value : null}
+          onerror={this.fileError}
         />
         {this.state.error && (
           <div className="error">
