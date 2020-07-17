@@ -243,7 +243,9 @@ export default class FirstLevel extends Component {
   render() {
     return (
       <div>
+      
         <h4 className="m4-txt-level mb40 text-center">KYC Level 1 </h4>
+
         {/* <div><i className="fa fa-info-circle themecolor" data-toggle="modal" data-target=".kyclevel1"></i></div> */}
         {
           this.state.kyc?.status === 'approved' || User.getData()?.kycdappVerified ?
