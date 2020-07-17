@@ -118,6 +118,15 @@ export default class LevelThree extends React.Component {
     return (
       <div>
         <h4 className="m4-txt-level mb40 text-center">KYC Level 3</h4>
+        <span className="level-info" style={{color: 'darkblue',}}>
+          1. In KYC Level 3, Click on ‘Sign this Message' to finish your KYC process<br></br>
+          2.	You will get a Pop-up message for your confirmation ‘Are you sure to sign message?’<br></br>
+          3.	Click on ‘Yes, Sign it!’<br></br>
+          4.	A successful submission Pop-Up message will appear ‘You have successfully signed the message’<br></br>
+          5.  Congratulations, your KYC Request has been submitted.<br></br>
+        </span>
+        <br></br>
+        <br></br>
         <div>
           {' '}
           <i

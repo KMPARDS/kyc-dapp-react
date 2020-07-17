@@ -10,6 +10,7 @@ import { SUPPORTED_FORMATS, FILE_SIZE } from '../../../utils/constants';
 import User from '../../../models/User';
 import CustomFileInput from "../../../Component/CustomFileInput/CustomFileInput";
 import { handleError } from '../../../utils/Apis';
+import  Images  from '../../Images/Images';
 export default class FirstLevel extends Component {
 
   validationSchema = {};
@@ -17,7 +18,11 @@ export default class FirstLevel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      kyc: null,
+      kyc: {
+        // idAttachment: Images.path.idProof,
+        // addressProofAttachment: '',
+        // selfieAttachment: ''
+      },
       canApply: true
     };
 
@@ -86,7 +91,7 @@ export default class FirstLevel extends Component {
         .mixed()
         .test(
           "idAttachementRequired",
-          'Id Attachment Required',
+          'Address Attachment Required',
           value => value
         )
         .test(
@@ -103,7 +108,7 @@ export default class FirstLevel extends Component {
       selfieAttachment: Yup.mixed()
         .test(
           "idAttachementRequired",
-          'Id Attachment Required',
+          'Selfie Attachment Required',
           value => value
         )
         .test(
@@ -121,6 +126,12 @@ export default class FirstLevel extends Component {
   }
 
   componentDidMount() {
+    console.log('path.IdProof',Images.path.idProof)
+    // this.setState({
+    //   kyc: {
+    //     idAttachment: Images.path.idProof
+    //   }
+    // })
     this.fetchKycLevelOne();
   }
 
@@ -243,10 +254,22 @@ export default class FirstLevel extends Component {
   render() {
     return (
       <div>
-      
+        <p><strong>For Era Swap Community Members and new users, to migrate to Era Swap Network (ESN), KYC can be done in 3 Simple Steps:</strong></p>
+        <ul className="kycsteps">
+             <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  In KYC Level 1, Fill up your KYC Details, Click
+             on 'Submit' and then click on 'Next'</li>
+            <li><i class="fa fa-chevron-right" aria-hidden="true"></i> In KYC Level 2, select specific Era Swap Ecosystem
+            Platform, you need to do Level 2 KYC and Fill up platform specific details required and Submit</li>
+            <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  In KYC Level 3, Click on 'Sign this Message' to finish your KYC process</li>
+        </ul>
         <h4 className="m4-txt-level mb40 text-center">KYC Level 1 </h4>
 
         {/* <div><i className="fa fa-info-circle themecolor" data-toggle="modal" data-target=".kyclevel1"></i></div> */}
+        <span className="level-info" style={{color: 'darkblue',}}>
+          In KYC Level 1, fill up your required KYC Details and upload documents. Then click on 'Submit' and then click on 'Next' to go to Level 2
+        </span>
+        <br></br>
+        <br></br>
         {
           this.state.kyc?.status === 'approved' || User.getData()?.kycdappVerified ?
             <div className="kycapprove col-md-8 mx-auto mb40 ">
@@ -532,7 +555,7 @@ export default class FirstLevel extends Component {
                   <Col lg={9}>
                   <ul class="kyctext mt-20">
                       <li>
-                        <i class="fa fa-arrow-right fa-ora"></i> PROOF OF IDENTITY/ PHOTO ID :-
+                        <i class="fa fa-arrow-right fa-ora"></i><b>PROOF OF IDENTITY/ PHOTO ID:-</b>
                         <p>Please provide a picture of any of the following:</p>
                           <ul class="kyctextlist" type="none">
                                 <li>
@@ -543,6 +566,9 @@ export default class FirstLevel extends Component {
                                   </ul>
                                 </li>
                                 <li> <i class="fa fa-arrow-right fa-ora"></i> Driver's license (front and back);</li>
+                                <li> <i class="fa fa-arrow-right fa-ora"></i> PAN Card</li>
+                                        <li> <i class="fa fa-arrow-right fa-ora"></i> Voters ID (front and back);</li>
+                                        <li> <i class="fa fa-arrow-right fa-ora"></i> Aadhaar Card (front and back);</li>
                                 <li>  <i class="fa fa-arrow-right fa-ora"></i> Government Provided National identity document (front and back)</li>
                                 <li>  <i class="fa fa-arrow-right fa-ora"></i> Make sure the ID the scan of which you are submitting meets the following requirements
                                       <ul class="kyctextlist1">
@@ -552,6 +578,7 @@ export default class FirstLevel extends Component {
                                           <li>Neither the documents nor their photos or scans have been edited or manipulated of the original document; and</li>
                                           <li>Photos of front and back sides, if applicable, must be uploaded separately.</li>
                                         </ul>
+
 
 
                                 </li>
@@ -572,6 +599,7 @@ export default class FirstLevel extends Component {
                         component={CustomFileInput}
                         setFieldValue={setFieldValue}
                         value={values?.idAttachment}
+                        altFile={Images.path.idProof}
                       />
 
                     </Col>
@@ -582,18 +610,18 @@ export default class FirstLevel extends Component {
                     <Col sm={9} >
                     <ul class="kyctext mt-20">
                       <li>
-                        <i class="fa fa-arrow-right fa-ora"></i> SELFIE WITH PHOTO ID :-
+                        <i class="fa fa-arrow-right fa-ora"></i> <b>SELFIE WITH PHOTO ID:-</b>
 
                           <ul class="kyctextlist" type="none">
                                 <li>
                                   <i class="fa fa-arrow-right fa-ora"></i> Please submit a picture in which you are holding your government-issued ID and a paper note. On the note you should hand write your registered email ID, the current date, signature, and the words "For Era Swap Ecosystem." Make sure the picture you are submitting meets the following requirements:
                                   <ul class="kyctextlist1">
-                                    <li>It is taken in good light;</li>
-                                    <li>The photo is clear, high-resolution, and in color;</li>
-                                    <li>Your face must be clearly visible;</li>
-                                    <li>The text in the note must be handwritten by you and not typed;</li>
-                                     <li>The document you are holding must be the same you are submitting for your identity verification; and</li>
-                                     <li>Neither the photos nor the documents have been edited or manipulated.</li>
+                                  <li> It is taken in good light;</li>
+                                  <li> The photo is clear, high-resolution, and in color;</li>
+                                  <li> Your face must be clearly visible;</li>
+                                  <li> The text in the note must be handwritten by you and not typed;</li>
+                                  <li> The document you are holding must be the same you are submitting for your identity verification; and</li>
+                                  <li> Neither the photos nor the documents have been edited or manipulated.</li>
 
                                   </ul>
                                 </li>
@@ -616,7 +644,7 @@ export default class FirstLevel extends Component {
                         component={CustomFileInput}
                         setFieldValue={setFieldValue}
                         value={values?.selfieAttachment}
-
+                        altFile={Images.path.selfieProof}
                       />
                     </Col>
                     </Row>
@@ -664,7 +692,39 @@ export default class FirstLevel extends Component {
                   </Row> */}
                   <hr />
                   <Row className="mt20">
-                    <Col sm={12} >
+                  <Col sm={9} >
+                  <ul class="kyctext mt-20">
+                      <li>
+                        <i class="fa fa-arrow-right fa-ora"></i> <b>ADDRESS PROOF:-</b>
+
+                          <ul class="kyctextlist" type="none">
+                                <li>
+                                  <i class="fa fa-arrow-right fa-ora"></i> Please provide a picture of any of the following:
+                                  <ul class="kyctextlist1">
+                                    <li> Any Address Proof Provided by Government & valid for at least 3 months from the submission date or it will not be accepted;</li>
+                                    <li> It is an original document; photos of copies or xerox will not be accepted;</li>
+                                    <li> Full Name on Address proof should match with Photo ID Provided.</li>
+                                  </ul>
+                                </li>
+                                <li>
+                                  <i class="fa fa-arrow-right fa-ora"></i> Passport
+                                  <ul class="kyctextlist1">
+                                    <li> Required the first double-page spread showing your photo, signature below, passport number, your name, your date of birth, and the passport expiration date;</li>
+                                    <li> Required the Last double-page spread showing your name of father, name of mother, name of spouse, address, old passport no with date and place of issue, and file number;</li>
+                                 </ul>
+                                </li>
+                                <li><i class="fa fa-arrow-right fa-ora"></i> Driver's license (front and back);</li>
+                                <li><i class="fa fa-arrow-right fa-ora"></i> Electricity Bill</li>
+                                <li><i class="fa fa-arrow-right fa-ora"></i> Postpaid Telephone Bill</li>
+                                <li><i class="fa fa-arrow-right fa-ora"></i> Bank Statement (Updated by latest 1 Month)</li>
+                                <li><i class="fa fa-arrow-right fa-ora"></i> Water Supply Bill</li>
+
+                          </ul>
+                      </li>
+                     </ul>
+                    </Col>
+                    <Col sm={3} >
+
                       <Field
                         disabled={!this.state.canApply}
                         type="file"
@@ -677,7 +737,7 @@ export default class FirstLevel extends Component {
                         component={CustomFileInput}
                         setFieldValue={setFieldValue}
                         value={values?.addressProofAttachment}
-
+                        altFile={Images.path.addressProof}
                       />
                     </Col>
                     </Row>

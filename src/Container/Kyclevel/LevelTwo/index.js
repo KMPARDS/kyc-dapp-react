@@ -155,7 +155,13 @@ console.log('called2');
       <h4 className="m4-txt-level mb40 text-center">KYC Level 2 </h4>
       <div> <i className="fa fa-info-circle themecolor" data-toggle="modal" data-target=".kyclevel2"></i></div>
 
-
+      <span className="level-info" style={{color: 'darkblue',}}>
+        1. In KYC Level 2, select specific Era Swap Ecosystem Platform by clicking on the platform logo, you need to do Level 2 KYC.  Fill up platform specific details required and click on ‘Submit’. Then click on ‘Next’ to go to Level 3.
+        <br></br>
+        2. You can also skip Level 2 for now by clicking on ‘Next’ Button but please remember that you have to complete Level 2 KYC to be eligible to use Era Swap Platforms as Verified User.
+        </span>
+        <br></br>
+        <br></br>
       {/* <!-- info modall start here--> */}
       <div class="modal fade kyclevel2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">

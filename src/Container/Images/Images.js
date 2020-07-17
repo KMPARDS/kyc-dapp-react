@@ -72,6 +72,9 @@ const path = {
     idproof: require('../../assets/Images/id-proof.png'),
     selfiproof: require('../../assets/Images/selfi-proof.png'),
     decentralized: require('../../assets/Images/decentralized.png'),
+    idProof: require('../../assets/Images/id-proof.png'),
+    addressProof: require('../../assets/Images/address.png'),
+    selfieProof: require('../../assets/Images/selfie.jpg')
 };
 
 export default {
