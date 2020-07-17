@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Hero.css'
 import { Col, Button, Container, Row } from 'react-bootstrap';
 import Images from '../../Container/Images/Images';
-import User from '../../models/User';
 
-function Hero()  {
-  const history = useHistory();
 
+
+class Hero extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        };
+    }
+
+    render() {
         return (
             <div>
                 <div className='kyc-hero-bgd' >
@@ -18,32 +25,14 @@ function Hero()  {
                                     KYC on Blockchain Network<br />
                                     Done More <span className="quick-effect">Quickly & Securly</span>
                                 </div>
-                                     <p className="hero-detail-txt">KYC DApp empowers Era Swap Community
-                                      Members with convenient KYC Process to become eligible for Peer
-                                      to Peer Exchange of Services, Claim Rewards and Offer Discounts
-                                      on multiple utility platforms of Era Swap Ecosystem (ESE) on Era
-                                      Swap Blockchain Network (ESN) using Era Swap (Es) utility token
-                                     </p>
-                                     <p>For Era Swap Community Members to migrate to Era Swap Network (ESN), KYC can be done in 5 Simple Steps:</p>
-                                     <ul className="kycsteps">
-                                                <li><i class="fa fa-chevron-right" aria-hidden="true"></i> Click on 'Start Your KYC' and Load your Existing Wallet</li>
-                                                <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  In KYC Level 1, Fill up your KYC Details, Click on 'Submit' and then click on 'Next'</li>
-                                                <li><i class="fa fa-chevron-right" aria-hidden="true"></i> In KYC Level 2, Click on 'Next'</li>
-                                                <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  In KYC Level 3, Click on 'Sign this Message'</li>
-                                                <li><i class="fa fa-chevron-right" aria-hidden="true"></i> In KYC Level 4, Click on 'Send tokens to Admin'</li>
-                                     </ul>
-                                     <div class="mt40">
-                                       {
-                                         <Link
-                                          className="knw-btn"
-                                          onClick={e => {
-                                          if(User.getToken())
-                                            history.push('/form');
-                                          else
-                                            window.open("https://eraswap.life/", "", "width=1003,height=650");
-                                         }}>Know Your Customer</Link>
-                                       }
+                                     <p className="hero-detail-txt">KYC DAPP is a DApp introduced in Era Swap Blockchain Network for Era Swap user's safety with the aim to follow global norms with respect to the global standards for Anti-Money Laundering (AML) and Combating Financing of Terrorism (CFT).
+KYC DAPP works like the gatekeeper to restrict the entry of imposters, scammers doing fraudulent or malicious activities for accumulation or exchange of Tokens. The use of KYC DAPP creates a  fair balance between the freedom of anonymous use of Digital Assets &  the ability to interact/exchange with other genuine users on Era Swap Ecosystem.
 
+<br/>KYC through KYC DAPP is implemented for the good and long-term success of the Era Swap community altogether. After successful KYC Process via KYC DApp; Era Swap Community Members become eligible to use Era Swap.
+                                     </p>
+                                   
+                                     <div class="mt40">
+                                         <Link to="/form" className="knw-btn">Start Your KYC</Link>
                                      </div>
                             </div>
                             <div className="col-12 col-lg-6">
@@ -54,6 +43,8 @@ function Hero()  {
                 </div>
             </div>
         );
+
+    }
 }
 
 

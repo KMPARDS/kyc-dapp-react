@@ -99,8 +99,8 @@ class Section extends Component {
                             <Col sm={6} lg={3}>
                                 <div className="fr-section text-center">
                                     <div className="red-circle"><i class="fa fa-database" aria-hidden="true"></i></div>
-                                    <h3 class="h5-font-mb"> Data Quality</h3>
-                                    <p class="txt-fr-para">Once entered, data on the blockchain ledger cannot be altered or manipulated.</p>
+                                    <h3 class="h5-font-mb">Data Immutability </h3>
+                                    <p class="txt-fr-para">Once entered by KYC Applicant, data on the blockchain ledger cannot be altered or manipulated.</p>
                                 </div>
                             </Col>
                              <Col sm={6} lg={3}>
@@ -128,7 +128,7 @@ class Section extends Component {
                              </div>
                                     <h3 class="h5-font-mb">Decentralized</h3>
                                     <p class="txt-fr-para">
-                                        With decentralized approach KYC DApp is not only limited to banks or financial institutions, there is a wider scope of application among other industries
+                                        With decentralized approach; there is a wider scope of application among multiple domains and industries with single KYC
                             </p>
                                 </div>
                             </Col>
