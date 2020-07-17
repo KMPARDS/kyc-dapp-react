@@ -254,10 +254,22 @@ export default class FirstLevel extends Component {
   render() {
     return (
       <div>
-
+        <p><strong>For Era Swap Community Members and new users, to migrate to Era Swap Network (ESN), KYC can be done in 3 Simple Steps:</strong></p>
+        <ul className="kycsteps">
+             <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  In KYC Level 1, Fill up your KYC Details, Click
+             on 'Submit' and then click on 'Next'</li>
+            <li><i class="fa fa-chevron-right" aria-hidden="true"></i> In KYC Level 2, select specific Era Swap Ecosystem
+            Platform, you need to do Level 2 KYC and Fill up platform specific details required and Submit</li>
+            <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  In KYC Level 3, Click on 'Sign this Message' to finish your KYC process</li>
+        </ul>
         <h4 className="m4-txt-level mb40 text-center">KYC Level 1 </h4>
 
         {/* <div><i className="fa fa-info-circle themecolor" data-toggle="modal" data-target=".kyclevel1"></i></div> */}
+        <span className="level-info" style={{color: 'darkblue',}}>
+          In KYC Level 1, fill up your required KYC Details and upload documents. Then click on 'Submit' and then click on 'Next' to go to Level 2
+        </span>
+        <br></br>
+        <br></br>
         {
           this.state.kyc?.status === 'approved' || User.getData()?.kycdappVerified ?
             <div className="kycapprove col-md-8 mx-auto mb40 ">
