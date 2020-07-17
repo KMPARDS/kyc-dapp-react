@@ -606,48 +606,6 @@ export default class FirstLevel extends Component {
 
                   </Row>
                   <hr />
-                    <Row className="mt20">
-                    <Col sm={9} >
-                    <ul class="kyctext mt-20">
-                      <li>
-                        <i class="fa fa-arrow-right fa-ora"></i> <b>SELFIE WITH PHOTO ID:-</b>
-
-                          <ul class="kyctextlist" type="none">
-                                <li>
-                                  <i class="fa fa-arrow-right fa-ora"></i> Please submit a picture in which you are holding your government-issued ID and a paper note. On the note you should hand write your registered email ID, the current date, signature, and the words "For Era Swap Ecosystem." Make sure the picture you are submitting meets the following requirements:
-                                  <ul class="kyctextlist1">
-                                  <li> It is taken in good light;</li>
-                                  <li> The photo is clear, high-resolution, and in color;</li>
-                                  <li> Your face must be clearly visible;</li>
-                                  <li> The text in the note must be handwritten by you and not typed;</li>
-                                  <li> The document you are holding must be the same you are submitting for your identity verification; and</li>
-                                  <li> Neither the photos nor the documents have been edited or manipulated.</li>
-
-                                  </ul>
-                                </li>
-
-                          </ul>
-                      </li>
-                     </ul>
-                     </Col>
-                     <Col sm={3} >
-                      <Field
-                        disabled={!this.state.canApply}
-                        type="file"
-                        id="selfieAttachment"
-                        name="selfieAttachment"
-                        title="Selfie with ID Card & holding ERASWAP written on paper 'For Eraswap Ecosystem'"
-                        defaultImage=""
-                        errors={errors}
-                        touched={touched}
-                        description="JPG OR PNG file only , Max Size allowed is 10 MB"
-                        component={CustomFileInput}
-                        setFieldValue={setFieldValue}
-                        value={values?.selfieAttachment}
-                        altFile={Images.path.selfieProof}
-                      />
-                    </Col>
-                    </Row>
                     {/* <hr />
                     <Row className="mt20">
                     <Col sm={9} >
@@ -714,10 +672,10 @@ export default class FirstLevel extends Component {
                                  </ul>
                                 </li>
                                 <li><i class="fa fa-arrow-right fa-ora"></i> Driver's license (front and back);</li>
-                                <li><i class="fa fa-arrow-right fa-ora"></i> Electricity Bill</li>
-                                <li><i class="fa fa-arrow-right fa-ora"></i> Postpaid Telephone Bill</li>
-                                <li><i class="fa fa-arrow-right fa-ora"></i> Bank Statement (Updated by latest 1 Month)</li>
-                                <li><i class="fa fa-arrow-right fa-ora"></i> Water Supply Bill</li>
+                                <li><i class="fa fa-arrow-right fa-ora"></i> Electricity Bill (any from latest 3 Months)</li>
+                                <li><i class="fa fa-arrow-right fa-ora"></i> Postpaid Telephone Bill (any from latest 3 Months)</li>
+                                <li><i class="fa fa-arrow-right fa-ora"></i> Bank Statement / Bank Passbook (any from latest 3 Months)</li>
+                                <li><i class="fa fa-arrow-right fa-ora"></i> Water Supply Bill (Upload latest bill)</li>
 
                           </ul>
                       </li>
@@ -738,6 +696,48 @@ export default class FirstLevel extends Component {
                         setFieldValue={setFieldValue}
                         value={values?.addressProofAttachment}
                         altFile={Images.path.addressProof}
+                      />
+                    </Col>
+                    </Row>
+                    <Row className="mt20">
+                    <Col sm={9} >
+                    <ul class="kyctext mt-20">
+                      <li>
+                        <i class="fa fa-arrow-right fa-ora"></i> <b>SELFIE WITH PHOTO ID:-</b>
+
+                          <ul class="kyctextlist" type="none">
+                                <li>
+                                  <i class="fa fa-arrow-right fa-ora"></i> Please submit a picture in which you are holding your government-issued ID and a paper note. On the note you should hand write your registered email ID, the current date, signature, and the words "For Era Swap Ecosystem." Make sure the picture you are submitting meets the following requirements:
+                                  <ul class="kyctextlist1">
+                                  <li> It is taken in good light;</li>
+                                  <li> The photo is clear, high-resolution, and in color;</li>
+                                  <li> Your face must be clearly visible;</li>
+                                  <li> The text in the note must be handwritten by you and not typed;</li>
+                                  <li> The document you are holding must be the same you are submitting for your identity verification; and</li>
+                                  <li> Neither the photos nor the documents have been edited or manipulated.</li>
+
+                                  </ul>
+                                </li>
+
+                          </ul>
+                      </li>
+                     </ul>
+                     </Col>
+                     <Col sm={3} >
+                      <Field
+                        disabled={!this.state.canApply}
+                        type="file"
+                        id="selfieAttachment"
+                        name="selfieAttachment"
+                        title="Selfie with ID Card & holding ERASWAP written on paper 'For Eraswap Ecosystem'"
+                        defaultImage=""
+                        errors={errors}
+                        touched={touched}
+                        description="JPG OR PNG file only , Max Size allowed is 10 MB"
+                        component={CustomFileInput}
+                        setFieldValue={setFieldValue}
+                        value={values?.selfieAttachment}
+                        altFile={Images.path.selfieProof}
                       />
                     </Col>
                     </Row>
