@@ -3,7 +3,11 @@
         padding: 0 0 80px 0;
         height: auto!important;
 }
-
+.bgd-color{
+    background-color: #9b2426 !important;
+    border-radius: 8px;
+    color: #fff!important;
+}
 .kyc-hero-img{
     width: 100%;
 }
@@ -31,10 +35,16 @@
 
    .knw-btn{
        background-color: #981d1f;
-       color: #ffffff;
+       color: #ffffff !important;
        border: 0;
        font-weight: bold;
-      padding: 1.125rem 3.125rem 1.25rem 3.125rem;;
+       cursor: pointer;
+      padding: 1.125rem 3.125rem 1.25rem 3.125rem;
+   }
+
+   :hover.knw-btn{
+       background-color: #12141f;
+       color: #ffffff !important;
    }
 
    @media (max-width: 768px) {
@@ -142,4 +152,7 @@ ul.kycsteps{
 }
 ul.kycsteps .fa{
 color:#981d1f;
+}
+.comlistui{
+      margin-left: 21px;
 }
