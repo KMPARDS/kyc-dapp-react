@@ -68,7 +68,7 @@ export default class CustomFileInput extends Component {
     const newValues = {
       disabled
     }
-    
+
     if (type === 'file'
       && this.name === name
       && value
@@ -95,8 +95,8 @@ export default class CustomFileInput extends Component {
   }
 
   render() {
-    const { title,  type, placeholder, errors, touched, value } = this.props;
-    const { name, onBlur,description } = this.props.field;
+    const { title,  type, placeholder, errors, touched, value, description } = this.props;
+    const { name, onBlur } = this.props.field;
     return (
       <div className="form-group">
         <label for={name}>{title}</label>
