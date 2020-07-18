@@ -50,6 +50,11 @@ export default class FirstLevel extends Component {
       nationality: Yup.string()
         .required('nationality is required'),
       contactNumber: Yup.string()
+        .test(
+          "contactNumberFormat",
+          "Enter Valid Number",
+          value => { return value && isFinite(value); }
+        )
         .min(6, 'Minimum 6 digit phone Number')
         .max(10, 'Maximum 10 digit phone Number')
         .required('Phone Number is required'),

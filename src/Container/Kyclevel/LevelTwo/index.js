@@ -39,6 +39,7 @@ export default class LevelTwo extends React.Component {
     this.handleShow();
     Axios.get(config.baseUrl + `api/kyc-inputs/?platformId=${platformId}`)
       .then(resp => {
+        console.log('inputs',resp)
         this.setState({
           inputs: resp.data.data
         });
@@ -136,7 +137,7 @@ export default class LevelTwo extends React.Component {
       formData.append(key,values[key]);
       console.log(formData.get(key));
     }
-console.log('called2');
+
     Axios.post(config.baseUrl + 'apis/kyc-level-two/save', formData,{
       headers: {
         Authorization: User.getToken()
