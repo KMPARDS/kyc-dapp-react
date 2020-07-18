@@ -3,7 +3,7 @@ import './Footer.css'
 import Images from '../../Container/Images/Images';
 import { Col, Button, Container, Row } from 'react-bootstrap';
 import TC from '../../assets/docs/tc.pdf'
-
+import Userguide from '../../assets/docs/KYC_DAPP_UserGuide.pdf'
 
 class Footer extends Component {
 
@@ -43,6 +43,7 @@ class Footer extends Component {
                                     <h4 className="footer-head">Documents</h4>
                                     <ul>
                                         <li><a href="https://eraswaptoken.io/pdf/eraswap_whitepaper.pdf" className="footer-sub">Whitepaper</a></li>
+                                        <li><a href={Userguide} target='_blank' className="footer-sub">User Guide</a></li>
                                         <li><a className="footer-sub">Privacy Policy</a></li>
                                         <li><a href={TC} target='_blank' className="footer-sub">Terms of Use</a></li>
                                         <li><a className="footer-sub" href="https://eraswaptoken.io/pdf/eraswap-terms-conditions.pdf" target="_blank">Era Swap Terms & Conditions</a></li>
