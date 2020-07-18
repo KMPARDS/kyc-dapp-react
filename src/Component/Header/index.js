@@ -34,24 +34,9 @@ class Header extends Component {
   }
 
   closeAllModals() {
-
-    // get modals
-    const modals = document.getElementsByClassName('modal');
-
-    // on every modal change state like in hidden modal
-    for(let i=0; i<modals.length; i++) {
-      modals[i].classList.remove('show');
-      modals[i].setAttribute('aria-hidden', 'true');
-      modals[i].setAttribute('style', 'display: none');
-    }
-
-     // get modal backdrops
-     const modalsBackdrops = document.getElementsByClassName('modal-backdrop');
-
-     // remove every modal backdrop
-     for(let i=0; i<modalsBackdrops.length; i++) {
-       document.body.removeChild(modalsBackdrops[i]);
-     }
+    var modal = document.querySelector('.instructions');
+    var jQueryObj = Object.keys(modal).filter((key) => (key.toString().indexOf('jQuery') !== -1) && modal[key].hasOwnProperty('bs.modal'));
+    modal[jQueryObj]['bs.modal'].hide();
   }
 
   login(message) {
@@ -151,7 +136,7 @@ class Header extends Component {
           </div>
         </nav>
          {/* <!-- info modall start here--> */}
-      <div class="modal fade kyclevel2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal fade kyclevel2 instructions" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -162,7 +147,7 @@ class Header extends Component {
             </div>
             <div class="modal-body">
 
-              <h6>Once you have clicked on ‘Start your KYC’ or ‘Connect to Wallet’, just read and follow the following simple steps and click on ‘Proceed’ button to complete your KYC and migrate to Era Swap Network (ESN). 
+              <h6>Once you have clicked on ‘Start your KYC’ or ‘Connect to Wallet’, just read and follow the following simple steps and click on ‘Proceed’ button to complete your KYC and migrate to Era Swap Network (ESN).
                                    </h6>
                 <ul className="comlistui">
                     <li>  Once you click on ‘Proceed’ button at the bottom of this Pop-Up Message, a Tab of https://eraswap.life/ opens on your screen to Load your Wallet</li>

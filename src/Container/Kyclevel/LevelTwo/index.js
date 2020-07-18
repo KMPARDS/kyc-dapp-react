@@ -225,7 +225,7 @@ console.log('called2');
           <div className="kycapprove mb40 col-md-8 mx-auto ">
             <h3>
               <i class="fa fa-check-square-o fa-6" aria-hidden="true"></i>
-              Kycs are verified by curators
+              Your Kyc has verified by curators
             </h3>
             <p>
               KYC DApp is powered on a decentralised network of Era Swap.

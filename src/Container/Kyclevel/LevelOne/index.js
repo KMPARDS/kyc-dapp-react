@@ -275,7 +275,7 @@ export default class FirstLevel extends Component {
             <div className="kycapprove col-md-8 mx-auto mb40 ">
               <h3>
                 <i class="fa fa-check-square-o" aria-hidden="true"></i>
-            Kycs are verified by curators
+            Your Kyc has verified by curators
           </h3>
               <p>
                 KYC DApp is powered on a decentralised network of Era Swap.
@@ -418,7 +418,7 @@ export default class FirstLevel extends Component {
                   <div className="form-row">
                     <div class="form-group col-lg-3">
                       <label>Salutation</label>
-                      <Field disabled={!this.state.canApply} value={values?.salutation} name="salutation" as="select" className={'form-control' + (errors.salutation && touched.salutation ? ' is-invalid' : '')}>
+                      <Field disabled={!this.state.canApply && this.state.kyc?.salutation} value={values?.salutation} name="salutation" as="select" className={'form-control' + (errors.salutation && touched.salutation ? ' is-invalid' : '')}>
                         <option value=""></option>
                         <option value="Mr">Mr</option>
                         <option value="Mrs">Mrs</option>
@@ -429,58 +429,58 @@ export default class FirstLevel extends Component {
                     </div>
                     <div className="form-group col-lg-3">
                       <label htmlFor="firstname">First Name</label>
-                      <Field disabled={!this.state.canApply} value={values?.firstname} name="firstname" type="text" placeholder="First Name" className={'form-control' + (errors.firstname && touched.firstname ? ' is-invalid' : '')} />
+                      <Field disabled={!this.state.canApply && this.state.kyc?.firstname} value={values?.firstname} name="firstname" type="text" placeholder="First Name" className={'form-control' + (errors.firstname && touched.firstname ? ' is-invalid' : '')} />
                       <ErrorMessage name="firstname" component="div" className="invalid-feedback" />
                     </div>
                     <div className="form-group col-lg-3">
                       <label htmlFor="middlename">Middle Name</label>
-                      <Field disabled={!this.state.canApply} value={values?.middlename} name="middlename" type="text" placeholder="Middle Name" className={'form-control' + (errors.middlename && touched.middlename ? ' is-invalid' : '')} />
+                      <Field disabled={!this.state.canApply && this.state.kyc?.middlename} value={values?.middlename} name="middlename" type="text" placeholder="Middle Name" className={'form-control' + (errors.middlename && touched.middlename ? ' is-invalid' : '')} />
                       <ErrorMessage name="middlename" component="div" className="invalid-feedback" />
                     </div>
                     <div className="form-group col-lg-3">
                       <label htmlFor="lastname">Last Name</label>
-                      <Field disabled={!this.state.canApply} value={values?.lastname} name="lastname" type="text" placeholder="Last Name" className={'form-control' + (errors.lastname && touched.lastname ? ' is-invalid' : '')} />
+                      <Field disabled={!this.state.canApply && this.state.kyc?.lastname} value={values?.lastname} name="lastname" type="text" placeholder="Last Name" className={'form-control' + (errors.lastname && touched.lastname ? ' is-invalid' : '')} />
                       <ErrorMessage name="lastname" component="div" className="invalid-feedback" />
                     </div>
                   </div>
                   <div className="form-group">
                     <label htmlFor="username">User Name</label>
-                    <Field disabled={!this.state.canApply} value={values?.username} name="username" type="text" placeholder="Enter your User Name" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
+                    <Field disabled={!this.state.canApply && this.state.kyc?.username} value={values?.username} name="username" type="text" placeholder="Enter your User Name" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
                     <ErrorMessage name="username" component="div" className="invalid-feedback" />
                   </div>
                   <div className="form-row">
                     <div className="form-group col-lg-6">
                       <label htmlFor="dob">Date of Birth</label>
-                      <Field disabled={!this.state.canApply} value={values?.dob} name="dob" type="date" placeholder="YYYY/MM/DD" className={'form-control' + (errors.dob && touched.dob ? ' is-invalid' : '')} />
+                      <Field disabled={!this.state.canApply && this.state.kyc?.dob} value={values?.dob} name="dob" type="date" placeholder="YYYY/MM/DD" className={'form-control' + (errors.dob && touched.dob ? ' is-invalid' : '')} />
                       <ErrorMessage name="dob" component="div" className="invalid-feedback" />
                     </div>
                     <div className="form-group col-lg-6">
                       <label htmlFor="nationality">Nationality</label>
-                      <Field disabled={!this.state.canApply} value={values?.nationality} name="nationality" type="text" className={'form-control' + (errors.nationality && touched.nationality ? ' is-invalid' : '')} />
+                      <Field disabled={!this.state.canApply && this.state.kyc?.nationality} value={values?.nationality} name="nationality" type="text" className={'form-control' + (errors.nationality && touched.nationality ? ' is-invalid' : '')} />
                       <ErrorMessage name="nationality" component="div" className="invalid-feedback" />
                     </div>
                   </div>
                   <div className="form-row">
                     <div className="form-group col-lg-6">
                       <label htmlFor="contactNumber">Phone Number</label>
-                      <Field disabled={!this.state.canApply} value={values?.contactNumber} name="contactNumber" type="text" className={'form-control' + (errors.contactNumber && touched.contactNumber ? ' is-invalid' : '')} />
+                      <Field disabled={!this.state.canApply && this.state.kyc?.contactNumber} value={values?.contactNumber} name="contactNumber" type="text" className={'form-control' + (errors.contactNumber && touched.contactNumber ? ' is-invalid' : '')} />
                       <ErrorMessage name="contactNumber" component="div" className="invalid-feedback" />
                     </div>
                     <div className="form-group col-lg-6">
                       <label>Email</label>
-                      <Field disabled={!this.state.canApply} value={values?.email} name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
+                      <Field disabled={!this.state.canApply && this.state.kyc?.email} value={values?.email} name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
                       <ErrorMessage name="email" component="div" className="invalid-feedback" />
                     </div>
                   </div>
                   <div className="form-row">
                     <div className="form-group col-lg-6">
                       <label htmlFor="placeOfBirth">Place of Birth</label>
-                      <Field disabled={!this.state.canApply} value={values?.placeOfBirth} name="placeOfBirth" type="text" className={'form-control' + (errors.placeOfBirth && touched.placeOfBirth ? ' is-invalid' : '')} />
+                      <Field disabled={!this.state.canApply && this.state.kyc?.placeOfBirth} value={values?.placeOfBirth} name="placeOfBirth" type="text" className={'form-control' + (errors.placeOfBirth && touched.placeOfBirth ? ' is-invalid' : '')} />
                       <ErrorMessage name="placeOfBirth" component="div" className="invalid-feedback" />
                     </div>
                     <div className="form-group col-lg-6">
                       <label htmlFor="maritalStatus">Martial Status</label>
-                      <Field disabled={!this.state.canApply} value={values?.maritalStatus} name="maritalStatus" as="select" className={'form-control' + (errors.maritalStatus && touched.maritalStatus ? ' is-invalid' : '')}>
+                      <Field disabled={!this.state.canApply && this.state.kyc?.maritalStatus} value={values?.maritalStatus} name="maritalStatus" as="select" className={'form-control' + (errors.maritalStatus && touched.maritalStatus ? ' is-invalid' : '')}>
                         <option value=""></option>
                         <option value="single">Single</option>
                         <option value="Married">Married</option>
@@ -497,7 +497,7 @@ export default class FirstLevel extends Component {
                       <form>
                         <div class="form-group">
                           <label htmlFor="address"> Address</label>
-                          <Field disabled={!this.state.canApply} value={values?.address} id="address" name="address" rows="4" cols="100" placeholder="Enter your Current Address" className={'form-control textHt' + (errors.address && touched.address ? ' is-invalid' : '')} />
+                          <Field disabled={!this.state.canApply && this.state.kyc?.address} value={values?.address} id="address" name="address" rows="4" cols="100" placeholder="Enter your Current Address" className={'form-control textHt' + (errors.address && touched.address ? ' is-invalid' : '')} />
                           <ErrorMessage name="address" component="div" className="invalid-feedback" />
                         </div>
                       </form>
@@ -506,7 +506,7 @@ export default class FirstLevel extends Component {
                   <div className="form-row">
                     <div className="form-group  col-lg-6">
                       <label htmlFor="pincode">Pincode</label>
-                      <Field disabled={!this.state.canApply} value={values?.pincode} name="pincode" type="text" placeholder="Pincode" className={'form-control' + (errors.placeOfBirth && touched.placeOfBirth ? ' is-invalid' : '')} />
+                      <Field disabled={!this.state.canApply && this.state.kyc?.pincode} value={values?.pincode} name="pincode" type="text" placeholder="Pincode" className={'form-control' + (errors.placeOfBirth && touched.placeOfBirth ? ' is-invalid' : '')} />
                       <ErrorMessage name="pincode" component="div" className="invalid-feedback" />
                     </div>
                     <div className="form-group col">
@@ -520,7 +520,7 @@ export default class FirstLevel extends Component {
                   <Row className="mt20">
                     <Col sm={6} >
                       <Field
-                        disabled={!this.state.canApply}
+                        disabled={!this.state.canApply && this.state.kyc?.idType}
                         type="text"
                         id="idType"
                         name="idType"
@@ -536,7 +536,7 @@ export default class FirstLevel extends Component {
                     </Col>
                     <Col sm={6} >
                       <Field
-                        disabled={!this.state.canApply}
+                        disabled={!this.state.canApply && this.state.kyc?.idNumber}
                         type="text"
                         id="idNumber"
                         name="idNumber"
@@ -588,7 +588,7 @@ export default class FirstLevel extends Component {
                      </Col>
                      <Col lg={3}>
                       <Field
-                        disabled={!this.state.canApply}
+                        disabled={!this.state.canApply && this.state.kyc?.idAttachment}
                         type="file"
                         id="myfile"
                         name="idAttachment"
@@ -632,7 +632,7 @@ export default class FirstLevel extends Component {
                      </Col>
                     <Col sm={3} >
                       <Field
-                        disabled={!this.state.canApply}
+                        disabled={!this.state.canApply && this.state.kyc?.selfieAttachment}
                         type="file"
                         id="selfieAttachment"
                         name="selfieAttachment"
@@ -684,7 +684,7 @@ export default class FirstLevel extends Component {
                     <Col sm={3} >
 
                       <Field
-                        disabled={!this.state.canApply}
+                        disabled={!this.state.canApply && this.state.kyc?.addressProofAttachment}
                         type="file"
                         id="addressProofAttachment"
                         name="addressProofAttachment"
@@ -725,7 +725,7 @@ export default class FirstLevel extends Component {
                      </Col>
                      <Col sm={3} >
                       <Field
-                        disabled={!this.state.canApply}
+                        disabled={!this.state.canApply && this.state.kyc?.selfieAttachment}
                         type="file"
                         id="selfieAttachment"
                         name="selfieAttachment"
@@ -743,7 +743,7 @@ export default class FirstLevel extends Component {
                     </Row>
                 </fieldset>
                   <div className="form-group submit-btn1">
-                    <button type="submit" className="btn btn-primary mr-2" disabled={!this.state.canApply}>
+                    <button type="submit" className="btn btn-primary mr-2" disabled={!this.state.canApply && Object.values(errors).length}>
                       {isSubmitting ? 'Submitting' : 'Submit'}</button>
                   </div>
               </Form>
