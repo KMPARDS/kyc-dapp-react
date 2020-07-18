@@ -29,7 +29,7 @@ class Section extends Component {
                             <Col lg={6}>
                             <div className="current-container-style">
                                 <h2 class="mb-2-h3-font">Current Problems of <br />traditional KYC</h2>
-                                <p className="opacity-txt-para mt30">Era Swap powered KYC DApp offers solution to existing problems of traditional KYC. With the handy immutability aspect of Blockchain and Combination of Smart Contracts, KYC DApp has predetermined criteria to spot fraudulent activity. </p>
+                                <p className="opacity-txt-para mt30">Era Swap powered KYC DApp offers solution to existing problems of traditional KYC.  </p>
                                 <Container>
                                     <Row className="mt60">
                                         <Col sm={6}>
@@ -83,8 +83,11 @@ class Section extends Component {
 
                             <Col lg={6}>
                                 <h2 class="mb-2-h3-font">KYC DApp decentralized  <br />solution for Identity Verification.</h2>
-                                <p class="opacity-txt-para mt30">Financial and other sectors has been seeking solutions for their “Identity” problem for a long time, Era Swap have now come up with a viable solution powered on blockchain – KYC DApp. KYC Verification using blockchain has the potential to be faster, easier safer and more efficient than the centralized traditional verification process. <br /> <br /> Financial and other sectors has been seeking solutions for their “Identity” problem for a long time, Era Swap have now come up with a viable solution powered on blockchain – KYC DApp. KYC Verification using blockchain has the potential to be faster, easier safer and more efficient than the centralized traditional verification process.
-                            </p>
+                                <p class="opacity-txt-para mt30">
+                                With the handy immutability aspect of Blockchain and Combination of Smart Contracts, KYC DApp has predetermined criteria to spot fraudulent activity. Also, by doing KYC, it reduces cost in the long run and benefits both Buyer and Seller to gain trust to transact in peer to peer mode more efficiently on multiple ESE platforms.  KYC DApp in future can allow bank and financial organizations to rely on more secure, organized and unified model of data handling
+
+
+                                 </p>
                             </Col>
 
                             <Col lg={6} className="pos-abs-lg-vertical-center ">
@@ -100,35 +103,36 @@ class Section extends Component {
                                 <div className="fr-section text-center">
                                     <div className="red-circle"><i class="fa fa-database" aria-hidden="true"></i></div>
                                     <h3 class="h5-font-mb">Data Immutability </h3>
-                                    <p class="txt-fr-para">Once entered by KYC Applicant, data on the blockchain ledger cannot be altered or manipulated.</p>
+                                    <p class="txt-fr-para">Immutability of Blockchain database and their ability to help improve transparency in customer identification will massively help and improve to use Era Swap Ecosystem multiple platforms and reduce fraud</p>
                                 </div>
                             </Col>
                              <Col sm={6} lg={3}>
                                 <div className="fr-section text-center">
                                     <div className="red-circle"><i class="fa fa-tachometer" aria-hidden="true"></i></div>
-                                    <h3 class="h5-font-mb">Speed</h3>
+                                    <h3 class="h5-font-mb">Active Monitoring</h3>
                                     <p class="txt-fr-para">
-                                        Identity Verification using KYC DApp has the potential to be faster, easier and safer
+                                         Blockchain based KYC DApp platform will allow active monitoring of everything from account opening to day to day transactions. When combined with Smart Contracts that will predetermine criteria to spot fraudulent activities
                                      </p>
                                 </div>
                             </Col>
                              <Col sm={6} lg={3}>
                                 <div className="fr-section text-center">
                                     <div className="red-circle"><i class="fa fa-shield" aria-hidden="true"></i></div>
-                                    <h3 class="h5-font-mb">Security</h3>
+                                    <h3 class="h5-font-mb">Data Security</h3>
                                     <p class="txt-fr-para">
-                                        KYC DApp uses IPFS and Elliptical Curve Cryptography to securely store users information in a decentralized way.
-                            </p>
+                                    KYC DApp offers better data security by ensuring that data access is only made after a confirmation or permission is received from the relevant user. This will eliminate the chance of unauthorized access and subsequently gives individual a greater control over their data
+                                  </p>
                                 </div>
                             </Col>
                              <Col sm={6} lg={3}>
                                 <div className="fr-section text-center">
-                                    <div className="red-circle">
-                                    <img className='' src={Images.path.decentralized} alt="" width="42"/>
-                             </div>
-                                    <h3 class="h5-font-mb">Decentralized</h3>
+                                   
+                                     <div className="red-circle"><i class="fa fa-check" aria-hidden="true"></i></div>
+                                  
+                            
+                                    <h3 class="h5-font-mb">Validation</h3>
                                     <p class="txt-fr-para">
-                                        With decentralized approach; there is a wider scope of application among multiple domains and industries with single KYC
+                                      KYC DApp accumulates data for multiple platforms in to a single immutable cryptographically secured and validated database. Thus, KYC DApp supports global efforts to combat financial terrorism and money laundering, effectively
                             </p>
                                 </div>
                             </Col>

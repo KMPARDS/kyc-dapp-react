@@ -53,7 +53,7 @@
 }
 .fr-section{
     padding: 10px;
-    min-height: 320px;
+    min-height: 410px;
     border-radius: 8px;
     margin-bottom: 20px;
     margin-top: 20px;
@@ -148,9 +148,9 @@
     position: relative;
     margin: 0 auto;
     padding: 0;
-    top: 65px;
+    top: 0px;
     left: 85px;
-    width: 70%;
+    width: 60%;
 }
 .red-circle{
     background: #f5e8e9;
