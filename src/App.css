@@ -406,3 +406,18 @@ select {
   -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
 }
+.comtable  td, .comtable th{
+ text-align: center;
+ }
+.comtable th {
+  background-color: #bbbbbb;
+  font-size: 12px;
+  font-weight: 600;
+  color: #000;
+  background-color: #bbbbbb;
+    font-size: 12px;
+    font-weight: 600;
+    color: #000;
+    vertical-align: top !important;
+
+}

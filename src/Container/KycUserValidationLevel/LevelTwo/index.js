@@ -153,13 +153,16 @@ export default class LevelTwo extends React.Component {
 
   render() {
     return <div>
-      <h4 className="m4-txt-level mb40 text-center">KYC STEP 2 </h4>
+      <h4 className="m4-txt-level mb40 text-center">KYC LEVEL 2 </h4>
       <div> <i className="fa fa-info-circle themecolor" data-toggle="modal" data-target=".kyclevel2"></i></div>
 
       <span className="level-info" style={{color: 'darkblue',}}>
-        1. In KYC Step 2, select specific Era Swap Ecosystem Platform by clicking on the platform logo, you need to do Step 2 KYC for.  Fill up platform specific details required and click on ‘Submit’. Then click on ‘Next’ to go to Step 3.
+        1. In KYC Level 2, select specific Era Swap Ecosystem Platform by
+              clicking on the platform logo, you need to do Level 2 KYC for.
+              Fill up platform specific details required and click on ‘Submit’.
         <br></br>
-        2. You can also skip Step 2 for now by clicking on ‘Next’ Button but please remember that you have to complete Step 2 KYC to be eligible to use Era Swap Platforms as Verified User in future.
+        2. If a Era Swap Ecosystem member wants to move to Level 3, then
+              click on ‘Next’ to go to Level 3.
         </span>
         <br></br>
         <br></br>
@@ -168,7 +171,7 @@ export default class LevelTwo extends React.Component {
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">KYC Step 2 information</h5>
+              <h5 class="modal-title" id="exampleModalLabel">KYC Level 2 information</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>

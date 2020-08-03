@@ -117,13 +117,12 @@ export default class LevelThree extends React.Component {
   render() {
     return (
       <div>
-        <h4 className="m4-txt-level mb40 text-center">KYC STEP 3</h4>
+        <h4 className="m4-txt-level mb40 text-center">KYC LEVEL 3</h4>
         <span className="level-info" style={{color: 'darkblue',}}>
-          1. In KYC Step 3, Click on ‘Sign this Message' to finish your KYC process<br></br>
-          2.	You will get a Pop-up message for your confirmation ‘Are you sure to sign message?’<br></br>
-          3.	Click on ‘Yes, Sign it!’<br></br>
-          4.	A successful submission Pop-Up message will appear ‘You have successfully signed the message’<br></br>
-
+          1. In KYC Level 3, the applicant has to complete KYC for the proof
+              of feedback and recommendation<br></br>
+          2.	This Level of KYC DApp will be live soon<br></br>
+      
         </span>
         <br></br>
         <br></br>
@@ -147,7 +146,7 @@ export default class LevelThree extends React.Component {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
-                  KYC Step 3 information
+                  KYC Level 3 information
                 </h5>
                 <button
                   type="button"
@@ -172,71 +171,10 @@ export default class LevelThree extends React.Component {
 
         {/* <!-- info modall end here--> */}
         <fieldset class="scheduler-border es-trasnferbox kyclevel4">
-          <legend class="scheduler-border">
-            Signing a message using your wallet
-          </legend>
+          
           <Row className="mt20">
             <Col sm={12} className="mx-auto ">
-                <h6>
-                  On the blockchain, identity is the wallet address and not a
-                  human name or face. When you sign a message, a unique
-                  signature gets generated for the message using your wallet's
-                  private key. You can use this function to prove that you have
-                  the ownership of the private key.
-                </h6>
-                <h6>
-                  Presets:<br/>
-                  <button
-                    className="btn btn-sm mb10 mt10"
-                    type="button"
-                    onClick={this.acceptAuthorizeESN.bind(this,true)}
-                  >
-                    Authorize TimeAlly Era Swap Network
-                  </button>
-
-
-                  {/* <button
-                    className="btn btn-default btn-sm mb10"
-                    type="button"
-                    onClick={this.declineAuthorizeESN.bind(this,true)}
-                  >
-                    Decline TimeAlly Era Swap Network
-                  </button> */}
-                </h6>
-                <h6>Update your message below and then click on sign</h6>
-
-                <div className="yourwallet">
-                  <textarea
-                      id="w3review"
-                      rows="4"
-                      cols="100"
-                      placeholder=""
-                      name="message"
-                    value={this.state.message}
-                    onChange={this.handleChange}
-                  />
-                  {this.state.errors?.message && <div className="error">{this.state.errors.message}</div>}
-                  <button
-                    type="button"
-                    className="btn"
-                    onClick={this.signMessage}
-                  >
-                    Sign this message
-                  </button>
-                  {this.state.signature ? (
-                    <>
-                      <h6 className="mt10">
-                        Your signature:
-                      </h6>
-
-                      <div className="yourwallet ">
-                        <div className="wallet-address">
-                          {this.state.signature}
-                        </div>
-                      </div>
-                    </>
-                  ) : null}
-                </div>
+               <h1>Coming Soon</h1>
             </Col>
           </Row>
         </fieldset>
