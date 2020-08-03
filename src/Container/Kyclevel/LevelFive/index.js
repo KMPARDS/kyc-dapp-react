@@ -7,7 +7,7 @@ import Transfer from './transfer'; // component
 import Axios from 'axios';
 import { handleError } from '../../../utils/Apis';
 
-export default class LevelFour extends React.Component {
+export default class LevelFive extends React.Component {
   state = {
     balanceDisplay: '',
     showTransferComponent: null,
@@ -112,7 +112,7 @@ export default class LevelFour extends React.Component {
   render() {
     return (
       <div>
-        <h4 className="m4-txt-level mb40 text-center">KYC STEP 4</h4>
+        <h4 className="m4-txt-level mb40 text-center">KYC STEP 5</h4>
         <span className="level-info" style={{color: 'darkblue',}}>
 
           1. In KYC Step 4, Transfer your Old Liquid ES ERC20 tokens to Admin Wallet (0x397Fa088Ff98ecdB5Ed0B9A2E3c0a8877B6279A6) by Clicking on 'Send' Button.<br></br>

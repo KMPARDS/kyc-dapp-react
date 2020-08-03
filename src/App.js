@@ -8,6 +8,7 @@ import { browserHistory} from 'react-router';
 import Homepage from './Container/Homepage/Index';
 import Header from './Component/Header/';
 import Kyclevel from './Container/Kyclevel/';
+import KycUserValidationLevel from './Container/KycUserValidationLevel/';
 import Kycpublicprivate from './Container/Kycpublicprivate/';
 import Conservator from './Container/Conservator/';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -33,6 +34,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Homepage} />
             <Route exact path="/form" component={Kyclevel} />
+            <Route exact path="/user-validation" component={KycUserValidationLevel} />
             <Route exact path="/privacy" component={Kycpublicprivate} />
             <Route exact path="/conservator" component={Conservator} />
             <Route path="" component={NotFound} />

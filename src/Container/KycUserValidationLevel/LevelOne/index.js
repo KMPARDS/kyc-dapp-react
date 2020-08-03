@@ -268,11 +268,18 @@ export default class FirstLevel extends Component {
     return (
       <div>
         
-        <h4 className="m4-txt-level mb40 text-center">KYC STEP 1 </h4>
+        <h4 className="m4-txt-level mb40 text-center">KYC LEVEL 1 </h4>
 
         {/* <div><i className="fa fa-info-circle themecolor" data-toggle="modal" data-target=".kyclevel1"></i></div> */}
         <span className="level-info" style={{color: 'darkblue',}}>
-          In KYC Step 1, fill up your required KYC Details and upload documents. Then click on 'Submit' and then click on 'Next' to go to Step 2
+              1. KYC Level 1 is for Identity. In KYC Level 1, Fill up your KYC
+              Details, Click on 'Submit' and then click on 'Next' to move to
+              Level 2
+        </span>
+        <br></br>
+        <span className="level-info mb20" style={{color: 'darkblue',}}>
+        2. The applicant can choose whether to move to next Level or not
+                depending on his willingness and need.
         </span>
         <br></br>
         <br></br>

@@ -8,6 +8,7 @@ import LevelOne from './LevelOne/'
 import LevelTwo from './LevelTwo';
 import LevelFour from './LevelFour';
 import LevelThree from './LevelThree';
+import LevelFive from './LevelFive';
 
 
 class KycLevel extends Component {
@@ -28,6 +29,7 @@ class KycLevel extends Component {
       { name: 'SecondLevel', component: <LevelTwo /> },
       { name: 'ThirdLevel', component: <LevelThree /> },
      { name: 'FourthLevel', component: <LevelFour /> },
+     { name: 'FourthLevel', component: <LevelFive /> },
     ];
   }
 
@@ -61,19 +63,22 @@ class KycLevel extends Component {
 					<Container>
 						<Col sm={12}>
 							<div className="kyc-white-box innerpage-box kyclevelbox">
-								<h4 className="feature-head text-left">KYC steps for migration to Era Swap Network PoS (ESN PoS) </h4>
+								<h4 className="feature-head text-left">KYC Levels form Level 1 to 5 </h4>
 								<hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80" />
-                <p><strong>For Era Swap Community Members and new users, to migrate to Era Swap Network (ESN), KYC can be done in 4 Simple Step:</strong></p>
-        <ul className="kycStep">
-             <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  In KYC Step 1, Fill up your KYC Details, Click
+                <p><strong>In KYC DApp. there are 5 different levels of KYC for a participant of Era Swap Ecosystem. These 5 Levels have different charges and benefits which has been showed on 'KYC Charges and Benefits' button on homepage.  </strong></p>
+        <ul className="kycLevel">
+             <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  KYC Level 1 is for Identity. In KYC Level 1, Fill up your KYC Details, Click
              on 'Submit' and then click on 'Next'</li>
-            <li><i class="fa fa-chevron-right" aria-hidden="true"></i> In KYC Step 2, select specific Era Swap Ecosystem
-            Platform, you need to do Step 2 KYC and Fill up platform specific details required and Submit</li>
-            <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  In KYC Step 3, Click on 'Sign this Message' to finish your KYC process</li>
-            <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  In KYC Step 4, Click on 'Send' to send your old ES ERC20 Token to Admin Wallet</li>
+            <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  KYC Level 2 is for Skill / Business. In KYC Level 2, select specific Era Swap Ecosystem
+            Platform, you need to do Level 2 KYC and Fill up platform specific details required and Submit</li>
+            <li><i class="fa fa-chevron-right" aria-hidden="true"></i>   KYC Level 3 is for Recommendation. In KYC Level 3, the applicant has to provide proof of feedback and recommendation </li>
+            <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  KYC Level 4 is for FOS Tagya Validation. In KYC Level 4, the applicant can apply for physical verifier as FOS Tagya </li>
+            <li><i class="fa fa-chevron-right" aria-hidden="true"></i>   KYC Level 5 is for Online Curator Validation. In KYC Level 5, the applicant can apply to become Curator on multiple platforms of ESE  </li>
+       
         </ul>
               	<MultiStep showNavigation={true} steps={this.steps} showNext={this.state.showNext} showPrev={this.state.showPrev} />
-							</div>
+						
+            	</div>
 						</Col>
 					</Container>
 				</div>
