@@ -18,9 +18,9 @@ export default class LevelFour extends React.Component {
   routines = [];
 
   componentDidMount = () => {
-    User.setWallet(
-      '0x24c4fe6063e62710ead956611b71825b778b041b18ed53118ce5da5f02e494ba'
-    );
+    // User.setWallet(
+    //   '0x24c4fe6063e62710ead956611b71825b778b041b18ed53118ce5da5f02e494ba'
+    // );
 
     this.startRoutine(this.updateBalance);
     this.startRoutine(this.loadPastTransfers);
@@ -116,7 +116,7 @@ export default class LevelFour extends React.Component {
         <span className="level-info" style={{color: 'darkblue',}}>
 
           1. In KYC Step 4, Transfer your Old Liquid ES ERC20 tokens to Admin Wallet (0x397Fa088Ff98ecdB5Ed0B9A2E3c0a8877B6279A6) by Clicking on 'Send' Button.<br></br>
-          
+
             2.  Congratulations, your KYC Request has been submitted.<br></br>
         </span>
         <br></br>
