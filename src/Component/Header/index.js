@@ -6,6 +6,7 @@ import User from '../../models/User';
 import { baseUrl } from '../../config/config';
 import { ethers } from 'ethers';
 import Axios from 'axios';
+import { UserContext } from '../../utils/user.context';
 
 const instance = Axios.create({
   withCredentials: true,
@@ -14,6 +15,8 @@ const instance = Axios.create({
 const $ = '$' in window && window.$;
 
 class Header extends Component {
+  static contextType = UserContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -152,7 +155,7 @@ class Header extends Component {
                     <span class="sr-only">(current)</span>
                   </button>
                 </li>
-              {this.state.token ? (
+              {this.context?.user?.wallet?.address ? (
                 <li class="nav-item dropdown">
                   <button
                     class="nav-link dropdown-toggle bgd-color-nav profile-btn"
@@ -243,7 +246,7 @@ class Header extends Component {
                 </button>
               </div>
               <div class="modal-body">
-                
+
                 <div class="table-responsive">
                   <table class="table  table-bordered table-striped comtable">
                     <thead>
@@ -273,7 +276,7 @@ class Header extends Component {
                         <td>  40.00% </td>
                         <td>  10.00% </td>
                         <td> 10.00% </td>
-                        <td> 280.00%</td>   
+                        <td> 280.00%</td>
                       </tr>
                       <tr>
                         <th scope="row">Level 1 KYC - Identity</th>
@@ -285,8 +288,8 @@ class Header extends Component {
                         <td>12.60</td>
                         <td>12.60</td>
                         <td>3.15</td>
-                        <td>3.15</td> 
-                        <td>88.20</td> 
+                        <td>3.15</td>
+                        <td>88.20</td>
                       </tr>
                       <tr>
                         <th scope="row">Level 2 KYC - Skill / Business </th>
@@ -345,19 +348,19 @@ class Header extends Component {
                 </div>
                 <div class="mt20">
                 <ul className="comlistui">
-                         <li> All KYC charges shall be in Liquid ES Only	</li>				
-                         <li> KYC charges shall reduce by 10% every NRT Year		</li>			
-                         <li> Applicant Stked Top-up shall be provided from New Talents and Partnerships (3% NRT)	</li>				
-                         <li> Incentive to Introducers shall be provided from TimeAlly Club Bucket (10% NRT)		</li>			
-                         <li> Incentive to Users Day Swappers tree shall be provided from Day Swappers Tree Bucket (10% NRT)		</li>			
-                         <li> Incentive to Curators and Tagya shall be provided from Maintenance and Support (5% NRT)		</li>			
+                         <li> All KYC charges shall be in Liquid ES Only	</li>
+                         <li> KYC charges shall reduce by 10% every NRT Year		</li>
+                         <li> Applicant Stked Top-up shall be provided from New Talents and Partnerships (3% NRT)	</li>
+                         <li> Incentive to Introducers shall be provided from TimeAlly Club Bucket (10% NRT)		</li>
+                         <li> Incentive to Users Day Swappers tree shall be provided from Day Swappers Tree Bucket (10% NRT)		</li>
+                         <li> Incentive to Curators and Tagya shall be provided from Maintenance and Support (5% NRT)		</li>
                          <li> Ecosystem Reward shall be provided only if KYC approved on KYC DApp					</li>
-                         <li> Staked Rewards shall only be applicable for top-up in 1 LT and shall not be further incentivised	</li>				
-                         <li> Curator rewards shall be distributed equally to All curators who have participated in KYC decision		</li>			
-                         <li> Certified and Verified KYC is applicable for the seller of following 12 platforms: TimeSwappers, Buzcafe, VoF, PoolinDApp, RentingDApp, BookingDApp, CureDApp, CertiDApp, Era Swap Academy, Faith Minus, Requestor, Date Swappers.	</li>				
-                         <li> Tagya Verified KYC is applicable for : Buzcafe, VoF, PoolinDApp, BookingDApp, RentingDApp, CureDApp, CertiDApp			</li>		
+                         <li> Staked Rewards shall only be applicable for top-up in 1 LT and shall not be further incentivised	</li>
+                         <li> Curator rewards shall be distributed equally to All curators who have participated in KYC decision		</li>
+                         <li> Certified and Verified KYC is applicable for the seller of following 12 platforms: TimeSwappers, Buzcafe, VoF, PoolinDApp, RentingDApp, BookingDApp, CureDApp, CertiDApp, Era Swap Academy, Faith Minus, Requestor, Date Swappers.	</li>
+                         <li> Tagya Verified KYC is applicable for : Buzcafe, VoF, PoolinDApp, BookingDApp, RentingDApp, CureDApp, CertiDApp			</li>
                          <li> The user will be disapproved/ banned permanently if any individual or Business gets involved in any form of illicit, malicious or unlawful activities</li>
-                 
+
                 </ul>
                 </div>
 
@@ -383,7 +386,7 @@ class Header extends Component {
 
 
 
-        
+
         {/* <!-- info modall start here--> */}
         <div
           class="modal fade kyclevel2 instructions"
@@ -410,7 +413,7 @@ class Header extends Component {
               <div class="modal-body">
               <h6>
                       Once you have clicked on ‘Start your KYC’, just read and follow the following simple steps and
-                       click on ‘Proceed’ button to complete your KYC to migrate to Era Swap Network (ESN) or for Level 1 to Level 5 KYC for Multiple Platforms of ESE. 
+                       click on ‘Proceed’ button to complete your KYC to migrate to Era Swap Network (ESN) or for Level 1 to Level 5 KYC for Multiple Platforms of ESE.
                       </h6>
                       <ul className="comlistui">
                         <li>
@@ -435,16 +438,16 @@ class Header extends Component {
                         </li>
                         <li>
                           {' '}
-                          Click on Your Wallet Address on the Top Right of your screen and then click on ‘KYC For Migration to ESN PoS’. 
-                        </li>  
+                          Click on Your Wallet Address on the Top Right of your screen and then click on ‘KYC For Migration to ESN PoS’.
+                        </li>
                         <li>
-                          {' '} 
+                          {' '}
                            Here we are explaning the steps below to migrate to ESN PoS. You can also do KYC from Level 1 to Level 5 bye clicking on 'KYC Levels (Level 1 to Level 5)'.  {' '}
                         </li>
                         <li>
                           {' '}
                           Since you have clicked on ‘KYC For Migration to ESN PoS’, Now you are on KYC Step 1. Fill up your required KYC Details and upload documents. Then click on 'Submit'. After that click on 'Next' to go to Step 2
-                          In KYC Step 2, select specific Era Swap Ecosystem Platform by clicking on the platform logo, you need to do KYC for. Fill up platform specific details required and click on ‘Submit’. Then click on ‘Next’ to go to Step 3 
+                          In KYC Step 2, select specific Era Swap Ecosystem Platform by clicking on the platform logo, you need to do KYC for. Fill up platform specific details required and click on ‘Submit’. Then click on ‘Next’ to go to Step 3
                         </li>
                         <li>
                           {' '}
@@ -472,7 +475,7 @@ class Header extends Component {
                           {' '}
                           Congratulations, your KYC Request has been submitted.
                         </li>
-                        
+
                       </ul>
                 <div className="col-md-12 text-center">
                   <button

@@ -73,11 +73,12 @@ export default class LevelFour extends React.Component {
   transfer = async (event) => {
     event.preventDefault();
     this.setState({ transferring: true });
+    console.log('this.props.balance',this.props.balance)
     const tx = await User.getEsInstance().transfer(
       this.props.ADMIN_WALLET,
       // TODO: remove "1" this when done
-      ethers.utils.parseEther('1' || this.props.balance)
-    );
+      ethers.utils.parseEther(this.props.balance)
+      );
 
     const etherscanUrl = `https://${
       PROVIDER !== 'homestead' ? `${PROVIDER}.` : ''
