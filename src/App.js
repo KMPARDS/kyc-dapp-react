@@ -15,7 +15,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from './Component/Footer/';
 import User from './models/User';
 import NotFound from './Container/NotFound';
-
+import MetamaskLogin from './Container/MetamaskLogin/MetamaskLogin';
+import { UserContext } from './utils/user.context';
+import { PROVIDER, CONTRACT_ADDRESS } from './config/config';
 // TODO: remove after wallet load setup
 // window.wallet = new ethers.Wallet(
 //   '0x20466fa75ef4ec2e81ace4206e0d021a83befc8ebfc81a7598c51e73827991ba'
@@ -26,23 +28,69 @@ import NotFound from './Container/NotFound';
 //   window.wallet
 // );
 
-function App() {
-  return (
-    <div className="App">
-        <Router>
-          <Header/>
-          <Switch>
-            <Route exact path="/" component={Homepage} />
-            <Route exact path="/form" component={Kyclevel} />
-            <Route exact path="/user-validation" component={KycUserValidationLevel} />
-            <Route exact path="/privacy" component={Kycpublicprivate} />
-            <Route exact path="/conservator" component={Conservator} />
-            <Route path="" component={NotFound} />
-          </Switch>
-        </Router>
-        <Footer/>
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {
+        token: null,
+        data: null,
+        wallet: null,
+        esInstance: null,
+        walletAddress: null,
+        provider: new ethers.providers.InfuraProvider(
+          PROVIDER,
+          '064069bca26c4a59aa2e449205b14862'
+        ),
+      },
+    };
+  }
+
+  setUserData = data => {
+    if (data?.wallet)
+      data.esInstance = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        require('./ethereum/ERC20.json').abi,
+        data.wallet
+      );
+    this.setState({
+      user: {
+        ...this.state.user,
+        ...data,
+        provider: new ethers.providers.InfuraProvider(
+          PROVIDER,
+          '064069bca26c4a59aa2e449205b14862'
+        ),
+      },
+    });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <UserContext.Provider value={{ user: this.state.user, setUserData: this.setUserData }}>
+          <Router>
+            <Header />
+            <Switch>
+              <Route exact path="/" component={Homepage} />
+              <Route exact path="/form" component={Kyclevel} />
+              <Route
+                exact
+                path="/user-validation"
+                component={KycUserValidationLevel}
+              />
+              <Route exact path="/privacy" component={Kycpublicprivate} />
+              <Route exact path="/conservator" component={Conservator} />
+              <Route exact path="/metamask" component={MetamaskLogin} />
+              <Route path="" component={NotFound} />
+            </Switch>
+          </Router>
+          <Footer />
+        </UserContext.Provider>
       </div>
-  );
+    );
+  }
 }
 
 export default App;
