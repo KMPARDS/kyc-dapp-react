@@ -39,16 +39,29 @@ export default class User {
   static getProvider() {
     return (
       // this._provider ?? (this._provider = ethers.getDefaultProvider(PROVIDER))
-      this._provider || new ethers.providers.InfuraProvider(PROVIDER, '064069bca26c4a59aa2e449205b14862')
+      this._provider ||
+      new ethers.providers.InfuraProvider(
+        PROVIDER,
+        '064069bca26c4a59aa2e449205b14862'
+      )
     );
   }
 
-  static setWallet(value) {
-    this._wallet = new ethers.Wallet(value).connect(this.getProvider());
+  static setWalletInstance(walletInst) {
+    this._wallet = walletInst;
     this._esInstance = new ethers.Contract(
       CONTRACT_ADDRESS,
       require('../ethereum/ERC20.json').abi,
       this._wallet
     );
+  }
+
+  static setWallet(value) {
+    this._wallet = new ethers.Wallet(value).connect(this.getProvider());
+    // this._esInstance = new ethers.Contract(
+    //   CONTRACT_ADDRESS,
+    //   require('../ethereum/ERC20.json').abi,
+    //   this._wallet
+    // );
   }
 }

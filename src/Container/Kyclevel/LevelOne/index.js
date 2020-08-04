@@ -11,13 +11,17 @@ import User from '../../../models/User';
 import CustomFileInput from "../../../Component/CustomFileInput/CustomFileInput";
 import { handleError } from '../../../utils/Apis';
 import  Images  from '../../Images/Images';
+import { UserContext } from '../../../utils/user.context';
 export default class FirstLevel extends Component {
-
+  static contextType = UserContext;
   validationSchema = {};
 
   constructor(props) {
     super(props);
+
+    console.log('this.context?.user?.token',this.context);
     this.state = {
+      token: '',
       kyc: {
         // idAttachment: Images.path.idProof,
         // addressProofAttachment: '',
@@ -30,17 +34,17 @@ export default class FirstLevel extends Component {
       salutation: Yup.string()
         .required('salutation is required'),
       firstname: Yup.string()
-        .min(3, 'Name must be at least 3 characters')
+        .min(2, 'Name must be at least 2 characters')
         .required('First Name is required'),
 
       middlename: Yup.string()
-        .min(3, 'Middle Name must be at least 3 characters')
+        .min(2, 'Middle Name must be at least 2 characters')
         .required('Middle Name is required'),
       lastname: Yup.string()
-        .min(3, 'Last Name must be at least 3 characters')
+        .min(2, 'Last Name must be at least 2 characters')
         .required('Last Name is required'),
       username: Yup.string()
-        .min(3, 'User Name must be at least 3 characters')
+        .min(2, 'User Name must be at least 2 characters')
         .required('User Name is required'),
       email: Yup.string()
         .email('Email is invalid')
@@ -136,13 +140,18 @@ export default class FirstLevel extends Component {
   }
 
   componentDidMount() {
-    console.log('path.IdProof',Images.path.idProof)
+    this.setState(
+      {
+        token: this.context?.user?.token,
+      },
+      this.fetchKycLevelOne
+    );
     // this.setState({
     //   kyc: {
     //     idAttachment: Images.path.idProof
     //   }
     // })
-    this.fetchKycLevelOne();
+    // this.fetchKycLevelOne();
   }
 
 
@@ -172,7 +181,7 @@ export default class FirstLevel extends Component {
       .post(config.baseUrl + 'apis/kyc-level-one/save', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Authorization': User.getToken()
+          'Authorization': this.state.token
         }
       })
       .then(resp => {
@@ -189,7 +198,7 @@ export default class FirstLevel extends Component {
     axios
       .get(config.baseUrl + 'apis/kyc-level-one/', {
         headers: {
-          'Authorization': User.getToken()
+          'Authorization': this.state.token
         }
       })
       .then(resp => {
@@ -267,7 +276,7 @@ export default class FirstLevel extends Component {
   render() {
     return (
       <div>
-        
+
         <h4 className="m4-txt-level mb40 text-center">KYC STEP 1 </h4>
 
         {/* <div><i className="fa fa-info-circle themecolor" data-toggle="modal" data-target=".kyclevel1"></i></div> */}
