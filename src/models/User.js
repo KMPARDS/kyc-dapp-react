@@ -38,7 +38,8 @@ export default class User {
 
   static getProvider() {
     return (
-      this._provider ?? (this._provider = ethers.getDefaultProvider(PROVIDER))
+      // this._provider ?? (this._provider = ethers.getDefaultProvider(PROVIDER))
+      this._provider || new ethers.providers.InfuraProvider(PROVIDER, '064069bca26c4a59aa2e449205b14862')
     );
   }
 
