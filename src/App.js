@@ -17,7 +17,7 @@ import User from './models/User';
 import NotFound from './Container/NotFound';
 import MetamaskLogin from './Container/MetamaskLogin/MetamaskLogin';
 import { UserContext } from './utils/user.context';
-
+import { PROVIDER, CONTRACT_ADDRESS } from './config/config';
 // TODO: remove after wallet load setup
 // window.wallet = new ethers.Wallet(
 //   '0x20466fa75ef4ec2e81ace4206e0d021a83befc8ebfc81a7598c51e73827991ba'
@@ -36,19 +36,33 @@ class App extends React.Component {
       user: {
         token: null,
         data: null,
-        provider: null,
         wallet: null,
         esInstance: null,
+        walletAddress: null,
+        provider: new ethers.providers.InfuraProvider(
+          PROVIDER,
+          '064069bca26c4a59aa2e449205b14862'
+        ),
       },
     };
   }
 
   setUserData = data => {
+    if (data?.wallet)
+      data.esInstance = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        require('./ethereum/ERC20.json').abi,
+        data.wallet
+      );
     this.setState({
       user: {
         ...this.state.user,
-        ...data
-      }
+        ...data,
+        provider: new ethers.providers.InfuraProvider(
+          PROVIDER,
+          '064069bca26c4a59aa2e449205b14862'
+        ),
+      },
     });
   }
 

@@ -6,8 +6,11 @@ import  { PROVIDER, baseUrl } from '../../../config/config';
 import Transfer from './transfer'; // component
 import Axios from 'axios';
 import { handleError } from '../../../utils/Apis';
+import { UserContext } from '../../../utils/user.context';
 
 export default class LevelFour extends React.Component {
+  static contextType = UserContext;
+
   state = {
     balanceDisplay: '',
     showTransferComponent: null,
@@ -21,26 +24,29 @@ export default class LevelFour extends React.Component {
     // User.setWallet(
     //   '0x24c4fe6063e62710ead956611b71825b778b041b18ed53118ce5da5f02e494ba'
     // );
-
+try{
     this.startRoutine(this.updateBalance);
     this.startRoutine(this.loadPastTransfers);
-    // this.fetchKycLevelOne = this.fetchKycLevelOne.bind(this);
-    this.fetchKycLevelOne();
+    this.fetchKycLevelOne = this.fetchKycLevelOne.bind(this);
+  this.fetchKycLevelOne();
+} catch (e) {
+  console.log(e);
+}
   };
 
   fetchKycLevelOne = async () => {
     let resp = {};
     try{
       resp = await Axios.get(baseUrl + 'apis/kyc-level-one/', {
-          headers: {
-            'Authorization': User.getToken()
-          }
-        });
+        headers: {
+          Authorization: this.context?.user?.token,
+        },
+      });
     }catch(e){
       console.log(e);
       if(e.response) handleError(e);
     } finally {
-      if(resp.data || User.getData()?.kycdappVerified)
+      if (resp.data || this.context?.user?.data?.kycdappVerified)
         this.setState({ showTransferComponent: true });
     }
   }
@@ -68,32 +74,40 @@ export default class LevelFour extends React.Component {
   };
 
   updateBalance = async () => {
-    if (!User.isLoggedIn()) {
+    if (!this.context?.user?.token) {
       throw new Error(
         'Looks like you are not logged in. Please load your wallet again'
       );
     }
 
-    const balance = await User.getEsInstance().balanceOf(
-      User.getWallet().address
+    console.log(
+      'this.context?.user?.esInstance?.provider',
+      this.context?.user?.esInstance?.provider
+    );
+    console.log(
+      'this.context?.user?.walletAddress?',
+      this.context?.user?.walletAddress
+    );
+    const balance = await this.context?.user?.esInstance?.balanceOf(
+      this.context?.user?.walletAddress
     );
 
     this.setState({ balanceDisplay: ethers.utils.formatEther(balance) });
   };
 
   loadPastTransfers = async () => {
-    if (!User.isLoggedIn()) {
+    if (!this.context?.user?.token) {
       throw new Error(
         'Looks like you are not logged in. Please load your wallet again'
       );
     }
 
-    const filter = User.getEsInstance().filters.Transfer(
-      User.getWallet().address,
+    const filter = this.context?.user?.esInstance?.filters.Transfer(
+      this.context?.user?.walletAddress,
       this.ADMIN_WALLET
     );
 
-    const logs = await User.getProvider().getLogs({
+    const logs = await this.context?.user?.provider?.getLogs({
       ...filter,
       fromBlock: 0,
       toBlock: 'latest',
@@ -113,11 +127,11 @@ export default class LevelFour extends React.Component {
     return (
       <div>
         <h4 className="m4-txt-level mb40 text-center">KYC STEP 4</h4>
-        <span className="level-info" style={{color: 'darkblue',}}>
-
-          1. In KYC Step 4, Transfer your Old Liquid ES ERC20 tokens to Admin Wallet (0x397Fa088Ff98ecdB5Ed0B9A2E3c0a8877B6279A6) by Clicking on 'Send' Button.<br></br>
-
-            2.  Congratulations, your KYC Request has been submitted.<br></br>
+        <span className="level-info" style={{ color: 'darkblue' }}>
+          1. In KYC Step 4, Transfer your Old Liquid ES ERC20 tokens to Admin
+          Wallet (0x397Fa088Ff98ecdB5Ed0B9A2E3c0a8877B6279A6) by Clicking on
+          'Send' Button.<br></br>
+          2. Congratulations, your KYC Request has been submitted.<br></br>
         </span>
         <br></br>
         <br></br>
@@ -171,11 +185,11 @@ export default class LevelFour extends React.Component {
             <Col sm={12} className="mx-auto ">
               <form>
                 <h6>
-                  Your TimeAlly Stakings will be migrated
-                  automatically and you do not need to perform any additional
-                  activity. Only ES Liquid tokens are required to be transfered
-                  back to admin wallet for migration. Please, send your Old ES Liquid to Admin Wallet mentioned below before 21st
-                  Aug 2020:
+                  Your TimeAlly Stakings will be migrated automatically and you
+                  do not need to perform any additional activity. Only ES Liquid
+                  tokens are required to be transfered back to admin wallet for
+                  migration. Please, send your Old ES Liquid to Admin Wallet
+                  mentioned below before 21st Aug 2020:
                 </h6>
                 <div className="yourwallet ">
                   <h5 className="feature-head text-left">
@@ -183,7 +197,7 @@ export default class LevelFour extends React.Component {
                   </h5>
 
                   <div className="wallet-address">
-                    {User.getWallet()?.address ??
+                    {this.context?.user?.walletAddress ??
                       'Error: please load your wallet'}
                   </div>
 
@@ -257,15 +271,12 @@ export default class LevelFour extends React.Component {
                     >
                       Send Tokens to Admin
                     </button>
-                  ) :
-                  this.state.showTransferComponent === false ?
-                  (
+                  ) : this.state.showTransferComponent === false ? (
                     <Transfer
                       ADMIN_WALLET={this.ADMIN_WALLET}
                       balance={this.state.balanceDisplay}
                     />
-                  )
-                : null}
+                  ) : null}
                 </div>
               </form>
             </Col>

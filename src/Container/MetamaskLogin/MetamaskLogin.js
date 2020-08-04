@@ -7,6 +7,7 @@ import Axios from 'axios';
 import User from '../../models/User';
 import { baseUrl } from '../../config/config';
 import { UserContext } from '../../utils/user.context';
+import { withRouter } from 'react-router-dom';
 
 const instance = Axios.create({
   withCredentials: true,
@@ -45,10 +46,6 @@ class MetamaskLogin extends Component {
         const metamaskWeb3Provider = new ethers.providers.Web3Provider(
           window.web3.currentProvider
         );
-        console.log(
-          'metamaskWeb3Provider.getSigner()',
-          metamaskWeb3Provider.getSigner()
-        );
 
         setTimeout(async () => {
           this.setState({
@@ -58,9 +55,9 @@ class MetamaskLogin extends Component {
 
           // User.setWalletInstance(metamaskWeb3Provider.getSigner());
           // this.context.user.setWalletInstance(metamaskWeb3Provider.getSigner());
-          this.context.setUserData({
-            wallet: metamaskWeb3Provider.getSigner(),
-          });
+          // this.context.setUserData({
+          //   wallet: metamaskWeb3Provider.getSigner(),
+          // });
           // console.log('User.getWallet()', User.getWallet());
 
           var token;
@@ -84,12 +81,13 @@ class MetamaskLogin extends Component {
                     .getSigner()
                     .signMessage(token);
                   signature
-                    .then((value) => {
+                    .then(async (value) => {
+                      const walletAddress = await metamaskWeb3Provider.getSigner().getAddress();
                       instance
                         .post(
                           baseUrl + 'login-auth',
                           {
-                            walletAddress: metamaskWeb3Provider.getSigner().getAddress(),
+                            walletAddress,
                             signature: value,
                             key: resp.data.key,
                           },
@@ -102,9 +100,12 @@ class MetamaskLogin extends Component {
                         .then((resp) => {
                           console.log(resp);
                           this.context.setUserData({
+                            walletAddress,
+                            wallet: metamaskWeb3Provider.getSigner(),
                             token: resp.data.token,
-                            user: resp.data.user,
+                            data: resp.data.user,
                           });
+                          this.props.history.push('/');
                           // User.setToken(resp.data.token);
                           // User.setData(resp.data.user);
                           // this.setState({
@@ -139,9 +140,6 @@ class MetamaskLogin extends Component {
   render() {
     return (
       <div>
-        <div className="kyc-header-color">
-          <img className="kycdapp-Img" src={Images.path.kycdapp} alt="" />
-        </div>
         <div className="Kyclevel-container">
           <h4 className="kyc-heading">KYC Level</h4>
 
@@ -173,4 +171,4 @@ class MetamaskLogin extends Component {
   }
 }
 
-export default MetamaskLogin;
+export default withRouter(MetamaskLogin);

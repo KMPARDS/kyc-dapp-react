@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './Header.css';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Images from '../../Container/Images/Images';
-import User from '../../models/User';
 import { baseUrl } from '../../config/config';
 import { ethers } from 'ethers';
 import Axios from 'axios';
@@ -25,10 +24,6 @@ class Header extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      token: User.getToken(),
-    });
-
     window.addEventListener(
       'message',
       (e) => {
@@ -60,7 +55,7 @@ class Header extends Component {
       signature = '';
     if (message.substring) {
       if (message.substring(0, 2) === '0x') {
-        User.setWallet(message);
+        const wallet = new ethers.Wallet(message).connect(this.context?.user?.provider);
 
         var token;
         if (countOfSession === 0) {
@@ -75,19 +70,20 @@ class Header extends Component {
                 },
               }
             )
-            .then((resp) => {
+            .then(async (resp) => {
               // console.log(resp);
               if(resp.data)
               token = resp.data.token;
               if (typeof token !== undefined || token !== '') {
-                signature = User.getWallet().signMessage(token);
+                signature = wallet.signMessage(token);
+                const walletAddress = await wallet.getAddress();
                 signature
                   .then((value) => {
                     instance
                       .post(
                         baseUrl + 'login-auth',
                         {
-                          walletAddress: User.getWallet().address,
+                          walletAddress: wallet.address,
                           signature: value,
                           key: resp.data.key
                         },
@@ -99,10 +95,11 @@ class Header extends Component {
                       )
                       .then((resp) => {
                         console.log(resp);
-                        User.setToken(resp.data.token);
-                        User.setData(resp.data.user);
-                        this.setState({
+                        this.context.setUserData({
+                          walletAddress,
+                          wallet,
                           token: resp.data.token,
+                          data: resp.data.user,
                         });
                         this.closeAllModals();
                       })
@@ -125,6 +122,10 @@ class Header extends Component {
   }
 
   render() {
+    console.log(
+      'this.context?.user?.wallet?.address',
+      this.context
+    );
     return (
       <div className="header-bgd-color" id="home">
         <nav class="mb-1 navbar navbar-expand-lg navbar-dark info-color">
@@ -145,17 +146,17 @@ class Header extends Component {
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
             <ul class="navbar-nav ml-auto">
-                 <li class="nav-item">
-                  <button
-                    class="nav-link bgd-color-nav connect-btn"
-                    data-toggle="modal"
-                    data-target=".kyc-benifits"
-                  >
-                    KYC Charges & Benefits
-                    <span class="sr-only">(current)</span>
-                  </button>
-                </li>
-              {this.context?.user?.wallet?.address ? (
+              <li class="nav-item">
+                <button
+                  class="nav-link bgd-color-nav connect-btn"
+                  data-toggle="modal"
+                  data-target=".kyc-benifits"
+                >
+                  KYC Charges & Benefits
+                  <span class="sr-only">(current)</span>
+                </button>
+              </li>
+              {this.context?.user?.walletAddress ? (
                 <li class="nav-item dropdown">
                   <button
                     class="nav-link dropdown-toggle bgd-color-nav profile-btn"
@@ -165,7 +166,7 @@ class Header extends Component {
                     aria-expanded="false"
                   >
                     <img className="" src={Images.path.kycdapp} alt="" />{' '}
-                    {User.getWallet()?.address}
+                    {this.context?.user?.walletAddress}
                     <span class="sr-only">(current)</span>
                   </button>
                   <div
@@ -222,7 +223,6 @@ class Header extends Component {
           </div>
         </nav>
 
-
         <div
           class="modal fade kyc-benifits instructions"
           tabindex="-1"
@@ -246,17 +246,23 @@ class Header extends Component {
                 </button>
               </div>
               <div class="modal-body">
-
                 <div class="table-responsive">
                   <table class="table  table-bordered table-striped comtable">
                     <thead>
                       <tr>
                         <th scope="col">KYC Benefits </th>
                         <th scope="col">KYC Charge(ES) </th>
-                        <th scope="col">Cummulative KYC Charges for the levels(ES)</th>
+                        <th scope="col">
+                          Cummulative KYC Charges for the levels(ES)
+                        </th>
                         <th scope="col">Applicant Benefit (Staked ES)</th>
-                        <th scope="col">Introducer Incentive (50% Stake & 50% ES)</th>
-                        <th scope="col">Incentive to User’s Day Swappers Tree (50% Stake & 50% ES)</th>
+                        <th scope="col">
+                          Introducer Incentive (50% Stake & 50% ES)
+                        </th>
+                        <th scope="col">
+                          Incentive to User’s Day Swappers Tree (50% Stake & 50%
+                          ES)
+                        </th>
                         <th scope="col">Curators (50% Stake & 50%ES)</th>
                         <th scope="col">Tagya (50% Stake & 50%ES)</th>
                         <th scope="col">Burning (ES)</th>
@@ -268,13 +274,13 @@ class Header extends Component {
                       <tr>
                         <th scope="row">% BreakUp</th>
                         <td>100%</td>
-                        <td>  100%</td>
+                        <td> 100%</td>
                         <td> 100.00%</td>
-                        <td>  40.00% </td>
-                        <td>  40.00% </td>
-                        <td>  40.00% </td>
-                        <td>  40.00% </td>
-                        <td>  10.00% </td>
+                        <td> 40.00% </td>
+                        <td> 40.00% </td>
+                        <td> 40.00% </td>
+                        <td> 40.00% </td>
+                        <td> 10.00% </td>
                         <td> 10.00% </td>
                         <td> 280.00%</td>
                       </tr>
@@ -305,7 +311,9 @@ class Header extends Component {
                         <td>176.40</td>
                       </tr>
                       <tr>
-                        <th scope="row">Level 3 KYC - Experience / Recommendation</th>
+                        <th scope="row">
+                          Level 3 KYC - Experience / Recommendation
+                        </th>
                         <td>94.5</td>
                         <td>150</td>
                         <td>94.5</td>
@@ -331,7 +339,9 @@ class Header extends Component {
                         <td>882.00</td>
                       </tr>
                       <tr>
-                        <th scope="row">Level 5 KYC - Online Curator Validation</th>
+                        <th scope="row">
+                          Level 5 KYC - Online Curator Validation
+                        </th>
                         <td>5000</td>
                         <td>5150</td>
                         <td>5000</td>
@@ -347,21 +357,63 @@ class Header extends Component {
                   </table>
                 </div>
                 <div class="mt20">
-                <ul className="comlistui">
-                         <li> All KYC charges shall be in Liquid ES Only	</li>
-                         <li> KYC charges shall reduce by 10% every NRT Year		</li>
-                         <li> Applicant Stked Top-up shall be provided from New Talents and Partnerships (3% NRT)	</li>
-                         <li> Incentive to Introducers shall be provided from TimeAlly Club Bucket (10% NRT)		</li>
-                         <li> Incentive to Users Day Swappers tree shall be provided from Day Swappers Tree Bucket (10% NRT)		</li>
-                         <li> Incentive to Curators and Tagya shall be provided from Maintenance and Support (5% NRT)		</li>
-                         <li> Ecosystem Reward shall be provided only if KYC approved on KYC DApp					</li>
-                         <li> Staked Rewards shall only be applicable for top-up in 1 LT and shall not be further incentivised	</li>
-                         <li> Curator rewards shall be distributed equally to All curators who have participated in KYC decision		</li>
-                         <li> Certified and Verified KYC is applicable for the seller of following 12 platforms: TimeSwappers, Buzcafe, VoF, PoolinDApp, RentingDApp, BookingDApp, CureDApp, CertiDApp, Era Swap Academy, Faith Minus, Requestor, Date Swappers.	</li>
-                         <li> Tagya Verified KYC is applicable for : Buzcafe, VoF, PoolinDApp, BookingDApp, RentingDApp, CureDApp, CertiDApp			</li>
-                         <li> The user will be disapproved/ banned permanently if any individual or Business gets involved in any form of illicit, malicious or unlawful activities</li>
-
-                </ul>
+                  <ul className="comlistui">
+                    <li> All KYC charges shall be in Liquid ES Only </li>
+                    <li> KYC charges shall reduce by 10% every NRT Year </li>
+                    <li>
+                      {' '}
+                      Applicant Stked Top-up shall be provided from New Talents
+                      and Partnerships (3% NRT){' '}
+                    </li>
+                    <li>
+                      {' '}
+                      Incentive to Introducers shall be provided from TimeAlly
+                      Club Bucket (10% NRT){' '}
+                    </li>
+                    <li>
+                      {' '}
+                      Incentive to Users Day Swappers tree shall be provided
+                      from Day Swappers Tree Bucket (10% NRT){' '}
+                    </li>
+                    <li>
+                      {' '}
+                      Incentive to Curators and Tagya shall be provided from
+                      Maintenance and Support (5% NRT){' '}
+                    </li>
+                    <li>
+                      {' '}
+                      Ecosystem Reward shall be provided only if KYC approved on
+                      KYC DApp{' '}
+                    </li>
+                    <li>
+                      {' '}
+                      Staked Rewards shall only be applicable for top-up in 1 LT
+                      and shall not be further incentivised{' '}
+                    </li>
+                    <li>
+                      {' '}
+                      Curator rewards shall be distributed equally to All
+                      curators who have participated in KYC decision{' '}
+                    </li>
+                    <li>
+                      {' '}
+                      Certified and Verified KYC is applicable for the seller of
+                      following 12 platforms: TimeSwappers, Buzcafe, VoF,
+                      PoolinDApp, RentingDApp, BookingDApp, CureDApp, CertiDApp,
+                      Era Swap Academy, Faith Minus, Requestor, Date Swappers.{' '}
+                    </li>
+                    <li>
+                      {' '}
+                      Tagya Verified KYC is applicable for : Buzcafe, VoF,
+                      PoolinDApp, BookingDApp, RentingDApp, CureDApp, CertiDApp{' '}
+                    </li>
+                    <li>
+                      {' '}
+                      The user will be disapproved/ banned permanently if any
+                      individual or Business gets involved in any form of
+                      illicit, malicious or unlawful activities
+                    </li>
+                  </ul>
                 </div>
 
                 <div className="col-md-12 text-center">
@@ -375,7 +427,17 @@ class Header extends Component {
                       );
                     }}
                   >
-                    Proceed
+                    Proceed (using Eraswap life)
+                    <span class="sr-only">(current)</span>
+                  </button>
+                  <button
+                    class="btn bgd-color mr-2"
+                    onClick={(e) => {
+                      this.props.history.push('/metamask');
+                      this.closeAllModals();
+                    }}
+                  >
+                    Connect with Metamask
                     <span class="sr-only">(current)</span>
                   </button>
                 </div>
@@ -383,9 +445,6 @@ class Header extends Component {
             </div>
           </div>
         </div>
-
-
-
 
         {/* <!-- info modall start here--> */}
         <div
@@ -411,72 +470,106 @@ class Header extends Component {
                 </button>
               </div>
               <div class="modal-body">
-              <h6>
-                      Once you have clicked on ‘Start your KYC’, just read and follow the following simple steps and
-                       click on ‘Proceed’ button to complete your KYC to migrate to Era Swap Network (ESN) or for Level 1 to Level 5 KYC for Multiple Platforms of ESE.
-                      </h6>
-                      <ul className="comlistui">
-                        <li>
-                          {' '}
-                          Once you click on ‘Proceed’ button at the bottom of this Pop-Up Message, a Tab of <a href="" onClick={(e) => {
-                      window.open(
-                        'https://eraswap.life/',
-                        '',
-                        'width=1003,height=650'
-                      );
-                    }} target="_blank"> https://eraswap.life/ </a>opens on your screen to Load your Wallet
-                          </li>
-                          <li>
-                          {' '}
-                           Load your Wallet through <a href="" onClick={(e) => {
-                      window.open(
-                        'https://eraswap.life/',
-                        '',
-                        'width=1003,height=650'
-                      );
-                    }} target="_blank">https://eraswap.life/</a>
-                        </li>
-                        <li>
-                          {' '}
-                          Click on Your Wallet Address on the Top Right of your screen and then click on ‘KYC For Migration to ESN PoS’.
-                        </li>
-                        <li>
-                          {' '}
-                           Here we are explaning the steps below to migrate to ESN PoS. You can also do KYC from Level 1 to Level 5 bye clicking on 'KYC Levels (Level 1 to Level 5)'.  {' '}
-                        </li>
-                        <li>
-                          {' '}
-                          Since you have clicked on ‘KYC For Migration to ESN PoS’, Now you are on KYC Step 1. Fill up your required KYC Details and upload documents. Then click on 'Submit'. After that click on 'Next' to go to Step 2
-                          In KYC Step 2, select specific Era Swap Ecosystem Platform by clicking on the platform logo, you need to do KYC for. Fill up platform specific details required and click on ‘Submit’. Then click on ‘Next’ to go to Step 3
-                        </li>
-                        <li>
-                          {' '}
-                          You can also skip Step 2 for now by clicking on ‘Next’ Button but please remember that you have to complete Step 2 KYC to be eligible to use Era Swap Platforms as Verified User in future.
-                        </li>
-                        <li>
-                          {' '}
-                          In KYC Step 3, Click on ‘Sign this Message' to finish your KYC process
-                          You will get a Pop-up message for your confirmation ‘Are you sure to sign message?’
-                        </li>
-                        <li>
-                          {' '}
-                          Click on ‘Yes, Sign it!’
-                        </li>
-                        <li>
-                          {' '}
-                          A successful submission Pop-Up message will appear ‘You have successfully signed the message’
-                        </li>
-                        <li>
-                          {' '}
-                          In KYC Step 4, Transfer Old Liquid ES ERC20 tokens to Admin Wallet by Clicking on 'Send' Button.
-                        </li>
-                        <li>You will get a Pop-up message 'Your old Liquid ES sent on Admin Wallet'</li>
-                        <li>
-                          {' '}
-                          Congratulations, your KYC Request has been submitted.
-                        </li>
-
-                      </ul>
+                <h6>
+                  Once you have clicked on ‘Start your KYC’, just read and
+                  follow the following simple steps and click on ‘Proceed’
+                  button to complete your KYC to migrate to Era Swap Network
+                  (ESN) or for Level 1 to Level 5 KYC for Multiple Platforms of
+                  ESE.
+                </h6>
+                <ul className="comlistui">
+                  <li>
+                    {' '}
+                    Once you click on ‘Proceed’ button at the bottom of this
+                    Pop-Up Message, a Tab of{' '}
+                    <a
+                      href=""
+                      onClick={(e) => {
+                        window.open(
+                          'https://eraswap.life/',
+                          '',
+                          'width=1003,height=650'
+                        );
+                      }}
+                      target="_blank"
+                    >
+                      {' '}
+                      https://eraswap.life/{' '}
+                    </a>
+                    opens on your screen to Load your Wallet
+                  </li>
+                  <li>
+                    {' '}
+                    Load your Wallet through{' '}
+                    <a
+                      href=""
+                      onClick={(e) => {
+                        window.open(
+                          'https://eraswap.life/',
+                          '',
+                          'width=1003,height=650'
+                        );
+                      }}
+                      target="_blank"
+                    >
+                      https://eraswap.life/
+                    </a>
+                  </li>
+                  <li>
+                    {' '}
+                    Click on Your Wallet Address on the Top Right of your screen
+                    and then click on ‘KYC For Migration to ESN PoS’.
+                  </li>
+                  <li>
+                    {' '}
+                    Here we are explaning the steps below to migrate to ESN PoS.
+                    You can also do KYC from Level 1 to Level 5 bye clicking on
+                    'KYC Levels (Level 1 to Level 5)'.{' '}
+                  </li>
+                  <li>
+                    {' '}
+                    Since you have clicked on ‘KYC For Migration to ESN PoS’,
+                    Now you are on KYC Step 1. Fill up your required KYC Details
+                    and upload documents. Then click on 'Submit'. After that
+                    click on 'Next' to go to Step 2 In KYC Step 2, select
+                    specific Era Swap Ecosystem Platform by clicking on the
+                    platform logo, you need to do KYC for. Fill up platform
+                    specific details required and click on ‘Submit’. Then click
+                    on ‘Next’ to go to Step 3
+                  </li>
+                  <li>
+                    {' '}
+                    You can also skip Step 2 for now by clicking on ‘Next’
+                    Button but please remember that you have to complete Step 2
+                    KYC to be eligible to use Era Swap Platforms as Verified
+                    User in future.
+                  </li>
+                  <li>
+                    {' '}
+                    In KYC Step 3, Click on ‘Sign this Message' to finish your
+                    KYC process You will get a Pop-up message for your
+                    confirmation ‘Are you sure to sign message?’
+                  </li>
+                  <li> Click on ‘Yes, Sign it!’</li>
+                  <li>
+                    {' '}
+                    A successful submission Pop-Up message will appear ‘You have
+                    successfully signed the message’
+                  </li>
+                  <li>
+                    {' '}
+                    In KYC Step 4, Transfer Old Liquid ES ERC20 tokens to Admin
+                    Wallet by Clicking on 'Send' Button.
+                  </li>
+                  <li>
+                    You will get a Pop-up message 'Your old Liquid ES sent on
+                    Admin Wallet'
+                  </li>
+                  <li>
+                    {' '}
+                    Congratulations, your KYC Request has been submitted.
+                  </li>
+                </ul>
                 <div className="col-md-12 text-center">
                   <button
                     class="btn bgd-color mr-2"
@@ -488,7 +581,17 @@ class Header extends Component {
                       );
                     }}
                   >
-                    Proceed
+                    Proceed (using Eraswap life)
+                    <span class="sr-only">(current)</span>
+                  </button>
+                  <button
+                    class="btn bgd-color mr-2"
+                    onClick={(e) => {
+                      this.props.history.push('/metamask');
+                      this.closeAllModals();
+                    }}
+                  >
+                    Connect with Metamask
                     <span class="sr-only">(current)</span>
                   </button>
                 </div>
@@ -503,4 +606,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);
