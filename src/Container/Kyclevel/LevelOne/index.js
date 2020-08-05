@@ -171,7 +171,6 @@ export default class FirstLevel extends Component {
     //     idAttachment: Images.path.idProof
     //   }
     // })
-    // this.fetchKycLevelOne();
   }
 
   submitLevelOne = (values, { setSubmitting }) => {

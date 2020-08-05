@@ -415,8 +415,11 @@ class Header extends Component {
                     </li>
                   </ul>
                 </div>
-
-                <div className="col-md-12 text-center">
+                {
+                  this.context?.user?.walletAddress ?
+                  null
+                  :
+                  <div className="col-md-12 text-center">
                   <button
                     class="btn bgd-color mr-2"
                     onClick={(e) => {
@@ -441,6 +444,7 @@ class Header extends Component {
                     <span class="sr-only">(current)</span>
                   </button>
                 </div>
+                }
               </div>
             </div>
           </div>
@@ -570,6 +574,10 @@ class Header extends Component {
                     Congratulations, your KYC Request has been submitted.
                   </li>
                 </ul>
+                {
+                  this.context?.user?.walletAddress ?
+                  null 
+                  :
                 <div className="col-md-12 text-center">
                   <button
                     class="btn bgd-color mr-2"
@@ -595,6 +603,7 @@ class Header extends Component {
                     <span class="sr-only">(current)</span>
                   </button>
                 </div>
+              }
               </div>
             </div>
           </div>
