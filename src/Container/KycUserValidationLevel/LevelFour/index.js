@@ -125,14 +125,7 @@ export default class LevelFour extends React.Component {
         </span>
         <br></br>
         <br></br>
-        {/* <div>
-          {' '}
-          <i
-            className="fa fa-info-circle themecolor"
-            data-toggle="modal"
-            data-target=".kyclevel3"
-          ></i>
-        </div> */}
+       
         {/* <!-- info modall start here--> */}
         <div
           class="modal fade kyclevel3"

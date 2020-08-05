@@ -157,14 +157,14 @@ export default class LevelTwo extends React.Component {
     return (
       <div>
         <h4 className="m4-txt-level mb40 text-center">KYC STEP 2 </h4>
-        <div>
+        {/*<div>
           {' '}
           <i
             className="fa fa-info-circle themecolor"
             data-toggle="modal"
             data-target=".kyclevel2"
           ></i>
-        </div>
+        </div> */}
 
         <span className="level-info" style={{ color: 'darkblue' }}>
           1. In KYC Step 2, select specific Era Swap Ecosystem Platform by
