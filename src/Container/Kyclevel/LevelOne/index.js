@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import * as Yup from 'yup';
 import axios from 'axios';
+import 'react-telephone-input/css/default.css'
+import ReactTelInput from 'react-telephone-input';
 import { RecordRTCPromisesHandler } from 'recordrtc';
 import config from '../../../config/config';
 import Swal from 'sweetalert2'
@@ -27,6 +29,7 @@ export default class FirstLevel extends Component {
         // addressProofAttachment: '',
         // selfieAttachment: ''
       },
+      countryCode: '+91',
       canApply: true
     };
 
@@ -180,7 +183,7 @@ export default class FirstLevel extends Component {
     formData.append('middlename', values.middlename);
     formData.append('lastname', values.lastname);
     formData.append('username', values.username);
-    formData.append('contactNumber', values.contactNumber);
+    formData.append('contactNumber',this.state.countryCode + values.contactNumber);
     formData.append('email', values.email);
     formData.append('dob', values.dob);
     formData.append('nationality', values.nationality);
@@ -502,9 +505,23 @@ export default class FirstLevel extends Component {
                             </div>
                             <div className="form-row">
                               <div className="form-group col-lg-6">
-                                <label htmlFor="contactNumber">Phone Number*</label>
+                              <label htmlFor="contactNumber">Phone Number*</label>
+                                <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                  <ReactTelInput
+                                  className=""
+                                  defaultCountry="in"
+                                  flagsImagePath={Images.path.flags}
+                                  onChange={value => {
+                                    this.setState({
+                                      countryCode: value
+                                    });
+                                  }}
+                                 />
+                                </div>
                                 <Field disabled={!this.state.canApply && this.state.kyc?.contactNumber} value={values?.contactNumber} name="contactNumber" type="text" className={'form-control' + (errors.contactNumber && touched.contactNumber ? ' is-invalid' : '')} />
                                 <ErrorMessage name="contactNumber" component="div" className="invalid-feedback" />
+                              </div>
                               </div>
                               <div className="form-group col-lg-6">
                                 <label>Email*</label>
