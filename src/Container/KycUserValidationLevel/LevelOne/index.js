@@ -298,10 +298,10 @@ export default class FirstLevel extends Component {
     return (
       <div>
 
-        <h4 className="m4-txt-level mb40 text-center">KYC STEP 1 </h4>
+        <h4 className="m4-txt-level mb40 text-center">KYC LEVEL  1 </h4>
 
         <span className="level-info" style={{color: 'darkblue',}}>
-          In KYC Step 1, fill up your required KYC Details and upload documents. Then click on 'Submit' and then click on 'Next' to go to Step 2
+          In KYC Level 1, fill up your required KYC Details and upload documents. Then click on 'Submit' and then click on 'Next' to go to Level 2
         </span>
         <br></br>
         <br></br>
@@ -713,7 +713,7 @@ export default class FirstLevel extends Component {
                             </Row> */}
                             <hr />
                             <Row className="mt20">
-                            <Col sm={9} >
+                            <Col lg={9} >
                             <ul class="kyctext mt-20">
                                 <li>
                                   <i class="fa fa-arrow-right fa-ora"></i> <b>ADDRESS PROOF:-</b>
@@ -744,7 +744,7 @@ export default class FirstLevel extends Component {
                                 </li>
                                </ul>
                               </Col>
-                              <Col sm={3} >
+                              <Col lg={3} >
           
                                 <Field
                                   disabled={!this.state.canApply && this.state.kyc?.addressProofAttachment}
@@ -763,7 +763,7 @@ export default class FirstLevel extends Component {
                               </Col>
                               </Row>
                               <Row className="mt20">
-                              <Col sm={9} >
+                              <Col lg={9} >
                               <ul class="kyctext mt-20">
                                 <li>
                                   <i class="fa fa-arrow-right fa-ora"></i> <b>SELFIE WITH PHOTO ID:-</b>
@@ -786,7 +786,7 @@ export default class FirstLevel extends Component {
                                 </li>
                                </ul>
                                </Col>
-                               <Col sm={3} >
+                               <Col lg={3} >
                                 <Field
                                   disabled={!this.state.canApply && this.state.kyc?.selfieAttachment}
                                   type="file"

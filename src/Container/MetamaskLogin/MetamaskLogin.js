@@ -139,31 +139,33 @@ class MetamaskLogin extends Component {
 
   render() {
     return (
-      <div>
+      <div className="blankpage">
         <div className="Kyclevel-container">
-          <h4 className="kyc-heading">KYC Level</h4>
+          
 
           <Container>
-            <Card>
-              <h3>Using Metamask to login</h3>
-              <p>{this.state.displayText}</p>
-              {this.state.displayText.slice(0, 9) === 'Connected' &&
-              window.returnLocationAfterLoadWallet ? (
-                <Button
-                  onClick={() => {
-                    this.props.history.push(
-                      window.returnLocationAfterLoadWallet &&
-                        window.returnLocationAfterLoadWallet.location
-                    );
-                    window.returnLocationAfterLoadWallet = null;
-                  }}
-                >
-                  Click here to proceed to:{' '}
-                  {window.returnLocationAfterLoadWallet &&
-                    window.returnLocationAfterLoadWallet.name}
-                </Button>
-              ) : null}
-            </Card>
+            <div className="space text-center">
+              <h2 className="kyc-heading mt40">Using  <span class="red-color-txt">Metamask</span> to login</h2>
+                <div className="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-6 mx-auto mt40 mb40">
+                  <p>{this.state.displayText}</p>
+                  {this.state.displayText.slice(0, 9) === 'Connected' &&
+                  window.returnLocationAfterLoadWallet ? (
+                    <Button
+                      onClick={() => {
+                        this.props.history.push(
+                          window.returnLocationAfterLoadWallet &&
+                            window.returnLocationAfterLoadWallet.location
+                        );
+                        window.returnLocationAfterLoadWallet = null;
+                      }}
+                    >
+                      Click here to proceed to:{' '}
+                      {window.returnLocationAfterLoadWallet &&
+                        window.returnLocationAfterLoadWallet.name}
+                    </Button>
+                  ) : null}
+                  </div>
+            </div>
           </Container>
         </div>
       </div>

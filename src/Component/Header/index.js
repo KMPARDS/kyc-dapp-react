@@ -159,7 +159,7 @@ class Header extends Component {
               {this.context?.user?.walletAddress ? (
                 <li class="nav-item dropdown">
                   <button
-                    class="nav-link dropdown-toggle bgd-color-nav profile-btn"
+                    class="nav-link dropdown-toggle bgd-color-nav profile-btn hash-text"
                     id="navbarDropdownMenuLink-4"
                     data-toggle="dropdown"
                     aria-haspopup="true"
@@ -176,21 +176,21 @@ class Header extends Component {
                     {/* <Link class="dropdown-item" to="/Myaccount"><img className="drop-img-kyc" src={Images.path.op1}/> My Account</Link>
               <Link class="dropdown-item" to="/MyDocument"><img className="drop-img-kyc" src={Images.path.op2}/> My Documents</Link> */}
                     <Link class="dropdown-item" to="/form">
-                      <img
+                      {/* <img
                         className="drop-img-kyc"
                         src={Images.path.op8}
                         alt=""
-                      />
+                      /> */}
                       KYC For Migration to ESN PoS{' '}
                     </Link>
                     {/* <Link class="dropdown-item" to="/"><img className="drop-img-kyc" src={Images.path.op5} alt=''/> KYC Status</Link>
               <Link class="dropdown-item" to="/MyKyckey"><img className="drop-img-kyc" src={Images.path.op6} alt=''/> My KYC key</Link> */}
                     <Link class="dropdown-item" to="/user-validation">
-                      <img
+                      {/* <img
                         className="drop-img-kyc"
                         src={Images.path.op4}
                         alt=""
-                      />{' '}
+                      />{' '} */}
                       KYC Levels (Level 1 to Level 5){' '}
                     </Link>
                     {/* <Link class="dropdown-item" to="/"><img className="drop-img-kyc" src={Images.path.op3} alt=''/> Express KYC </Link> */}
@@ -203,7 +203,7 @@ class Header extends Component {
                       Become a Conservator
                     </Link> */}
                     <a href="/" class="dropdown-item">
-                      <i className="fa fa-power-off drop-img-kyc"></i> Logout
+                      {/* <i className="fa fa-power-off drop-img-kyc"></i> */}Logout 
                     </a>
                   </div>
                 </li>
@@ -251,23 +251,22 @@ class Header extends Component {
                     <thead>
                       <tr>
                         <th scope="col">KYC Benefits </th>
-                        <th scope="col">KYC Charge(ES) </th>
+                        <th scope="col">KYC Charge  (ES) </th>
                         <th scope="col">
-                          Cummulative KYC Charges for the levels(ES)
+                          Cummulative KYC Charges for the levels (ES)
                         </th>
                         <th scope="col">Applicant Benefit (Staked ES)</th>
                         <th scope="col">
                           Introducer Incentive (50% Stake & 50% ES)
                         </th>
                         <th scope="col">
-                          Incentive to User’s Day Swappers Tree (50% Stake & 50%
-                          ES)
+                          Incentive to User’s Day Swappers Tree (50% Stake & 50% ES)
                         </th>
-                        <th scope="col">Curators (50% Stake & 50%ES)</th>
-                        <th scope="col">Tagya (50% Stake & 50%ES)</th>
-                        <th scope="col">Burning (ES)</th>
-                        <th scope="col">Charity (ES)</th>
-                        <th scope="col">Total Benefits (ES)</th>
+                        <th scope="col">Curators (50% Stake & 50% ES)</th>
+                        <th scope="col">Tagya (50% Stake & 50% ES)</th>
+                        <th scope="col">Burning  (ES)</th>
+                        <th scope="col">Charity  (ES)</th>
+                        <th scope="col">Total Benefits  (ES)</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -421,7 +420,7 @@ class Header extends Component {
                   :
                   <div className="col-md-12 text-center">
                   <button
-                    class="btn bgd-color mr-2"
+                    class="btn bgd-color mr-2 mb10"
                     onClick={(e) => {
                       window.open(
                         'https://eraswap.life/',
@@ -434,7 +433,7 @@ class Header extends Component {
                     <span class="sr-only">(current)</span>
                   </button>
                   <button
-                    class="btn bgd-color mr-2"
+                    class="btn bgd-color mr-2 mb10"
                     onClick={(e) => {
                       this.props.history.push('/metamask');
                       this.closeAllModals();
@@ -479,7 +478,7 @@ class Header extends Component {
                   follow the following simple steps and click on ‘Proceed’
                   button to complete your KYC to migrate to Era Swap Network
                   (ESN) or for Level 1 to Level 5 KYC for Multiple Platforms of
-                  ESE.
+                   ESE.
                 </h6>
                 <ul className="comlistui">
                   <li>
@@ -580,7 +579,7 @@ class Header extends Component {
                   :
                 <div className="col-md-12 text-center">
                   <button
-                    class="btn bgd-color mr-2"
+                    class="btn bgd-color mr-2 mb10"
                     onClick={(e) => {
                       window.open(
                         'https://eraswap.life/',
@@ -589,11 +588,11 @@ class Header extends Component {
                       );
                     }}
                   >
-                    Proceed (using Eraswap life)
+                    Proceed (using Eraswap Life)
                     <span class="sr-only">(current)</span>
                   </button>
                   <button
-                    class="btn bgd-color mr-2"
+                    class="btn bgd-color mr-2 mb10"
                     onClick={(e) => {
                       this.props.history.push('/metamask');
                       this.closeAllModals();

@@ -71,9 +71,9 @@ class KycLevel extends Component {
              on 'Submit' and then click on 'Next'</li>
             <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  KYC Level 2 is for Skill / Business. In KYC Level 2, select specific Era Swap Ecosystem
             Platform, you need to do Level 2 KYC and Fill up platform specific details required and Submit</li>
-            <li><i class="fa fa-chevron-right" aria-hidden="true"></i>   KYC Level 3 is for Recommendation. In KYC Level 3, the applicant has to provide proof of feedback and recommendation </li>
-            <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  KYC Level 4 is for FOS Tagya Validation. In KYC Level 4, the applicant can apply for physical verifier as FOS Tagya </li>
-            <li><i class="fa fa-chevron-right" aria-hidden="true"></i>   KYC Level 5 is for Online Curator Validation. In KYC Level 5, the applicant can apply to become Curator on multiple platforms of ESE  </li>
+            <li><i class="fa fa-chevron-right" aria-hidden="true"></i>   KYC Level 3 is for Recommendation. In KYC Level 3, the applicant has to provide details about his/her Skills / Business as EXPERT seller </li>
+            <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  KYC Level 4 is for FOS Tagya Validation. In KYC Level 4, the applicant provide details about his/her Skill as TAGYA</li>
+            <li><i class="fa fa-chevron-right" aria-hidden="true"></i>   KYC Level 5 is for Online Curator Validation. In KYC Level 5, the applicant provide details about his/her Skill as CURATOR </li>
        
         </ul>
               	<MultiStep showNavigation={true} steps={this.steps} showNext={this.state.showNext} showPrev={this.state.showPrev} />

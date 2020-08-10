@@ -582,7 +582,7 @@ export default class FirstLevel extends Component {
                             <h5 className="mt30">Personal ID Proof</h5>
                             <hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80" />
                             <Row className="mt20">
-                              <Col sm={6} >
+                              <Col lg={6} >
                                 <Field
                                   disabled={!this.state.canApply && this.state.kyc?.idType}
                                   type="text"
@@ -598,7 +598,7 @@ export default class FirstLevel extends Component {
                                   values={values}
                                 />
                               </Col>
-                              <Col sm={6} >
+                              <Col lg={6} >
                                 <Field
                                   disabled={!this.state.canApply && this.state.kyc?.idNumber}
                                   type="text"
@@ -731,7 +731,7 @@ export default class FirstLevel extends Component {
                             </Row> */}
                             <hr />
                             <Row className="mt20">
-                            <Col sm={9} >
+                            <Col lg={9} >
                             <ul class="kyctext mt-20">
                                 <li>
                                   <i class="fa fa-arrow-right fa-ora"></i> <b>ADDRESS PROOF:-</b>
@@ -762,7 +762,7 @@ export default class FirstLevel extends Component {
                                 </li>
                                </ul>
                               </Col>
-                              <Col sm={3} >
+                              <Col lg={3} >
           
                                 <Field
                                   disabled={!this.state.canApply && this.state.kyc?.addressProofAttachment}
@@ -781,7 +781,7 @@ export default class FirstLevel extends Component {
                               </Col>
                               </Row>
                               <Row className="mt20">
-                              <Col sm={9} >
+                              <Col lg={9} >
                               <ul class="kyctext mt-20">
                                 <li>
                                   <i class="fa fa-arrow-right fa-ora"></i> <b>SELFIE WITH PHOTO ID:-</b>
@@ -804,7 +804,7 @@ export default class FirstLevel extends Component {
                                 </li>
                                </ul>
                                </Col>
-                               <Col sm={3} >
+                               <Col lg={3} >
                                 <Field
                                   disabled={!this.state.canApply && this.state.kyc?.selfieAttachment}
                                   type="file"
