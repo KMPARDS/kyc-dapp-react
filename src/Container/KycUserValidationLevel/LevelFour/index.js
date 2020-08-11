@@ -1,11 +1,13 @@
 import React from 'react';
 import { ethers } from 'ethers';
+// import Images from '../../Container/Images/Images';
 import { Col, Row } from 'react-bootstrap';
 import User from '../../../models/User';
 import  { PROVIDER, baseUrl } from '../../../config/config';
 import Transfer from './transfer'; // component
 import Axios from 'axios';
 import { handleError } from '../../../utils/Apis';
+
 
 export default class LevelFour extends React.Component {
   state = {
@@ -115,17 +117,24 @@ export default class LevelFour extends React.Component {
         <h4 className="m4-txt-level mb40 text-center">KYC LEVEL 4</h4>
         <span className="level-info" style={{color: 'darkblue',}}>
 
-            1. IIn KYC Level 4, a member can apply for FOS Tagya Validation by
-            giving required charges.<br></br>
+            1. In KYC Level 4, a member can apply for FOS Tagya Validation by giving required charges.<br></br>
 
-            2. A member can become FOS Tagya for physical verification of KYC
-            on Era Swap Ecosystem.<br></br>
+            2. A member can become FOS Tagya for physical verification of KYC on Era Swap Ecosystem. <br></br>
 
-            3. The Level 4 of KYC DApp will be live soon.<br></br>
+            3. The charges for Level 4 KYC will be applicable from 21st of August 2020 onwards. <br></br>
+
+            4. Select the Options and click on 'Submit' Button<br></br>
         </span>
         <br></br>
         <br></br>
-       
+        <div className="text-center mb30">
+        <p>Please Complete Your Level 1 & 2 KYC for Verification of Identity, If already done then Proceed with Level 4 as EXPERT of Physical Verification and  Assistance - TAGYA</p>
+        <button type="submit" class="btn btn-primary mr-2">Start from Level 1</button>
+        </div>
+        
+      
+      
+      
         {/* <!-- info modall start here--> */}
         <div
           class="modal fade kyclevel3"
@@ -162,12 +171,130 @@ export default class LevelFour extends React.Component {
         </div>
 
         {/* <!-- info modall end here--> */}
-        <fieldset class="scheduler-border es-trasnferbox kyclevel4">
-          
+
+      
+
+        <fieldset class="scheduler-border es-trasnferbox kyclevel4 ">
+          <legend class="scheduler-border">
+             Upload your 60 Second Self Recorded Video about your Skill as TAGYA
+          </legend>
           <Row className="mt20">
-            <Col sm={12} className="mx-auto ">
-               <h1>Coming Soon</h1>
-            </Col>
+            <div className="text-center-com">
+               <div class="border-style-img ">
+                  {/* <img className="kyc-hero-img" src={Images.path.videoupload} /> */}
+               </div>
+            </div>
+           <hr/>
+            <div class="table-responsive mt30">
+              <table class="es-transaction striped bordered hover table">
+                <thead>
+                   
+                    <tr>
+                      <td>Do you have a vehicle</td>
+                        <td>
+                        <div class="form-check-inline">
+                          <label class="customradio"><span class="radiotextsty">Yes</span>
+                            <input type="radio" checked="checked" name="radio"/>
+                            <span class="checkmark"></span>
+                          </label>        
+                          <label class="customradio"><span class="radiotextsty">No</span>
+                            <input type="radio" name="radio"/>
+                            <span class="checkmark"></span>
+                          </label>
+
+                          </div>
+                        </td>
+                    </tr>
+                    <tr>
+                      <td>Do You have a Smartphone</td>
+                        <td>
+                        <div class="form-check-inline">
+                          <label class="customradio"><span class="radiotextsty">Yes</span>
+                            <input type="radio" checked="checked" name="radio"/>
+                            <span class="checkmark"></span>
+                          </label>        
+                          <label class="customradio"><span class="radiotextsty">No</span>
+                            <input type="radio" name="radio"/>
+                            <span class="checkmark"></span>
+                          </label>
+
+                          </div>
+                        </td>
+                    </tr>
+                    <tr>
+                      <td>Do you have internet connectivity in your Smartphone</td>
+                        <td>
+                        <div class="form-check-inline">
+                          <label class="customradio"><span class="radiotextsty">Yes</span>
+                            <input type="radio" checked="checked" name="radio"/>
+                            <span class="checkmark"></span>
+                          </label>        
+                          <label class="customradio"><span class="radiotextsty">No</span>
+                            <input type="radio" name="radio"/>
+                            <span class="checkmark"></span>
+                          </label>
+
+                          </div>
+                        </td>
+                    </tr>
+                    <tr>
+                      <td>Are You Ready to verify business / merchants physically by visiting</td>
+                        <td>
+                        <div class="form-check-inline">
+                          <label class="customradio"><span class="radiotextsty">Yes</span>
+                            <input type="radio" checked="checked" name="radio"/>
+                            <span class="checkmark"></span>
+                          </label>        
+                          <label class="customradio"><span class="radiotextsty">No</span>
+                            <input type="radio" name="radio"/>
+                            <span class="checkmark"></span>
+                          </label>
+
+                          </div>
+                        </td>
+                    </tr>
+                    <tr>
+                      <td>Do you agree to Reward Structure</td>
+                        <td>
+                        <div class="form-check-inline">
+                          <label class="customradio"><span class="radiotextsty">Yes</span>
+                            <input type="radio" checked="checked" name="radio"/>
+                            <span class="checkmark"></span>
+                          </label>        
+                          <label class="customradio"><span class="radiotextsty">No</span>
+                            <input type="radio" name="radio"/>
+                            <span class="checkmark"></span>
+                          </label>
+
+                          </div>
+                        </td>
+                    </tr>
+                    <tr>
+                      <td>Do you agree to offer you services of Physical Verification / Assistance  as Tagya towards multiple requirements of Era Swap Ecosystem Platforms  like CureDApp, VoF, BuzCafe, etc.</td>
+                        <td>
+                        <div class="form-check-inline">
+                          <label class="customradio"><span class="radiotextsty">Yes</span>
+                            <input type="radio" checked="checked" name="radio"/>
+                            <span class="checkmark"></span>
+                          </label>        
+                          <label class="customradio"><span class="radiotextsty">No</span>
+                            <input type="radio" name="radio"/>
+                            <span class="checkmark"></span>
+                          </label>
+
+                          </div>
+                        </td>
+                    </tr>
+                  </thead>
+                </table>
+            </div>
+            <div className="table-responsive">
+                <table>
+                  <thead>
+                    
+                  </thead>
+                </table>
+            </div>
           </Row>
         </fieldset>
       </div>

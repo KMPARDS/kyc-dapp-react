@@ -99,11 +99,11 @@ class Footer extends Component {
                     </li>
                     <li>
                       <a
-                        href={Userguide}
+                        href="assets/docs/KYC_DAPP_UserGuide.pdf"
                         target="_blank"
                         className="footer-sub"
                       >
-                        User Guide
+                         User Guide For Migration to ESN PoS
                       </a>
                     </li>
                     <li>

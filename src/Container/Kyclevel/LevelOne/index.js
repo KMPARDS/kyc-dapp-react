@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import * as Yup from 'yup';
 import axios from 'axios';
+import 'react-telephone-input/css/default.css'
+import ReactTelInput from 'react-telephone-input';
 import { RecordRTCPromisesHandler } from 'recordrtc';
 import config from '../../../config/config';
 import Swal from 'sweetalert2'
@@ -27,6 +29,7 @@ export default class FirstLevel extends Component {
         // addressProofAttachment: '',
         // selfieAttachment: ''
       },
+      countryCode: '+91',
       canApply: true
     };
 
@@ -180,7 +183,7 @@ export default class FirstLevel extends Component {
     formData.append('middlename', values.middlename);
     formData.append('lastname', values.lastname);
     formData.append('username', values.username);
-    formData.append('contactNumber', values.contactNumber);
+    formData.append('contactNumber',this.state.countryCode + values.contactNumber);
     formData.append('email', values.email);
     formData.append('dob', values.dob);
     formData.append('nationality', values.nationality);
@@ -502,9 +505,23 @@ export default class FirstLevel extends Component {
                             </div>
                             <div className="form-row">
                               <div className="form-group col-lg-6">
-                                <label htmlFor="contactNumber">Phone Number*</label>
+                              <label htmlFor="contactNumber">Phone Number*</label>
+                                <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                  <ReactTelInput
+                                  className=""
+                                  defaultCountry="in"
+                                  flagsImagePath={Images.path.flags}
+                                  onChange={value => {
+                                    this.setState({
+                                      countryCode: value
+                                    });
+                                  }}
+                                 />
+                                </div>
                                 <Field disabled={!this.state.canApply && this.state.kyc?.contactNumber} value={values?.contactNumber} name="contactNumber" type="text" className={'form-control' + (errors.contactNumber && touched.contactNumber ? ' is-invalid' : '')} />
                                 <ErrorMessage name="contactNumber" component="div" className="invalid-feedback" />
+                              </div>
                               </div>
                               <div className="form-group col-lg-6">
                                 <label>Email*</label>
@@ -565,7 +582,7 @@ export default class FirstLevel extends Component {
                             <h5 className="mt30">Personal ID Proof</h5>
                             <hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80" />
                             <Row className="mt20">
-                              <Col sm={6} >
+                              <Col lg={6} >
                                 <Field
                                   disabled={!this.state.canApply && this.state.kyc?.idType}
                                   type="text"
@@ -581,7 +598,7 @@ export default class FirstLevel extends Component {
                                   values={values}
                                 />
                               </Col>
-                              <Col sm={6} >
+                              <Col lg={6} >
                                 <Field
                                   disabled={!this.state.canApply && this.state.kyc?.idNumber}
                                   type="text"
@@ -714,7 +731,7 @@ export default class FirstLevel extends Component {
                             </Row> */}
                             <hr />
                             <Row className="mt20">
-                            <Col sm={9} >
+                            <Col lg={9} >
                             <ul class="kyctext mt-20">
                                 <li>
                                   <i class="fa fa-arrow-right fa-ora"></i> <b>ADDRESS PROOF:-</b>
@@ -745,7 +762,7 @@ export default class FirstLevel extends Component {
                                 </li>
                                </ul>
                               </Col>
-                              <Col sm={3} >
+                              <Col lg={3} >
           
                                 <Field
                                   disabled={!this.state.canApply && this.state.kyc?.addressProofAttachment}
@@ -764,7 +781,7 @@ export default class FirstLevel extends Component {
                               </Col>
                               </Row>
                               <Row className="mt20">
-                              <Col sm={9} >
+                              <Col lg={9} >
                               <ul class="kyctext mt-20">
                                 <li>
                                   <i class="fa fa-arrow-right fa-ora"></i> <b>SELFIE WITH PHOTO ID:-</b>
@@ -787,7 +804,7 @@ export default class FirstLevel extends Component {
                                 </li>
                                </ul>
                                </Col>
-                               <Col sm={3} >
+                               <Col lg={3} >
                                 <Field
                                   disabled={!this.state.canApply && this.state.kyc?.selfieAttachment}
                                   type="file"

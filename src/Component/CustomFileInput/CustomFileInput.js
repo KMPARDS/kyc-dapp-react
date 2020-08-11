@@ -123,7 +123,7 @@ export default class CustomFileInput extends Component {
 
         {type === 'file' &&
         <div>
-            <p>Click below "+" to select file</p>
+            <p>Click on the icon below to select and upload the document</p>
           <Row>
             <Col sm={5}>
               <div className="border-style-img" onClick={this.showFileUpload}>
