@@ -247,7 +247,6 @@ export default class LevelThree extends React.Component {
                               {/* <img className="kyc-hero-img" src={Images.path.videoupload} /> */}
                           </div>
                      </div>
-                   
                 </div>
                <p>Upload your Document here, Document Max Size allowed is 5 MB</p>
                <div className="row">
