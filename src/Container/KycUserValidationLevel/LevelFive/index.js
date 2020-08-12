@@ -18,95 +18,95 @@ export default class LevelFive extends React.Component {
   routines = [];
 
   componentDidMount = () => {
-    User.setWallet(
-      '0x24c4fe6063e62710ead956611b71825b778b041b18ed53118ce5da5f02e494ba'
-    );
+    // User.setWallet(
+    //   '0x24c4fe6063e62710ead956611b71825b778b041b18ed53118ce5da5f02e494ba'
+    // );
 
-    this.startRoutine(this.updateBalance);
-    this.startRoutine(this.loadPastTransfers);
-    // this.fetchKycLevelOne = this.fetchKycLevelOne.bind(this);
-    this.fetchKycLevelOne();
+    // this.startRoutine(this.updateBalance);
+    // this.startRoutine(this.loadPastTransfers);
+    // // this.fetchKycLevelOne = this.fetchKycLevelOne.bind(this);
+    // this.fetchKycLevelOne();
   };
 
   fetchKycLevelOne = async () => {
-    let resp = {};
-    try{
-      resp = await Axios.get(baseUrl + 'apis/kyc-level-one/', {
-          headers: {
-            'Authorization': User.getToken()
-          }
-        });
-    }catch(e){
-      console.log(e);
-      if(e.response) handleError(e);
-    } finally {
-      if(resp.data || User.getData()?.kycdappVerified)
-        this.setState({ showTransferComponent: true });
-    }
+    // let resp = {};
+    // try{
+    //   resp = await Axios.get(baseUrl + 'apis/kyc-level-one/', {
+    //       headers: {
+    //         'Authorization': User.getToken()
+    //       }
+    //     });
+    // }catch(e){
+    //   console.log(e);
+    //   if(e.response) handleError(e);
+    // } finally {
+    //   if(resp.data || User.getData()?.kycdappVerified)
+    //     this.setState({ showTransferComponent: true });
+    // }
   }
 
   startRoutine = async (fn) => {
-    const run = async () => {
-      try {
-        await fn();
-      } catch (error) {
-        console.log(error);
-        alert(error.message);
-      }
-    };
-    run();
-    const intervalId = setInterval(run, 20000);
-    this.routines.push(intervalId);
+    // const run = async () => {
+    //   try {
+    //     await fn();
+    //   } catch (error) {
+    //     console.log(error);
+    //     alert(error.message);
+    //   }
+    // };
+    // run();
+    // const intervalId = setInterval(run, 20000);
+    // this.routines.push(intervalId);
   };
 
   stopRoutines = () => {
-    this.routines.forEach(clearInterval);
+    // this.routines.forEach(clearInterval);
   };
 
   componentWillMount = () => {
-    this.stopRoutines();
+    // this.stopRoutines();
   };
 
   updateBalance = async () => {
-    if (!User.isLoggedIn()) {
-      throw new Error(
-        'Looks like you are not logged in. Please load your wallet again'
-      );
-    }
+    // if (!User.isLoggedIn()) {
+    //   throw new Error(
+    //     'Looks like you are not logged in. Please load your wallet again'
+    //   );
+    // }
 
-    const balance = await User.getEsInstance().balanceOf(
-      User.getWallet().address
-    );
+    // const balance = await User.getEsInstance().balanceOf(
+    //   User.getWallet().address
+    // );
 
-    this.setState({ balanceDisplay: ethers.utils.formatEther(balance) });
+    // this.setState({ balanceDisplay: ethers.utils.formatEther(balance) });
   };
 
   loadPastTransfers = async () => {
-    if (!User.isLoggedIn()) {
-      throw new Error(
-        'Looks like you are not logged in. Please load your wallet again'
-      );
-    }
+    // if (!User.isLoggedIn()) {
+    //   throw new Error(
+    //     'Looks like you are not logged in. Please load your wallet again'
+    //   );
+    // }
 
-    const filter = User.getEsInstance().filters.Transfer(
-      User.getWallet().address,
-      this.ADMIN_WALLET
-    );
+    // const filter = User.getEsInstance().filters.Transfer(
+    //   User.getWallet().address,
+    //   this.ADMIN_WALLET
+    // );
 
-    const logs = await User.getProvider().getLogs({
-      ...filter,
-      fromBlock: 0,
-      toBlock: 'latest',
-    });
+    // const logs = await User.getProvider().getLogs({
+    //   ...filter,
+    //   fromBlock: 0,
+    //   toBlock: 'latest',
+    // });
 
-    const pastTransfers = logs.map((log) => {
-      return {
-        amount: ethers.BigNumber.from(log.data),
-        txHash: log.transactionHash,
-      };
-    });
+    // const pastTransfers = logs.map((log) => {
+    //   return {
+    //     amount: ethers.BigNumber.from(log.data),
+    //     txHash: log.transactionHash,
+    //   };
+    // });
 
-    this.setState({ pastTransfers });
+    // this.setState({ pastTransfers });
   };
 
   render() {
