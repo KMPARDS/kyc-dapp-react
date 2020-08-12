@@ -5,6 +5,8 @@ import { Col, Button, Container, Row } from 'react-bootstrap';
 import TC from '../../assets/docs/tc.pdf';
 import Userguide from '../../assets/docs/KYC_DAPP_UserGuide.pdf';
 import Prp from '../../assets/docs/kyc-dapp-privacy-policy.pdf';
+
+
 class Footer extends Component {
   constructor(props) {
     super(props);
@@ -99,7 +101,7 @@ class Footer extends Component {
                     </li>
                     <li>
                       <a
-                        href="assets/docs/KYC_DAPP_UserGuide.pdf"
+                        href={Userguide}
                         target="_blank"
                         className="footer-sub"
                       >
