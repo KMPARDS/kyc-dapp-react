@@ -6,6 +6,7 @@ import  { PROVIDER, baseUrl } from '../../../config/config';
 import Transfer from './transfer'; // component
 import Axios from 'axios';
 import { handleError } from '../../../utils/Apis';
+import Images from '../../../Container/Images/Images';
 
 export default class LevelFive extends React.Component {
   state = {
@@ -169,7 +170,7 @@ export default class LevelFive extends React.Component {
           <Row className="mt20">
             <div className="text-center-com">
                <div class="border-style-img ">
-                  {/* <img className="kyc-hero-img" src={Images.path.videoupload} /> */}
+                  <img className="kyc-hero-img" src={Images.path.videoupload} />
                </div>
             </div>
             <div class="col-md-12 col-lg-12 form-group mt40">
@@ -267,6 +268,8 @@ export default class LevelFive extends React.Component {
                   </thead>
                 </table>
             </div>
+            <button type="submit" className="btn btn-primary mr-2" disabled={true}>
+                Submit</button>
           </Row>
         </fieldset>
  
