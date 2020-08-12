@@ -9,10 +9,11 @@ import LevelTwo from './LevelTwo';
 import LevelFour from './LevelFour';
 import LevelThree from './LevelThree';
 import LevelFive from './LevelFive';
-
+import { withRouter } from 'react-router-dom';
+import { UserContext } from '../../utils/user.context';
 
 class KycLevel extends Component {
-
+  static contextType = UserContext;
 
 	constructor(props) {
 		super(props);
@@ -31,6 +32,11 @@ class KycLevel extends Component {
      { name: 'FourthLevel', component: <LevelFour /> },
      { name: 'FourthLevel', component: <LevelFive /> },
     ];
+  }
+
+  componentDidMount(){
+    if(!this.context?.user?.token)
+      this.props.history.push('/');
   }
 
   toggleNext(show){

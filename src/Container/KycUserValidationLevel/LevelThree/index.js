@@ -175,7 +175,7 @@ export default class LevelThree extends React.Component {
           <Row className="mt20 text-center">
             <div className="tcol-12 col-sm-10 col-md-8 col-lg-7 col-xl-6 mx-auto mt10 mb10">
                <div class="border-style-img ">
-                  {/* <img className="kyc-hero-img" src={Images.path.videoupload} /> */}
+                  <img className="kyc-hero-img" src={Images.path.videoupload} /> 
                </div>
             </div>  
           </Row>
@@ -223,7 +223,7 @@ export default class LevelThree extends React.Component {
                <div className="row">
                    <div className="col-lg-3"> 
                         <div class="border-style-img mb20">
-                              {/* <img className="kyc-hero-img" src={Images.path.videoupload} /> */}
+                              <img className="kyc-hero-img" src={Images.path.videoupload} /> 
                           </div>
                      </div>
                      <div className="col-lg-9"> 
@@ -238,13 +238,13 @@ export default class LevelThree extends React.Component {
                <div className="row">
                    <div className="col-lg-3"> 
                         <div class="border-style-img mb20">
-                              {/* <img className="kyc-hero-img" src={Images.path.videoupload} /> */}
+                               <img className="kyc-hero-img" src={Images.path.videoupload} /> 
                           </div>
                      </div>
                      <div className="col-lg-9"> 
                         <div class=" border-style-img-fullwidth mb20">
                              <p>Uploaded Images</p>
-                              {/* <img className="kyc-hero-img" src={Images.path.videoupload} /> */}
+                              {/*<img className="kyc-hero-img" src={Images.path.videoupload} /> */}
                           </div>
                      </div>
                 </div>
@@ -253,7 +253,7 @@ export default class LevelThree extends React.Component {
                    <div className="col-lg-3"> 
                         <div class="border-style-img mb20">
                           
-                              {/* <img className="kyc-hero-img" src={Images.path.videoupload} /> */}
+                              <img className="kyc-hero-img" src={Images.path.videoupload} /> 
                           </div>
                      </div>
                      <div className="col-lg-9"> 
@@ -327,7 +327,7 @@ export default class LevelThree extends React.Component {
                    <div className="col-lg-3"> 
                         <div class="border-style-img mb20">
                        
-                              {/* <img className="kyc-hero-img" src={Images.path.videoupload} /> */}
+                               <img className="kyc-hero-img" src={Images.path.uploadimage} /> 
                           </div>
                      </div>
                      <div className="col-lg-9"> 
@@ -343,7 +343,7 @@ export default class LevelThree extends React.Component {
                    <div className="col-lg-3"> 
                         <div class="border-style-img mb20">
                            
-                              {/* <img className="kyc-hero-img" src={Images.path.videoupload} /> */}
+                              <img className="kyc-hero-img" src={Images.path.uploaddoc} /> 
                           </div>
                      </div>
                      <div className="col-lg-9"> 
@@ -355,6 +355,8 @@ export default class LevelThree extends React.Component {
                    
                 </div>
             </div>  
+            <button type="submit" className="btn btn-primary mr-2" disabled={true}>
+                Submit</button>
           </Row>
         </fieldset>
         

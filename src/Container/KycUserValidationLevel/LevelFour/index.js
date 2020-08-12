@@ -1,6 +1,6 @@
 import React from 'react';
 import { ethers } from 'ethers';
-// import Images from '../../Container/Images/Images';
+import Images from '../../../Container/Images/Images';
 import { Col, Row } from 'react-bootstrap';
 import User from '../../../models/User';
 import  { PROVIDER, baseUrl } from '../../../config/config';
@@ -181,7 +181,7 @@ export default class LevelFour extends React.Component {
           <Row className="mt20">
             <div className="text-center-com">
                <div class="border-style-img ">
-                  {/* <img className="kyc-hero-img" src={Images.path.videoupload} /> */}
+                   <img className="kyc-hero-img" src={Images.path.videoupload} /> 
                </div>
             </div>
            <hr/>
@@ -294,6 +294,10 @@ export default class LevelFour extends React.Component {
                     
                   </thead>
                 </table>
+            </div>
+            <div className="form-group submit-btn1">
+              <button type="submit" className="btn btn-primary mr-2" disabled={true}>
+                Submit</button>
             </div>
           </Row>
         </fieldset>

@@ -147,6 +147,7 @@ class MetamaskLogin extends Component {
             <div className="space text-center">
               <h2 className="kyc-heading mt40">Using  <span class="red-color-txt">Metamask</span> to login</h2>
                 <div className="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-6 mx-auto mt40 mb40">
+                <p>*If login fails, try to refresh page and sign again</p>
                   <p>{this.state.displayText}</p>
                   {this.state.displayText.slice(0, 9) === 'Connected' &&
                   window.returnLocationAfterLoadWallet ? (
