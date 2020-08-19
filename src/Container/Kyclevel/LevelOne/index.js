@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as Yup from 'yup';
+import'./levelone.css';
 import axios from 'axios';
 import 'react-telephone-input/css/default.css'
 import ReactTelInput from 'react-telephone-input';
@@ -63,7 +64,7 @@ export default class FirstLevel extends Component {
           value => { return value && isFinite(value); }
         )
         .min(6, 'Minimum 6 digit phone Number')
-        .max(10, 'Maximum 10 digit phone Number')
+        // .max(10, 'Maximum 10 digit phone Number')
         .required('Phone Number is required'),
       placeOfBirth: Yup.string()
         .required('Place of Birth  is required'),
@@ -176,14 +177,18 @@ export default class FirstLevel extends Component {
     // })
   }
 
-  submitLevelOne = (values, { setSubmitting }) => {
+  submitLevelOne = async (values, { setSubmitting }) => {
+    console.log(
+      'this.state.countryCode',
+      this.state.countryCode
+    );
     const formData = new FormData();
     formData.append('salutation', values.salutation);
     formData.append('firstname', values.firstname);
     formData.append('middlename', values.middlename);
     formData.append('lastname', values.lastname);
     formData.append('username', values.username);
-    formData.append('contactNumber',this.state.countryCode + values.contactNumber);
+    formData.append('contactNumber',this.state.countryCode);
     formData.append('email', values.email);
     formData.append('dob', values.dob);
     formData.append('nationality', values.nationality);
@@ -199,19 +204,52 @@ export default class FirstLevel extends Component {
     formData.append('selfieAttachment', values.selfieAttachment);
     formData.append('referalAddress', values.referalAddress);
 
-    axios
-      .post(config.baseUrl + 'apis/kyc-level-one/save', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': this.state.token
+    try {
+      const res = await axios.post(
+        config.baseUrl + 'apis/kyc-level-one/save',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: this.state.token,
+          },
         }
-      })
-      .then(resp => {
-        console.log("check kyc form", resp);
-        setSubmitting(false);
-        Swal.fire('Success', 'Kyc form submitted', 'success');
-      })
-      .catch(handleError);
+      );
+        console.log('res', res);
+      setSubmitting(false);
+      Swal.fire('Success','Kyc form submitted', 'success');
+    } catch (e) {
+      console.log('error',e?.response || e);
+      Swal.fire('Error',e?.response?.data?.message || 'Unable to upload form, please check if all fields are filled correctly', 'error');
+    }
+
+    // axios
+    //   .post(config.baseUrl + 'apis/kyc-level-one/save', formData, {
+    //     headers: {
+    //       'Content-Type': 'multipart/form-data',
+    //       Authorization: this.state.token,
+    //     },
+    //   })
+    //   .then((resp) => {
+    //     console.log('check kyc form', resp);
+    //     setSubmitting(false);
+    //     Swal.fire('Success', 'Kyc form submitted', 'success');
+    //   })
+    //   // .catch(handleError);
+    //   .catch(function (error) {
+    //     if (error.response) {
+    //       // Request made and server responded
+    //       console.log('error.response.data',error.response.data);
+    //       console.log('error.response.status',error.response.status);
+    //       console.log('error.response.headers',error.response.headers);
+    //     } else if (error.request) {
+    //       // The request was made but no response was received
+    //       console.log('error.request',error.request);
+    //     } else {
+    //       // Something happened in setting up the request that triggered an Error
+    //       console.log('Error', error.message);
+    //     }
+    //   });
 
   };
 
@@ -230,33 +268,38 @@ export default class FirstLevel extends Component {
         delete this.validationSchema.idAttachment;
         delete this.validationSchema.idAttachmentBack;
         delete this.validationSchema.selfieAttachment;
-        this.setState({
-          canApply: resp?.data?.canApply,
-          kyc: {
-            salutation: resp?.data?.data?.salutation || '',
-            firstname: resp?.data?.data?.firstname || '',
-            middlename: resp?.data?.data?.middlename || '',
-            lastname: resp?.data?.data?.lastname || '',
-            username: resp?.data?.data?.username || '',
-            dob: resp?.data?.data?.dob || '',
-            nationality: resp?.data?.data?.nationality || '',
-            contactNumber: resp?.data?.data?.contactNumber || '',
-            email: resp?.data?.data?.email || '',
-            placeOfBirth: resp?.data?.data?.placeOfBirth || '',
-            maritalStatus: resp?.data?.data?.maritalStatus || '',
-            address: resp?.data?.data?.address || '',
-            pincode: resp?.data?.data?.pincode || '',
-            referalAddress: resp?.data?.data?.referalAddress || '',
-            idType: resp?.data?.data?.idType || '',
-            idNumber: resp?.data?.data?.idNumber || '',
-            idAttachment: resp?.data?.data?.idAttachment || null,
-            idAttachmentBack: resp?.data?.data?.idAttachmentBack || null,
-            addressProofAttachment: resp?.data?.data?.addressProofAttachment || null,
-            selfieAttachment: resp?.data?.data?.selfieAttachment || null,
-            status: resp?.data?.data?.status,
-            adminMessage: resp.data?.data?.adminMessage
-          }
-        }, () => console.log(this.state.kyc));
+        this.setState(
+          {
+            canApply: resp?.data?.canApply,
+            kyc: {
+              salutation: resp?.data?.data?.salutation || '',
+              firstname: resp?.data?.data?.firstname || '',
+              middlename: resp?.data?.data?.middlename || '',
+              lastname: resp?.data?.data?.lastname || '',
+              username: resp?.data?.data?.username || '',
+              dob: resp?.data?.data?.dob || '',
+              nationality: resp?.data?.data?.nationality || '',
+              contactNumber: resp?.data?.data?.contactNumber || '',
+              email: resp?.data?.data?.email || '',
+              placeOfBirth: resp?.data?.data?.placeOfBirth || '',
+              maritalStatus: resp?.data?.data?.maritalStatus || '',
+              address: resp?.data?.data?.address || '',
+              pincode: resp?.data?.data?.pincode || '',
+              referalAddress: resp?.data?.data?.referalAddress || '',
+              idType: resp?.data?.data?.idType || '',
+              idNumber: resp?.data?.data?.idNumber || '',
+              idAttachment: resp?.data?.data?.idAttachment || null,
+              idAttachmentBack: resp?.data?.data?.idAttachmentBack || null,
+              addressProofAttachment:
+                resp?.data?.data?.addressProofAttachment || null,
+              selfieAttachment: resp?.data?.data?.selfieAttachment || null,
+              status: resp?.data?.data?.status,
+              adminMessage: resp.data?.data?.adminMessage,
+            },
+            countryCode: resp?.data?.data?.contactNumber,
+          },
+          () => console.log(this.state.kyc)
+        );
       })
       .catch(error => {
 
@@ -455,245 +498,552 @@ export default class FirstLevel extends Component {
           }) => {
             isSubmitting && console.log('Object.keys(errors)[0]',Object.keys(errors)[0])/*[Object.keys(errors)[0]].focus();*/
             return (
-                        <Form>
-                          <fieldset class="scheduler-border">
-                            <legend class="scheduler-border">Personal Info</legend>
-                            <div className="form-row">
-                              <div class="form-group col-lg-3">
-                                <label>Salutation*</label>
-                                <Field disabled={!this.state.canApply && this.state.kyc?.salutation} value={values?.salutation} name="salutation" as="select" className={'form-control' + (errors.salutation && touched.salutation ? ' is-invalid' : '')}>
-                                  <option value=""></option>
-                                  <option value="Mr">Mr</option>
-                                  <option value="Mrs">Mrs</option>
-                                  <option value="Miss">Miss</option>
-                                  <option value="Ms">Ms</option>
-                                </Field>
-                                <ErrorMessage name="salutation" component="div" className="invalid-feedback" />
-                              </div>
-                              <div className="form-group col-lg-3">
-                                <label htmlFor="firstname">First Name*</label>
-                                <Field disabled={!this.state.canApply && this.state.kyc?.firstname} value={values?.firstname} name="firstname" type="text" placeholder="First Name" className={'form-control' + (errors.firstname && touched.firstname ? ' is-invalid' : '')} />
-                                <ErrorMessage name="firstname" component="div" className="invalid-feedback" />
-                              </div>
-                              <div className="form-group col-lg-3">
-                                <label htmlFor="middlename">Middle Name*</label>
-                                <Field disabled={!this.state.canApply && this.state.kyc?.middlename} value={values?.middlename} name="middlename" type="text" placeholder="Middle Name" className={'form-control' + (errors.middlename && touched.middlename ? ' is-invalid' : '')} />
-                                <ErrorMessage name="middlename" component="div" className="invalid-feedback" />
-                              </div>
-                              <div className="form-group col-lg-3">
-                                <label htmlFor="lastname">Last Name*</label>
-                                <Field disabled={!this.state.canApply && this.state.kyc?.lastname} value={values?.lastname} name="lastname" type="text" placeholder="Last Name" className={'form-control' + (errors.lastname && touched.lastname ? ' is-invalid' : '')} />
-                                <ErrorMessage name="lastname" component="div" className="invalid-feedback" />
-                              </div>
-                            </div>
-                            <div className="form-group">
-                              <label htmlFor="username">User Name*</label>
-                              <Field disabled={!this.state.canApply && this.state.kyc?.username} value={values?.username} name="username" type="text" placeholder="Enter your User Name" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
-                              <ErrorMessage name="username" component="div" className="invalid-feedback" />
-                            </div>
-                            <div className="form-row">
-                              <div className="form-group col-lg-6">
-                                <label htmlFor="dob">Date of Birth*</label>
-                                <Field disabled={!this.state.canApply && this.state.kyc?.dob} value={values?.dob} name="dob" type="date" placeholder="YYYY/MM/DD" className={'form-control' + (errors.dob && touched.dob ? ' is-invalid' : '')} />
-                                <ErrorMessage name="dob" component="div" className="invalid-feedback" />
-                              </div>
-                              <div className="form-group col-lg-6">
-                                <label htmlFor="nationality">Nationality*</label>
-                                <Field disabled={!this.state.canApply && this.state.kyc?.nationality} value={values?.nationality} name="nationality" type="text" className={'form-control' + (errors.nationality && touched.nationality ? ' is-invalid' : '')} />
-                                <ErrorMessage name="nationality" component="div" className="invalid-feedback" />
-                              </div>
-                            </div>
-                            <div className="form-row">
-                              <div className="form-group col-lg-6">
-                              <label htmlFor="contactNumber">Phone Number*</label>
-                                <div className="input-group mb-3">
-                                <div className="input-group-prepend">
-                                  <ReactTelInput
-                                  className=""
-                                  defaultCountry="in"
-                                  flagsImagePath={Images.path.flags}
-                                  onChange={value => {
-                                    this.setState({
-                                      countryCode: value
-                                    });
-                                  }}
-                                 />
-                                </div>
-                                <Field disabled={!this.state.canApply && this.state.kyc?.contactNumber} value={values?.contactNumber} name="contactNumber" type="text" className={'form-control' + (errors.contactNumber && touched.contactNumber ? ' is-invalid' : '')} />
-                                <ErrorMessage name="contactNumber" component="div" className="invalid-feedback" />
-                              </div>
-                              </div>
-                              <div className="form-group col-lg-6">
-                                <label>Email*</label>
-                                <Field disabled={!this.state.canApply && this.state.kyc?.email} value={values?.email} name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
-                                <ErrorMessage name="email" component="div" className="invalid-feedback" />
-                              </div>
-                            </div>
-                            <div className="form-row">
-                              <div className="form-group col-lg-6">
-                                <label htmlFor="placeOfBirth">Place of Birth*</label>
-                                <Field disabled={!this.state.canApply && this.state.kyc?.placeOfBirth} value={values?.placeOfBirth} name="placeOfBirth" type="text" className={'form-control' + (errors.placeOfBirth && touched.placeOfBirth ? ' is-invalid' : '')} />
-                                <ErrorMessage name="placeOfBirth" component="div" className="invalid-feedback" />
-                              </div>
-                              <div className="form-group col-lg-6">
-                                <label htmlFor="maritalStatus">Martial Status*</label>
-                                <Field disabled={!this.state.canApply && this.state.kyc?.maritalStatus} value={values?.maritalStatus} name="maritalStatus" as="select" className={'form-control' + (errors.maritalStatus && touched.maritalStatus ? ' is-invalid' : '')}>
-                                  <option value=""></option>
-                                  <option value="single">Single</option>
-                                  <option value="Married">Married</option>
-                                </Field>
-                                <ErrorMessage name="maritalStatus" component="div" className="invalid-feedback" />
-                              </div>
-                            </div>
-                            <div className="form-row">
-                              <div className="form-group col-lg-6">
-                                <label htmlFor="referalAddress">Referal Address</label>
-                                <Field disabled={!this.state.canApply && this.state.kyc?.referalAddress} value={values?.referalAddress} name="referalAddress" type="text" className={'form-control' + (errors.referalAddress && touched.referalAddress ? ' is-invalid' : '')} />
-                                <ErrorMessage name="referalAddress" component="div" className="invalid-feedback" />
-                              </div>
-                            </div>
-          
-                          </fieldset>
-                          <fieldset class="scheduler-border">
-                            <legend class="scheduler-border">Address Details</legend>
-                            <Row className="mt20">
-                              <Col>
-                                <form>
-                                  <div class="form-group">
-                                    <label htmlFor="address"> Address*</label>
-                                    <Field disabled={!this.state.canApply && this.state.kyc?.address} value={values?.address} id="address" name="address" rows="4" cols="100" placeholder="Enter your Current Address" className={'form-control textHt' + (errors.address && touched.address ? ' is-invalid' : '')} />
-                                    <ErrorMessage name="address" component="div" className="invalid-feedback" />
-                                  </div>
-                                </form>
-                              </Col>
-                            </Row>
-                            <div className="form-row">
-                              <div className="form-group  col-lg-6">
-                                <label htmlFor="pincode">Pincode*</label>
-                                <Field disabled={!this.state.canApply && this.state.kyc?.pincode} value={values?.pincode} name="pincode" type="text" placeholder="Pincode" className={'form-control' + (errors.pincode && touched.pincode ? ' is-invalid' : '')} />
-                                <ErrorMessage name="pincode" component="div" className="invalid-feedback" />
-                              </div>
-                              <div className="form-group col">
-                              </div>
-                            </div>
-                          </fieldset>
-                          <fieldset class="scheduler-border">
-                            <legend class="scheduler-border">Document Submission</legend>
-                            <h5 className="mt30">Personal ID Proof</h5>
-                            <hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80" />
-                            <Row className="mt20">
-                              <Col lg={6} >
-                                <Field
-                                  disabled={!this.state.canApply && this.state.kyc?.idType}
-                                  type="text"
-                                  id="idType"
-                                  name="idType"
-                                  title="ID Type*"
-                                  component={CustomFileInput}
-                                  setFieldValue={setFieldValue}
-                                  placeholder="Enter the ID Type"
-                                  touched={touched}
-                                  errors={errors}
-                                  value={values?.idType}
-                                  values={values}
-                                />
-                              </Col>
-                              <Col lg={6} >
-                                <Field
-                                  disabled={!this.state.canApply && this.state.kyc?.idNumber}
-                                  type="text"
-                                  id="idNumber"
-                                  name="idNumber"
-                                  title="ID Number*"
-                                  errors={errors}
-                                  touched={touched}
-                                  component={CustomFileInput}
-                                  setFieldValue={setFieldValue}
-                                  placeholder="Enter the ID Number"
-                                  value={values?.idNumber}
-                                />
-                              </Col>
-                              </Row>
-                              <hr />
-                              <Row>
-                            <Col lg={6}>
-                            <ul class="kyctext mt-20">
+              <Form>
+                <fieldset class="scheduler-border">
+                  <legend class="scheduler-border">Personal Info</legend>
+                  <div className="form-row">
+                    <div class="form-group col-lg-3">
+                      <label>Salutation*</label>
+                      <Field
+                        disabled={
+                          !this.state.canApply && this.state.kyc?.salutation
+                        }
+                        value={values?.salutation}
+                        name="salutation"
+                        as="select"
+                        className={
+                          'form-control' +
+                          (errors.salutation && touched.salutation
+                            ? ' is-invalid'
+                            : '')
+                        }
+                      >
+                        <option value=""></option>
+                        <option value="Mr">Mr</option>
+                        <option value="Mrs">Mrs</option>
+                        <option value="Miss">Miss</option>
+                        <option value="Ms">Ms</option>
+                      </Field>
+                      <ErrorMessage
+                        name="salutation"
+                        component="div"
+                        className="invalid-feedback"
+                      />
+                    </div>
+                    <div className="form-group col-lg-3">
+                      <label htmlFor="firstname">First Name*</label>
+                      <Field
+                        disabled={
+                          !this.state.canApply && this.state.kyc?.firstname
+                        }
+                        value={values?.firstname}
+                        name="firstname"
+                        type="text"
+                        placeholder="First Name"
+                        className={
+                          'form-control' +
+                          (errors.firstname && touched.firstname
+                            ? ' is-invalid'
+                            : '')
+                        }
+                      />
+                      <ErrorMessage
+                        name="firstname"
+                        component="div"
+                        className="invalid-feedback"
+                      />
+                    </div>
+                    <div className="form-group col-lg-3">
+                      <label htmlFor="middlename">Middle Name*</label>
+                      <Field
+                        disabled={
+                          !this.state.canApply && this.state.kyc?.middlename
+                        }
+                        value={values?.middlename}
+                        name="middlename"
+                        type="text"
+                        placeholder="Middle Name"
+                        className={
+                          'form-control' +
+                          (errors.middlename && touched.middlename
+                            ? ' is-invalid'
+                            : '')
+                        }
+                      />
+                      <ErrorMessage
+                        name="middlename"
+                        component="div"
+                        className="invalid-feedback"
+                      />
+                    </div>
+                    <div className="form-group col-lg-3">
+                      <label htmlFor="lastname">Last Name*</label>
+                      <Field
+                        disabled={
+                          !this.state.canApply && this.state.kyc?.lastname
+                        }
+                        value={values?.lastname}
+                        name="lastname"
+                        type="text"
+                        placeholder="Last Name"
+                        className={
+                          'form-control' +
+                          (errors.lastname && touched.lastname
+                            ? ' is-invalid'
+                            : '')
+                        }
+                      />
+                      <ErrorMessage
+                        name="lastname"
+                        component="div"
+                        className="invalid-feedback"
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="username">User Name*</label>
+                    <Field
+                      disabled={
+                        !this.state.canApply && this.state.kyc?.username
+                      }
+                      value={values?.username}
+                      name="username"
+                      type="text"
+                      placeholder="Enter your User Name"
+                      className={
+                        'form-control' +
+                        (errors.username && touched.username
+                          ? ' is-invalid'
+                          : '')
+                      }
+                    />
+                    <ErrorMessage
+                      name="username"
+                      component="div"
+                      className="invalid-feedback"
+                    />
+                  </div>
+                  <div className="form-row">
+                    <div className="form-group col-lg-6">
+                      <label htmlFor="dob">Date of Birth*</label>
+                      <Field
+                        disabled={!this.state.canApply && this.state.kyc?.dob}
+                        value={values?.dob}
+                        name="dob"
+                        type="date"
+                        placeholder="YYYY/MM/DD"
+                        className={
+                          'form-control' +
+                          (errors.dob && touched.dob ? ' is-invalid' : '')
+                        }
+                      />
+                      <ErrorMessage
+                        name="dob"
+                        component="div"
+                        className="invalid-feedback"
+                      />
+                    </div>
+                    <div className="form-group col-lg-6">
+                      <label htmlFor="nationality">Nationality*</label>
+                      <Field
+                        disabled={
+                          !this.state.canApply && this.state.kyc?.nationality
+                        }
+                        value={values?.nationality}
+                        name="nationality"
+                        type="text"
+                        className={
+                          'form-control' +
+                          (errors.nationality && touched.nationality
+                            ? ' is-invalid'
+                            : '')
+                        }
+                      />
+                      <ErrorMessage
+                        name="nationality"
+                        component="div"
+                        className="invalid-feedback"
+                      />
+                    </div>
+                  </div>
+                  <div className="form-row">
+                    <div className="form-group col-lg-6">
+
+                      <label htmlFor="contactNumber">Phone Number*</label>
+                      <div className="mb-3">
+                          <ReactTelInput
+                            className={
+                              'custom-input' +
+                              (errors.contactNumber && touched.contactNumber
+                                ? ' is-invalid'
+                                : '')}
+                            // defaultCountry="in"
+                            value={this.state.countryCode}
+                            flagsImagePath={Images.path.flags}
+                            onChange={(value) => {
+                              this.setState({
+                                countryCode: value,
+                              });
+                            }}
+                          />
+                        {/* <Field
+                          disabled={
+                            !this.state.canApply &&
+                            this.state.kyc?.contactNumber
+                          }
+                          value={values?.contactNumber}
+                          name="contactNumber"
+                          type="text"
+                          className={
+                            'form-control' +
+                            (errors.contactNumber && touched.contactNumber
+                              ? ' is-invalid'
+                              : '')
+                          }
+                        /> */}
+                        <ErrorMessage
+                          name="contactNumber"
+                          component="div"
+                          className="invalid-feedback"
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group col-lg-6">
+                      <label>Email*</label>
+                      <Field
+                        disabled={!this.state.canApply && this.state.kyc?.email}
+                        value={values?.email}
+                        name="email"
+                        type="text"
+                        className={
+                          'form-control' +
+                          (errors.email && touched.email ? ' is-invalid' : '')
+                        }
+                      />
+                      <ErrorMessage
+                        name="email"
+                        component="div"
+                        className="invalid-feedback"
+                      />
+                    </div>
+                  </div>
+                  <div className="form-row">
+                    <div className="form-group col-lg-6">
+                      <label htmlFor="placeOfBirth">Place of Birth*</label>
+                      <Field
+                        disabled={
+                          !this.state.canApply && this.state.kyc?.placeOfBirth
+                        }
+                        value={values?.placeOfBirth}
+                        name="placeOfBirth"
+                        type="text"
+                        className={
+                          'form-control' +
+                          (errors.placeOfBirth && touched.placeOfBirth
+                            ? ' is-invalid'
+                            : '')
+                        }
+                      />
+                      <ErrorMessage
+                        name="placeOfBirth"
+                        component="div"
+                        className="invalid-feedback"
+                      />
+                    </div>
+                    <div className="form-group col-lg-6">
+                      <label htmlFor="maritalStatus">Martial Status*</label>
+                      <Field
+                        disabled={
+                          !this.state.canApply && this.state.kyc?.maritalStatus
+                        }
+                        value={values?.maritalStatus}
+                        name="maritalStatus"
+                        as="select"
+                        className={
+                          'form-control' +
+                          (errors.maritalStatus && touched.maritalStatus
+                            ? ' is-invalid'
+                            : '')
+                        }
+                      >
+                        <option value=""></option>
+                        <option value="single">Single</option>
+                        <option value="Married">Married</option>
+                      </Field>
+                      <ErrorMessage
+                        name="maritalStatus"
+                        component="div"
+                        className="invalid-feedback"
+                      />
+                    </div>
+                  </div>
+                  <div className="form-row">
+                    <div className="form-group col-lg-6">
+                      <label htmlFor="referalAddress">Referal Address</label>
+                      <Field
+                        disabled={
+                          !this.state.canApply && this.state.kyc?.referalAddress
+                        }
+                        value={values?.referalAddress}
+                        name="referalAddress"
+                        type="text"
+                        className={
+                          'form-control' +
+                          (errors.referalAddress && touched.referalAddress
+                            ? ' is-invalid'
+                            : '')
+                        }
+                      />
+                      <ErrorMessage
+                        name="referalAddress"
+                        component="div"
+                        className="invalid-feedback"
+                      />
+                    </div>
+                  </div>
+                </fieldset>
+                <fieldset class="scheduler-border">
+                  <legend class="scheduler-border">Address Details</legend>
+                  <Row className="mt20">
+                    <Col>
+                      <form>
+                        <div class="form-group">
+                          <label htmlFor="address"> Address*</label>
+                          <Field
+                            disabled={
+                              !this.state.canApply && this.state.kyc?.address
+                            }
+                            value={values?.address}
+                            id="address"
+                            name="address"
+                            rows="4"
+                            cols="100"
+                            placeholder="Enter your Current Address"
+                            className={
+                              'form-control textHt' +
+                              (errors.address && touched.address
+                                ? ' is-invalid'
+                                : '')
+                            }
+                          />
+                          <ErrorMessage
+                            name="address"
+                            component="div"
+                            className="invalid-feedback"
+                          />
+                        </div>
+                      </form>
+                    </Col>
+                  </Row>
+                  <div className="form-row">
+                    <div className="form-group  col-lg-6">
+                      <label htmlFor="pincode">Pincode*</label>
+                      <Field
+                        disabled={
+                          !this.state.canApply && this.state.kyc?.pincode
+                        }
+                        value={values?.pincode}
+                        name="pincode"
+                        type="text"
+                        placeholder="Pincode"
+                        className={
+                          'form-control' +
+                          (errors.pincode && touched.pincode
+                            ? ' is-invalid'
+                            : '')
+                        }
+                      />
+                      <ErrorMessage
+                        name="pincode"
+                        component="div"
+                        className="invalid-feedback"
+                      />
+                    </div>
+                    <div className="form-group col"></div>
+                  </div>
+                </fieldset>
+                <fieldset class="scheduler-border">
+                  <legend class="scheduler-border">Document Submission</legend>
+                  <h5 className="mt30">Personal ID Proof</h5>
+                  <hr
+                    className="bg-color--primary border--none  jsElement dash-red"
+                    data-height="3"
+                    data-width="80"
+                  />
+                  <Row className="mt20">
+                    <Col lg={6}>
+                      <Field
+                        disabled={
+                          !this.state.canApply && this.state.kyc?.idType
+                        }
+                        type="text"
+                        id="idType"
+                        name="idType"
+                        title="ID Type*"
+                        component={CustomFileInput}
+                        setFieldValue={setFieldValue}
+                        placeholder="Enter the ID Type"
+                        touched={touched}
+                        errors={errors}
+                        value={values?.idType}
+                        values={values}
+                      />
+                    </Col>
+                    <Col lg={6}>
+                      <Field
+                        disabled={
+                          !this.state.canApply && this.state.kyc?.idNumber
+                        }
+                        type="text"
+                        id="idNumber"
+                        name="idNumber"
+                        title="ID Number*"
+                        errors={errors}
+                        touched={touched}
+                        component={CustomFileInput}
+                        setFieldValue={setFieldValue}
+                        placeholder="Enter the ID Number"
+                        value={values?.idNumber}
+                      />
+                    </Col>
+                  </Row>
+                  <hr />
+                  <Row>
+                    <Col lg={6}>
+                      <ul class="kyctext mt-20">
+                        <li>
+                          <i class="fa fa-arrow-right fa-ora"></i>
+                          <b>PROOF OF IDENTITY/ PHOTO ID:-</b>
+                          <p>
+                            Please provide a picture of any of the following:
+                          </p>
+                          <ul class="kyctextlist" type="none">
+                            <li>
+                              <i class="fa fa-arrow-right fa-ora"></i> Passport
+                              <ul class="kyctextlist1">
                                 <li>
-                                  <i class="fa fa-arrow-right fa-ora"></i><b>PROOF OF IDENTITY/ PHOTO ID:-</b>
-                                  <p>Please provide a picture of any of the following:</p>
-                                    <ul class="kyctextlist" type="none">
-                                          <li>
-                                            <i class="fa fa-arrow-right fa-ora"></i> Passport
-                                            <ul class="kyctextlist1">
-                                              <li> Required the first double-page spread showing your photo, signature below, passport number, your name, your date of birth, and the passport expiration date;</li>
-                                              <li> Required the Last double-page spread showing your name of father, name of mother, name of spouse, address, old passport no with date and place of issue, and file number;</li>
-                                            </ul>
-                                          </li>
-                                          <li> <i class="fa fa-arrow-right fa-ora"></i> Driver's license (front and back);</li>
-                                          <li> <i class="fa fa-arrow-right fa-ora"></i> PAN Card</li>
-                                                  <li> <i class="fa fa-arrow-right fa-ora"></i> Voters ID (front and back);</li>
-                                                  <li> <i class="fa fa-arrow-right fa-ora"></i> Aadhaar Card (front and back);</li>
-                                          <li>  <i class="fa fa-arrow-right fa-ora"></i> Government Provided National identity document (front and back)</li>
-                                          <li>  <i class="fa fa-arrow-right fa-ora"></i> Make sure the ID the scan of which you are submitting meets the following requirements
-                                                <ul class="kyctextlist1">
-                                                    <li>The document remains valid for at least 3 months from the submission date or it will not be accepted;</li>
-                                                    <li> It is an original document; photos of copies or xerox will not be accepted;</li>
-                                                    <li>Your photos or scans are clear, high-resolution and in color of the original document;</li>
-                                                    <li>Neither the documents nor their photos or scans have been edited or manipulated of the original document; and</li>
-                                                    <li>Photos of front and back sides, if applicable, must be uploaded separately.</li>
-                                                  </ul>
-          
-          
-          
-                                          </li>
-                                    </ul>
+                                  {' '}
+                                  Required the first double-page spread showing
+                                  your photo, signature below, passport number,
+                                  your name, your date of birth, and the
+                                  passport expiration date;
                                 </li>
-                               </ul>
-                               </Col>
-                               <Col lg={3}>
-                                <Field
-                                  disabled={!this.state.canApply && this.state.kyc?.idAttachment}
-                                  type="file"
-                                  id="myfile"
-                                  name="idAttachment"
-                                  title="ID Proof*"
-                                  errors={errors}
-                                  touched={touched}
-                                  description="JPG, PNG or PDF file only , Max Size allowed is 10 MB"
-                                  component={CustomFileInput}
-                                  setFieldValue={setFieldValue}
-                                  value={values?.idAttachment}
-                                  altFile={Images.path.idProof}
-                                />
-          
-                              </Col>
-                              <Col lg={3}>
-                                <Field
-                                  disabled={!this.state.canApply && this.state.kyc?.idAttachmentBack}
-                                  type="file"
-                                  id="myfile"
-                                  name="idAttachmentBack"
-                                  title="ID Proof Backside*"
-                                  errors={errors}
-                                  touched={touched}
-                                  description="JPG, PNG or PDF file only , Max Size allowed is 10 MB"
-                                  component={CustomFileInput}
-                                  setFieldValue={setFieldValue}
-                                  value={values?.idAttachmentBack}
-                                  altFile={Images.path.idProof}
-                                />
-          
-                              </Col>
-          
-                            </Row>
-                            <hr />
-                              {/* <hr />
+                                <li>
+                                  {' '}
+                                  Required the Last double-page spread showing
+                                  your name of father, name of mother, name of
+                                  spouse, address, old passport no with date and
+                                  place of issue, and file number;
+                                </li>
+                              </ul>
+                            </li>
+                            <li>
+                              {' '}
+                              <i class="fa fa-arrow-right fa-ora"></i> Driver's
+                              license (front and back);
+                            </li>
+                            <li>
+                              {' '}
+                              <i class="fa fa-arrow-right fa-ora"></i> PAN Card
+                            </li>
+                            <li>
+                              {' '}
+                              <i class="fa fa-arrow-right fa-ora"></i> Voters ID
+                              (front and back);
+                            </li>
+                            <li>
+                              {' '}
+                              <i class="fa fa-arrow-right fa-ora"></i> Aadhaar
+                              Card (front and back);
+                            </li>
+                            <li>
+                              {' '}
+                              <i class="fa fa-arrow-right fa-ora"></i>{' '}
+                              Government Provided National identity document
+                              (front and back)
+                            </li>
+                            <li>
+                              {' '}
+                              <i class="fa fa-arrow-right fa-ora"></i> Make sure
+                              the ID the scan of which you are submitting meets
+                              the following requirements
+                              <ul class="kyctextlist1">
+                                <li>
+                                  The document remains valid for at least 3
+                                  months from the submission date or it will not
+                                  be accepted;
+                                </li>
+                                <li>
+                                  {' '}
+                                  It is an original document; photos of copies
+                                  or xerox will not be accepted;
+                                </li>
+                                <li>
+                                  Your photos or scans are clear,
+                                  high-resolution and in color of the original
+                                  document;
+                                </li>
+                                <li>
+                                  Neither the documents nor their photos or
+                                  scans have been edited or manipulated of the
+                                  original document; and
+                                </li>
+                                <li>
+                                  Photos of front and back sides, if applicable,
+                                  must be uploaded separately.
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </Col>
+                    <Col lg={3}>
+                      <Field
+                        disabled={
+                          !this.state.canApply && this.state.kyc?.idAttachment
+                        }
+                        type="file"
+                        id="myfile"
+                        name="idAttachment"
+                        title="ID Proof*"
+                        errors={errors}
+                        touched={touched}
+                        description="JPG, PNG or PDF file only , Max Size allowed is 10 MB"
+                        component={CustomFileInput}
+                        setFieldValue={setFieldValue}
+                        value={values?.idAttachment}
+                        altFile={Images.path.idProof}
+                      />
+                    </Col>
+                    <Col lg={3}>
+                      <Field
+                        disabled={
+                          !this.state.canApply &&
+                          this.state.kyc?.idAttachmentBack
+                        }
+                        type="file"
+                        id="myfile"
+                        name="idAttachmentBack"
+                        title="ID Proof Backside*"
+                        errors={errors}
+                        touched={touched}
+                        description="JPG, PNG or PDF file only , Max Size allowed is 10 MB"
+                        component={CustomFileInput}
+                        setFieldValue={setFieldValue}
+                        value={values?.idAttachmentBack}
+                        altFile={Images.path.idProof}
+                      />
+                    </Col>
+                  </Row>
+                  <hr />
+                  {/* <hr />
                               <Row className="mt20">
                               <Col sm={9} >
                               <ul class="kyctext mt-20">
                                 <li>
                                   <i class="fa fa-arrow-right fa-ora"></i> VIDEO FOR FACE VERIFICATION :-
-          
+
                                     <ul class="kyctextlist" type="none">
                                           <li>
                                             <i class="fa fa-arrow-right fa-ora"></i> Please submit a 5-10 secs video saying "My name is XYZ (Full name to be mentioned in the video as per the photo ID submitted) applying KYC for Era Swap Ecosystem.
@@ -703,10 +1053,10 @@ export default class FirstLevel extends Component {
                                               <li>Avoid wearing glasses</li>
                                               <li>Avoid using filters</li>
                                               <li>Use enough lighting (Face should be clearly visible in video)</li>
-          
+
                                             </ul>
                                           </li>
-          
+
                                     </ul>
                                 </li>
                                </ul>
@@ -725,110 +1075,184 @@ export default class FirstLevel extends Component {
                                   component={CustomFileInput}
                                   setFieldValue={setFieldValue}
                                   value={values?.selfieAttachment}
-          
+
                                 />
                               </Col>
                             </Row> */}
-                            <hr />
-                            <Row className="mt20">
-                            <Col lg={9} >
-                            <ul class="kyctext mt-20">
+                  <hr />
+                  <Row className="mt20">
+                    <Col lg={9}>
+                      <ul class="kyctext mt-20">
+                        <li>
+                          <i class="fa fa-arrow-right fa-ora"></i>{' '}
+                          <b>ADDRESS PROOF:-</b>
+                          <ul class="kyctextlist" type="none">
+                            <li>
+                              <i class="fa fa-arrow-right fa-ora"></i> Please
+                              provide a picture of any of the following:
+                              <ul class="kyctextlist1">
                                 <li>
-                                  <i class="fa fa-arrow-right fa-ora"></i> <b>ADDRESS PROOF:-</b>
-          
-                                    <ul class="kyctextlist" type="none">
-                                          <li>
-                                            <i class="fa fa-arrow-right fa-ora"></i> Please provide a picture of any of the following:
-                                            <ul class="kyctextlist1">
-                                              <li> Any Address Proof Provided by Government & valid for at least 3 months from the submission date or it will not be accepted;</li>
-                                              <li> It is an original document; photos of copies or xerox will not be accepted;</li>
-                                              <li> Full Name on Address proof should match with Photo ID Provided.</li>
-                                            </ul>
-                                          </li>
-                                          <li>
-                                            <i class="fa fa-arrow-right fa-ora"></i> Passport
-                                            <ul class="kyctextlist1">
-                                              <li> Required the first double-page spread showing your photo, signature below, passport number, your name, your date of birth, and the passport expiration date;</li>
-                                              <li> Required the Last double-page spread showing your name of father, name of mother, name of spouse, address, old passport no with date and place of issue, and file number;</li>
-                                           </ul>
-                                          </li>
-                                          <li><i class="fa fa-arrow-right fa-ora"></i> Driver's license (front and back);</li>
-                                          <li><i class="fa fa-arrow-right fa-ora"></i> Electricity Bill (any from latest 3 Months)</li>
-                                          <li><i class="fa fa-arrow-right fa-ora"></i> Postpaid Telephone Bill (any from latest 3 Months)</li>
-                                          <li><i class="fa fa-arrow-right fa-ora"></i> Bank Statement / Bank Passbook (any from latest 3 Months)</li>
-                                          <li><i class="fa fa-arrow-right fa-ora"></i> Water Supply Bill (Upload latest bill)</li>
-          
-                                    </ul>
+                                  {' '}
+                                  Any Address Proof Provided by Government &
+                                  valid for at least 3 months from the
+                                  submission date or it will not be accepted;
                                 </li>
-                               </ul>
-                              </Col>
-                              <Col lg={3} >
-          
-                                <Field
-                                  disabled={!this.state.canApply && this.state.kyc?.addressProofAttachment}
-                                  type="file"
-                                  id="addressProofAttachment"
-                                  name="addressProofAttachment"
-                                  title="Address Proof*"
-                                  errors={errors}
-                                  touched={touched}
-                                  description="JPG, PNG or PDF file only , Max Size allowed is 10 MB"
-                                  component={CustomFileInput}
-                                  setFieldValue={setFieldValue}
-                                  value={values?.addressProofAttachment}
-                                  altFile={Images.path.addressProof}
-                                />
-                              </Col>
-                              </Row>
-                              <Row className="mt20">
-                              <Col lg={9} >
-                              <ul class="kyctext mt-20">
                                 <li>
-                                  <i class="fa fa-arrow-right fa-ora"></i> <b>SELFIE WITH PHOTO ID:-</b>
-          
-                                    <ul class="kyctextlist" type="none">
-                                          <li>
-                                            <i class="fa fa-arrow-right fa-ora"></i> Please submit a picture in which you are holding your government-issued ID and a paper note. On the note you should hand write your registered email ID, the current date, signature, and the words "For Era Swap Ecosystem." Make sure the picture you are submitting meets the following requirements:
-                                            <ul class="kyctextlist1">
-                                            <li> It is taken in good light;</li>
-                                            <li> The photo is clear, high-resolution, and in color;</li>
-                                            <li> Your face must be clearly visible;</li>
-                                            <li> The text in the note must be handwritten by you and not typed;</li>
-                                            <li> The document you are holding must be the same you are submitting for your identity verification; and</li>
-                                            <li> Neither the photos nor the documents have been edited or manipulated.</li>
-          
-                                            </ul>
-                                          </li>
-          
-                                    </ul>
+                                  {' '}
+                                  It is an original document; photos of copies
+                                  or xerox will not be accepted;
                                 </li>
-                               </ul>
-                               </Col>
-                               <Col lg={3} >
-                                <Field
-                                  disabled={!this.state.canApply && this.state.kyc?.selfieAttachment}
-                                  type="file"
-                                  id="selfieAttachment"
-                                  name="selfieAttachment"
-                                  title="Selfie with ID Card & holding ERASWAP written on paper 'For Eraswap Ecosystem'*"
-                                  defaultImage=""
-                                  errors={errors}
-                                  touched={touched}
-                                  description="JPG, PNG or PDF file only , Max Size allowed is 10 MB"
-                                  component={CustomFileInput}
-                                  setFieldValue={setFieldValue}
-                                  value={values?.selfieAttachment}
-                                  altFile={Images.path.selfieProof}
-                                />
-                              </Col>
-                              </Row>
-                          </fieldset>
-                            <div className="form-group submit-btn1">
-                              <button type="submit" className="btn btn-primary mr-2" disabled={!this.state.canApply && Object.values(errors).length}>
-                                {isSubmitting ? 'Submitting' : 'Submit'}</button>
-                            </div>
-                        </Form>
-                      )}}
+                                <li>
+                                  {' '}
+                                  Full Name on Address proof should match with
+                                  Photo ID Provided.
+                                </li>
+                              </ul>
+                            </li>
+                            <li>
+                              <i class="fa fa-arrow-right fa-ora"></i> Passport
+                              <ul class="kyctextlist1">
+                                <li>
+                                  {' '}
+                                  Required the first double-page spread showing
+                                  your photo, signature below, passport number,
+                                  your name, your date of birth, and the
+                                  passport expiration date;
+                                </li>
+                                <li>
+                                  {' '}
+                                  Required the Last double-page spread showing
+                                  your name of father, name of mother, name of
+                                  spouse, address, old passport no with date and
+                                  place of issue, and file number;
+                                </li>
+                              </ul>
+                            </li>
+                            <li>
+                              <i class="fa fa-arrow-right fa-ora"></i> Driver's
+                              license (front and back);
+                            </li>
+                            <li>
+                              <i class="fa fa-arrow-right fa-ora"></i>{' '}
+                              Electricity Bill (any from latest 3 Months)
+                            </li>
+                            <li>
+                              <i class="fa fa-arrow-right fa-ora"></i> Postpaid
+                              Telephone Bill (any from latest 3 Months)
+                            </li>
+                            <li>
+                              <i class="fa fa-arrow-right fa-ora"></i> Bank
+                              Statement / Bank Passbook (any from latest 3
+                              Months)
+                            </li>
+                            <li>
+                              <i class="fa fa-arrow-right fa-ora"></i> Water
+                              Supply Bill (Upload latest bill)
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </Col>
+                    <Col lg={3}>
+                      <Field
+                        disabled={
+                          !this.state.canApply &&
+                          this.state.kyc?.addressProofAttachment
+                        }
+                        type="file"
+                        id="addressProofAttachment"
+                        name="addressProofAttachment"
+                        title="Address Proof*"
+                        errors={errors}
+                        touched={touched}
+                        description="JPG, PNG or PDF file only , Max Size allowed is 10 MB"
+                        component={CustomFileInput}
+                        setFieldValue={setFieldValue}
+                        value={values?.addressProofAttachment}
+                        altFile={Images.path.addressProof}
+                      />
+                    </Col>
+                  </Row>
+                  <Row className="mt20">
+                    <Col lg={9}>
+                      <ul class="kyctext mt-20">
+                        <li>
+                          <i class="fa fa-arrow-right fa-ora"></i>{' '}
+                          <b>SELFIE WITH PHOTO ID:-</b>
+                          <ul class="kyctextlist" type="none">
+                            <li>
+                              <i class="fa fa-arrow-right fa-ora"></i> Please
+                              submit a picture in which you are holding your
+                              government-issued ID and a paper note. On the note
+                              you should hand write your registered email ID,
+                              the current date, signature, and the words "For
+                              Era Swap Ecosystem." Make sure the picture you are
+                              submitting meets the following requirements:
+                              <ul class="kyctextlist1">
+                                <li> It is taken in good light;</li>
+                                <li>
+                                  {' '}
+                                  The photo is clear, high-resolution, and in
+                                  color;
+                                </li>
+                                <li> Your face must be clearly visible;</li>
+                                <li>
+                                  {' '}
+                                  The text in the note must be handwritten by
+                                  you and not typed;
+                                </li>
+                                <li>
+                                  {' '}
+                                  The document you are holding must be the same
+                                  you are submitting for your identity
+                                  verification; and
+                                </li>
+                                <li>
+                                  {' '}
+                                  Neither the photos nor the documents have been
+                                  edited or manipulated.
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </Col>
+                    <Col lg={3}>
+                      <Field
+                        disabled={
+                          !this.state.canApply &&
+                          this.state.kyc?.selfieAttachment
+                        }
+                        type="file"
+                        id="selfieAttachment"
+                        name="selfieAttachment"
+                        title="Selfie with ID Card & holding ERASWAP written on paper 'For Eraswap Ecosystem'*"
+                        defaultImage=""
+                        errors={errors}
+                        touched={touched}
+                        description="JPG, PNG or PDF file only , Max Size allowed is 10 MB"
+                        component={CustomFileInput}
+                        setFieldValue={setFieldValue}
+                        value={values?.selfieAttachment}
+                        altFile={Images.path.selfieProof}
+                      />
+                    </Col>
+                  </Row>
+                </fieldset>
+                <div className="form-group submit-btn1">
+                  <button
+                    type="submit"
+                    className="btn btn-primary mr-2"
+                    disabled={
+                      !this.state.canApply && Object.values(errors).length
+                    }
+                  >
+                    {isSubmitting ? 'Submitting' : 'Submit'}
+                  </button>
+                </div>
+              </Form>
+            );}}
         </Formik>
       </div>
     );

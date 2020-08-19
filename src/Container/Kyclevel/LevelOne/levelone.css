@@ -1,0 +1,7 @@
+
+.custom-input{
+  width: 100% !important;
+}
+.react-tel-input input[type='text'], .react-tel-input input[type='tel']{
+  height: 34px !important;
+}

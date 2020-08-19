@@ -1,9 +1,9 @@
 import Swal from "sweetalert2"
 
 export const handleError = (error) => {
-  console.log(error)
-  console.log(error?.request)
-  console.log(error?.response)
+  console.log('error', error);
+  console.log('error?.request', error?.request);
+  console.log('error?.response', error?.response);
   if(error?.response?.status === 403)
     return Swal.fire('Sign In','Please Load Wallet First!','warning');
 	if(error?.response?.status === 400)
