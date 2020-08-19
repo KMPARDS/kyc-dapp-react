@@ -30,7 +30,7 @@ export default class FirstLevel extends Component {
         // addressProofAttachment: '',
         // selfieAttachment: ''
       },
-      countryCode: '+91',
+      countryCode: '',
       canApply: true
     };
 
@@ -58,11 +58,11 @@ export default class FirstLevel extends Component {
       nationality: Yup.string()
         .required('nationality is required'),
       contactNumber: Yup.string()
-        .test(
-          "contactNumberFormat",
-          "Enter Valid Number",
-          value => { return value && isFinite(value); }
-        )
+        // .test(
+        //   "contactNumberFormat",
+        //   "Enter Valid Number",
+        //   value => { return value && isFinite(value); }
+        // )
         .min(6, 'Minimum 6 digit phone Number')
         // .max(10, 'Maximum 10 digit phone Number')
         .required('Phone Number is required'),
@@ -296,7 +296,7 @@ export default class FirstLevel extends Component {
               status: resp?.data?.data?.status,
               adminMessage: resp.data?.data?.adminMessage,
             },
-            countryCode: resp?.data?.data?.contactNumber,
+            countryCode: '+' + resp?.data?.data?.contactNumber,
           },
           () => console.log(this.state.kyc)
         );
@@ -677,7 +677,7 @@ export default class FirstLevel extends Component {
                               (errors.contactNumber && touched.contactNumber
                                 ? ' is-invalid'
                                 : '')}
-                            // defaultCountry="in"
+                            defaultCountry="in"
                             value={this.state.countryCode}
                             flagsImagePath={Images.path.flags}
                             onChange={(value) => {
