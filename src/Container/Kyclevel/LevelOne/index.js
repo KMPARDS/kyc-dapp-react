@@ -59,9 +59,12 @@ export default class FirstLevel extends Component {
         .required('nationality is required'),
       contactNumber: Yup.string()
         // .test(
-        //   "contactNumberFormat",
-        //   "Enter Valid Number",
-        //   value => { return value && isFinite(value); }
+        //   "contactNumberRequired",
+        //   "Contact Number required",
+        //   (value) => {
+        //     console.log({value,countryCode :this.state.countryCode})
+        //     return this.state.countryCode?.length ? false : true
+        //   }
         // )
         .min(6, 'Minimum 6 digit phone Number')
         // .max(10, 'Maximum 10 digit phone Number')
@@ -496,7 +499,8 @@ export default class FirstLevel extends Component {
             handleChange,
             isSubmitting
           }) => {
-            isSubmitting && console.log('Object.keys(errors)[0]',Object.keys(errors)[0])/*[Object.keys(errors)[0]].focus();*/
+            isSubmitting && console.log('Object.keys(errors)[0]', Object.keys(errors)[0], Object.values(errors)[0])/*[Object.keys(errors)[0]].focus();*/
+            console.log({errors})
             return (
               <Form>
                 <fieldset class="scheduler-border">
@@ -671,7 +675,8 @@ export default class FirstLevel extends Component {
 
                       <label htmlFor="contactNumber">Phone Number*</label>
                       <div className="mb-3">
-                          <ReactTelInput
+                        <ReactTelInput
+                          name="contactNumber"
                             className={
                               'custom-input' +
                               (errors.contactNumber && touched.contactNumber
@@ -680,7 +685,9 @@ export default class FirstLevel extends Component {
                             defaultCountry="in"
                             value={this.state.countryCode}
                             flagsImagePath={Images.path.flags}
-                            onChange={(value) => {
+                          onChange={(value) => {
+                              console.log({ value });
+                              setFieldValue('contactNumber', value);
                               this.setState({
                                 countryCode: value,
                               });
