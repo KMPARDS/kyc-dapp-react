@@ -68,7 +68,7 @@ export default class FirstLevel extends Component {
         // )
         .min(6, 'Minimum 6 digit phone Number')
         // .max(10, 'Maximum 10 digit phone Number')
-        .required('Phone Number is required'),
+      .required('Phone Number is required'),
       placeOfBirth: Yup.string()
         .required('Place of Birth  is required'),
       maritalStatus: Yup.string()
