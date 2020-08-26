@@ -24,6 +24,14 @@ class Header extends Component {
   }
 
   componentDidMount() {
+    try {
+      window.onload = function () {
+        window.opener.postMessage('loaded', '*');
+      };
+    } catch (e) {
+      console.log(e);
+    }
+
     window.addEventListener(
       'message',
       (e) => {
@@ -203,7 +211,7 @@ class Header extends Component {
                       Become a Conservator
                     </Link> */}
                     <a href="/" class="dropdown-item">
-                      {/* <i className="fa fa-power-off drop-img-kyc"></i> */}Logout 
+                      {/* <i className="fa fa-power-off drop-img-kyc"></i> */}Logout
                     </a>
                   </div>
                 </li>
@@ -575,7 +583,7 @@ class Header extends Component {
                 </ul>
                 {
                   this.context?.user?.walletAddress ?
-                  null 
+                  null
                   :
                 <div className="col-md-12 text-center">
                   <button

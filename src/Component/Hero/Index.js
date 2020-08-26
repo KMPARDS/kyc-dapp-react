@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import './Hero.css';
 import { Col, Button, Container, Row } from 'react-bootstrap';
 import Images from '../../Container/Images/Images';
 import User from '../../models/User';
+import { UserContext } from '../../utils/user.context';
 
 const $ = '$' in window && window.$;
 
 function Hero() {
   const history = useHistory();
+  const context = useContext(UserContext);
 
   return (
     <div>
@@ -17,7 +19,7 @@ function Hero() {
           <div className="row">
             <div className="col-12 col-md-10 col-lg-6 ">
               <div className="hero-head-txt">
-              KYC on Era Swap Blockchain  
+              KYC on Era Swap Blockchain
                 <br />
                 Network adds to build {' '}<br></br>
                 <span className="quick-effect">Verified Community</span>
@@ -43,7 +45,7 @@ function Hero() {
                 <a
                   className="knw-btn mt40"
                   onClick={e => {
-                    if(User.getToken()){
+                    if (context?.user?.walletAddress) {
                       history.push('/form');
                     } else {
                       $('.kyclevel2').modal('show');

@@ -141,7 +141,7 @@ class MetamaskLogin extends Component {
     return (
       <div className="blankpage">
         <div className="Kyclevel-container">
-          
+
 
           <Container>
             <div className="space text-center">
