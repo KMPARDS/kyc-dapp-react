@@ -783,7 +783,7 @@ export default class FirstLevel extends Component {
                       >
                         <option value=""></option>
                         <option value="single">Single</option>
-                        <option value="Married">Married</option>
+                        <option value="married">Married</option>
                       </Field>
                       <ErrorMessage
                         name="maritalStatus"
