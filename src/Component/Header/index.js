@@ -260,9 +260,7 @@ class Header extends Component {
                       <tr>
                         <th scope="col">KYC Benefits </th>
                         <th scope="col">KYC Charge  (ES) </th>
-                        <th scope="col">
-                          Cummulative KYC Charges for the levels (ES)
-                        </th>
+                        
                         <th scope="col">Applicant Benefit (Staked ES)</th>
                         <th scope="col">
                           Introducer Incentive (50% Stake & 50% ES)
@@ -281,7 +279,7 @@ class Header extends Component {
                       <tr>
                         <th scope="row">% BreakUp</th>
                         <td>100%</td>
-                        <td> 100%</td>
+                        
                         <td> 100.00%</td>
                         <td> 40.00% </td>
                         <td> 40.00% </td>
@@ -294,7 +292,7 @@ class Header extends Component {
                       <tr>
                         <th scope="row">Level 1 KYC - Identity</th>
                         <td>31.50</td>
-                        <td>31.50</td>
+                        
                         <td>31.50</td>
                         <td>12.60</td>
                         <td>12.60</td>
@@ -307,7 +305,7 @@ class Header extends Component {
                       <tr>
                         <th scope="row">Level 2 KYC - Skill / Business </th>
                         <td>63</td>
-                        <td>70.00</td>
+                        
                         <td>63</td>
                         <td>25.20</td>
                         <td>25.20</td>
@@ -322,7 +320,7 @@ class Header extends Component {
                           Level 3 KYC - Experience / Recommendation
                         </th>
                         <td>94.5</td>
-                        <td>150</td>
+                        
                         <td>94.5</td>
                         <td>37.80</td>
                         <td>37.80</td>
@@ -335,7 +333,7 @@ class Header extends Component {
                       <tr>
                         <th scope="row">Level 4 KYC - FOS Tagya Validation</th>
                         <td>315</td>
-                        <td>450</td>
+                        
                         <td>315</td>
                         <td>126.00</td>
                         <td>126.00</td>
@@ -350,7 +348,7 @@ class Header extends Component {
                           Level 5 KYC - Online Curator Validation
                         </th>
                         <td>5000</td>
-                        <td>5150</td>
+                       
                         <td>5000</td>
                         <td>2000.00</td>
                         <td>2000.00</td>
