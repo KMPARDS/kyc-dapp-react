@@ -107,31 +107,38 @@ export default class CustomFileInput extends Component {
           id={name}
           name={name}
           type={type}
-          className={type === 'file' ? "hidden" : ('form-control' + (errors && errors[name] && touched[name] ? ' is-invalid' : ''))}
+          className={
+            type === 'file'
+              ? 'hidden'
+              : 'form-control' +
+                (errors && errors[name] && touched[name] ? ' is-invalid' : '')
+          }
           placeholder={placeholder}
           onChange={this.handleChange}
           ref={this.fileUpload}
           onBlur={onBlur}
           value={type === 'text' ? value : null}
           onerror={this.fileError}
+          autoComplete="none"
         />
-        {this.state.error && (
-          <div className="error">
-            {this.state.error}
+        {this.state.error && <div className="error">{this.state.error}</div>}
+
+        {type === 'file' && (
+          <div>
+            <p>Click on the icon below to select and upload the document</p>
+            <Row>
+              <Col sm={5}>
+                <div className="border-style-img" onClick={this.showFileUpload}>
+                  <img
+                    className="kycdapp-plus-Img"
+                    src={this.state.imagePreviewUrl}
+                    alt=""
+                  />
+                </div>
+              </Col>
+            </Row>
           </div>
         )}
-
-        {type === 'file' &&
-        <div>
-            <p>Click on the icon below to select and upload the document</p>
-          <Row>
-            <Col sm={5}>
-              <div className="border-style-img" onClick={this.showFileUpload}>
-                <img className='kycdapp-plus-Img' src={this.state.imagePreviewUrl} alt="" />
-              </div>
-            </Col>
-          </Row>
-          </div>}
       </div>
     );
   }

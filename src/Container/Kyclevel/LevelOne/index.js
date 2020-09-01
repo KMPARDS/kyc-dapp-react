@@ -502,7 +502,7 @@ export default class FirstLevel extends Component {
             isSubmitting && console.log('Object.keys(errors)[0]', Object.keys(errors)[0], Object.values(errors)[0])/*[Object.keys(errors)[0]].focus();*/
             console.log({errors})
             return (
-              <Form>
+              <Form autoComplete={false}>
                 <fieldset class="scheduler-border">
                   <legend class="scheduler-border">Personal Info</legend>
                   <div className="form-row">
@@ -543,6 +543,7 @@ export default class FirstLevel extends Component {
                         value={values?.firstname}
                         name="firstname"
                         type="text"
+                        autoComplete="none"
                         placeholder="First Name"
                         className={
                           'form-control' +
@@ -566,6 +567,7 @@ export default class FirstLevel extends Component {
                         value={values?.middlename}
                         name="middlename"
                         type="text"
+                        autoComplete="none"
                         placeholder="Middle Name"
                         className={
                           'form-control' +
@@ -589,6 +591,7 @@ export default class FirstLevel extends Component {
                         value={values?.lastname}
                         name="lastname"
                         type="text"
+                        autoComplete="none"
                         placeholder="Last Name"
                         className={
                           'form-control' +
@@ -613,6 +616,7 @@ export default class FirstLevel extends Component {
                       value={values?.username}
                       name="username"
                       type="text"
+                      autoComplete="none"
                       placeholder="Enter your User Name"
                       className={
                         'form-control' +
@@ -656,6 +660,7 @@ export default class FirstLevel extends Component {
                         value={values?.nationality}
                         name="nationality"
                         type="text"
+                        autoComplete="none"
                         className={
                           'form-control' +
                           (errors.nationality && touched.nationality
@@ -672,27 +677,27 @@ export default class FirstLevel extends Component {
                   </div>
                   <div className="form-row">
                     <div className="form-group col-lg-6">
-
                       <label htmlFor="contactNumber">Phone Number*</label>
                       <div className="mb-3">
                         <ReactTelInput
                           name="contactNumber"
-                            className={
-                              'custom-input' +
-                              (errors.contactNumber && touched.contactNumber
-                                ? ' is-invalid'
-                                : '')}
-                            defaultCountry="in"
-                            value={this.state.countryCode}
-                            flagsImagePath={Images.path.flags}
+                          className={
+                            'custom-input' +
+                            (errors.contactNumber && touched.contactNumber
+                              ? ' is-invalid'
+                              : '')
+                          }
+                          defaultCountry="in"
+                          value={this.state.countryCode}
+                          flagsImagePath={Images.path.flags}
                           onChange={(value) => {
-                              console.log({ value });
-                              setFieldValue('contactNumber', value);
-                              this.setState({
-                                countryCode: value,
-                              });
-                            }}
-                          />
+                            console.log({ value });
+                            setFieldValue('contactNumber', value);
+                            this.setState({
+                              countryCode: value,
+                            });
+                          }}
+                        />
                         {/* <Field
                           disabled={
                             !this.state.canApply &&
@@ -701,6 +706,7 @@ export default class FirstLevel extends Component {
                           value={values?.contactNumber}
                           name="contactNumber"
                           type="text"
+                          autoComplete="none"
                           className={
                             'form-control' +
                             (errors.contactNumber && touched.contactNumber
@@ -722,6 +728,7 @@ export default class FirstLevel extends Component {
                         value={values?.email}
                         name="email"
                         type="text"
+                        autoComplete="none"
                         className={
                           'form-control' +
                           (errors.email && touched.email ? ' is-invalid' : '')
@@ -744,6 +751,7 @@ export default class FirstLevel extends Component {
                         value={values?.placeOfBirth}
                         name="placeOfBirth"
                         type="text"
+                        autoComplete="none"
                         className={
                           'form-control' +
                           (errors.placeOfBirth && touched.placeOfBirth
@@ -794,6 +802,7 @@ export default class FirstLevel extends Component {
                         value={values?.referalAddress}
                         name="referalAddress"
                         type="text"
+                        autoComplete="none"
                         className={
                           'form-control' +
                           (errors.referalAddress && touched.referalAddress
@@ -813,33 +822,31 @@ export default class FirstLevel extends Component {
                   <legend class="scheduler-border">Address Details</legend>
                   <Row className="mt20">
                     <Col>
-                      <form>
-                        <div class="form-group">
-                          <label htmlFor="address"> Address*</label>
-                          <Field
-                            disabled={
-                              !this.state.canApply && this.state.kyc?.address
-                            }
-                            value={values?.address}
-                            id="address"
-                            name="address"
-                            rows="4"
-                            cols="100"
-                            placeholder="Enter your Current Address"
-                            className={
-                              'form-control textHt' +
-                              (errors.address && touched.address
-                                ? ' is-invalid'
-                                : '')
-                            }
-                          />
-                          <ErrorMessage
-                            name="address"
-                            component="div"
-                            className="invalid-feedback"
-                          />
-                        </div>
-                      </form>
+                      <div class="form-group">
+                        <label htmlFor="address"> Address*</label>
+                        <Field
+                          disabled={
+                            !this.state.canApply && this.state.kyc?.address
+                          }
+                          value={values?.address}
+                          id="address"
+                          name="address"
+                          rows="4"
+                          cols="100"
+                          placeholder="Enter your Current Address"
+                          className={
+                            'form-control textHt' +
+                            (errors.address && touched.address
+                              ? ' is-invalid'
+                              : '')
+                          }
+                        />
+                        <ErrorMessage
+                          name="address"
+                          component="div"
+                          className="invalid-feedback"
+                        />
+                      </div>
                     </Col>
                   </Row>
                   <div className="form-row">
@@ -852,6 +859,7 @@ export default class FirstLevel extends Component {
                         value={values?.pincode}
                         name="pincode"
                         type="text"
+                        autoComplete="none"
                         placeholder="Pincode"
                         className={
                           'form-control' +
@@ -884,6 +892,7 @@ export default class FirstLevel extends Component {
                           !this.state.canApply && this.state.kyc?.idType
                         }
                         type="text"
+                        autoComplete="none"
                         id="idType"
                         name="idType"
                         title="ID Type*"
@@ -902,6 +911,7 @@ export default class FirstLevel extends Component {
                           !this.state.canApply && this.state.kyc?.idNumber
                         }
                         type="text"
+                        autoComplete="none"
                         id="idNumber"
                         name="idNumber"
                         title="ID Number*"

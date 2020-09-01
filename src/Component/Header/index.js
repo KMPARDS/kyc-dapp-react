@@ -26,7 +26,7 @@ class Header extends Component {
   componentDidMount() {
     try {
       window.onload = function () {
-        window.opener.postMessage('loaded', '*');
+        window.opener && window.opener.postMessage('loaded', '*');
       };
     } catch (e) {
       console.log(e);
@@ -46,15 +46,15 @@ class Header extends Component {
   }
 
   closeAllModals() {
-    try{
+    try {
       const modals = document.getElementsByClassName('modal');
-      console.log('modals',modals)
+      console.log('modals', modals);
       for (let i = 0; i < modals.length; i++) {
         const modal = modals[i];
-        $(modal).modal('hide')
+        $(modal).modal('hide');
       }
-    }catch(e){
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -63,7 +63,9 @@ class Header extends Component {
       signature = '';
     if (message.substring) {
       if (message.substring(0, 2) === '0x') {
-        const wallet = new ethers.Wallet(message).connect(this.context?.user?.provider);
+        const wallet = new ethers.Wallet(message).connect(
+          this.context?.user?.provider
+        );
 
         var token;
         if (countOfSession === 0) {
@@ -80,8 +82,7 @@ class Header extends Component {
             )
             .then(async (resp) => {
               // console.log(resp);
-              if(resp.data)
-              token = resp.data.token;
+              if (resp.data) token = resp.data.token;
               if (typeof token !== undefined || token !== '') {
                 signature = wallet.signMessage(token);
                 const walletAddress = await wallet.getAddress();
@@ -93,7 +94,7 @@ class Header extends Component {
                         {
                           walletAddress: wallet.address,
                           signature: value,
-                          key: resp.data.key
+                          key: resp.data.key,
                         },
                         {
                           headers: {
@@ -130,10 +131,7 @@ class Header extends Component {
   }
 
   render() {
-    console.log(
-      'this.context?.user?.wallet?.address',
-      this.context
-    );
+    console.log('this.context?.user?.wallet?.address', this.context);
     return (
       <div className="header-bgd-color" id="home">
         <nav class="mb-1 navbar navbar-expand-lg navbar-dark info-color">
@@ -211,7 +209,8 @@ class Header extends Component {
                       Become a Conservator
                     </Link> */}
                     <a href="/" class="dropdown-item">
-                      {/* <i className="fa fa-power-off drop-img-kyc"></i> */}Logout
+                      {/* <i className="fa fa-power-off drop-img-kyc"></i> */}
+                      Logout
                     </a>
                   </div>
                 </li>
@@ -259,27 +258,28 @@ class Header extends Component {
                     <thead>
                       <tr>
                         <th scope="col">KYC Benefits </th>
-                        <th scope="col">KYC Charge  (ES) </th>
-                        
+                        <th scope="col">KYC Charge (ES) </th>
+
                         <th scope="col">Applicant Benefit (Staked ES)</th>
                         <th scope="col">
                           Introducer Incentive (50% Stake & 50% ES)
                         </th>
                         <th scope="col">
-                          Incentive to User’s Day Swappers Tree (50% Stake & 50% ES)
+                          Incentive to User’s Day Swappers Tree (50% Stake & 50%
+                          ES)
                         </th>
                         <th scope="col">Curators (50% Stake & 50% ES)</th>
                         <th scope="col">Tagya (50% Stake & 50% ES)</th>
-                        <th scope="col">Burning  (ES)</th>
-                        <th scope="col">Charity  (ES)</th>
-                        <th scope="col">Total Benefits  (ES)</th>
+                        <th scope="col">Burning (ES)</th>
+                        <th scope="col">Charity (ES)</th>
+                        <th scope="col">Total Benefits (ES)</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <th scope="row">% BreakUp</th>
                         <td>100%</td>
-                        
+
                         <td> 100.00%</td>
                         <td> 40.00% </td>
                         <td> 40.00% </td>
@@ -292,7 +292,7 @@ class Header extends Component {
                       <tr>
                         <th scope="row">Level 1 KYC - Identity</th>
                         <td>31.50</td>
-                        
+
                         <td>31.50</td>
                         <td>12.60</td>
                         <td>12.60</td>
@@ -305,7 +305,7 @@ class Header extends Component {
                       <tr>
                         <th scope="row">Level 2 KYC - Skill / Business </th>
                         <td>63</td>
-                        
+
                         <td>63</td>
                         <td>25.20</td>
                         <td>25.20</td>
@@ -320,7 +320,7 @@ class Header extends Component {
                           Level 3 KYC - Experience / Recommendation
                         </th>
                         <td>94.5</td>
-                        
+
                         <td>94.5</td>
                         <td>37.80</td>
                         <td>37.80</td>
@@ -333,7 +333,7 @@ class Header extends Component {
                       <tr>
                         <th scope="row">Level 4 KYC - FOS Tagya Validation</th>
                         <td>315</td>
-                        
+
                         <td>315</td>
                         <td>126.00</td>
                         <td>126.00</td>
@@ -348,7 +348,7 @@ class Header extends Component {
                           Level 5 KYC - Online Curator Validation
                         </th>
                         <td>5000</td>
-                       
+
                         <td>5000</td>
                         <td>2000.00</td>
                         <td>2000.00</td>
@@ -420,36 +420,33 @@ class Header extends Component {
                     </li>
                   </ul>
                 </div>
-                {
-                  this.context?.user?.walletAddress ?
-                  null
-                  :
+                {this.context?.user?.walletAddress ? null : (
                   <div className="col-md-12 text-center">
-                  <button
-                    class="btn bgd-color mr-2 mb10"
-                    onClick={(e) => {
-                      window.open(
-                        'https://eraswap.life/',
-                        '',
-                        'width=1003,height=650'
-                      );
-                    }}
-                  >
-                    Proceed (using Eraswap life)
-                    <span class="sr-only">(current)</span>
-                  </button>
-                  <button
-                    class="btn bgd-color mr-2 mb10"
-                    onClick={(e) => {
-                      this.props.history.push('/metamask');
-                      this.closeAllModals();
-                    }}
-                  >
-                    Connect with Metamask
-                    <span class="sr-only">(current)</span>
-                  </button>
-                </div>
-                }
+                    <button
+                      class="btn bgd-color mr-2 mb10"
+                      onClick={(e) => {
+                        window.open(
+                          'https://eraswap.life/',
+                          '',
+                          'width=1003,height=650'
+                        );
+                      }}
+                    >
+                      Proceed (using Eraswap life)
+                      <span class="sr-only">(current)</span>
+                    </button>
+                    <button
+                      class="btn bgd-color mr-2 mb10"
+                      onClick={(e) => {
+                        this.props.history.push('/metamask');
+                        this.closeAllModals();
+                      }}
+                    >
+                      Connect with Metamask
+                      <span class="sr-only">(current)</span>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -484,7 +481,7 @@ class Header extends Component {
                   follow the following simple steps and click on ‘Proceed’
                   button to complete your KYC to migrate to Era Swap Network
                   (ESN) or for Level 1 to Level 5 KYC for Multiple Platforms of
-                   ESE.
+                  ESE.
                 </h6>
                 <ul className="comlistui">
                   <li>
@@ -579,36 +576,33 @@ class Header extends Component {
                     Congratulations, your KYC Request has been submitted.
                   </li>
                 </ul>
-                {
-                  this.context?.user?.walletAddress ?
-                  null
-                  :
-                <div className="col-md-12 text-center">
-                  <button
-                    class="btn bgd-color mr-2 mb10"
-                    onClick={(e) => {
-                      window.open(
-                        'https://eraswap.life/',
-                        '',
-                        'width=1003,height=650'
-                      );
-                    }}
-                  >
-                    Proceed (using Eraswap Life)
-                    <span class="sr-only">(current)</span>
-                  </button>
-                  <button
-                    class="btn bgd-color mr-2 mb10"
-                    onClick={(e) => {
-                      this.props.history.push('/metamask');
-                      this.closeAllModals();
-                    }}
-                  >
-                    Connect with Metamask
-                    <span class="sr-only">(current)</span>
-                  </button>
-                </div>
-              }
+                {this.context?.user?.walletAddress ? null : (
+                  <div className="col-md-12 text-center">
+                    <button
+                      class="btn bgd-color mr-2 mb10"
+                      onClick={(e) => {
+                        window.open(
+                          'https://eraswap.life/',
+                          '',
+                          'width=1003,height=650'
+                        );
+                      }}
+                    >
+                      Proceed (using Eraswap Life)
+                      <span class="sr-only">(current)</span>
+                    </button>
+                    <button
+                      class="btn bgd-color mr-2 mb10"
+                      onClick={(e) => {
+                        this.props.history.push('/metamask');
+                        this.closeAllModals();
+                      }}
+                    >
+                      Connect with Metamask
+                      <span class="sr-only">(current)</span>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
