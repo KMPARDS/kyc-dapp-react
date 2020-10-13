@@ -15,6 +15,7 @@ import { UserContext } from '../../../utils/user.context';
 export default class LevelTwo extends React.Component {
   static contextType = UserContext;
   activePlatformId = '';
+  level = 2;
 
   constructor(props) {
     super(props);
@@ -39,7 +40,7 @@ export default class LevelTwo extends React.Component {
     this.activePlatformId = platformId;
     console.log('this.activePlatformId', this.activePlatformId);
     this.handleShow();
-    Axios.get(config.baseUrl + `api/kyc-inputs/?platformId=${platformId}`)
+    Axios.get(config.baseUrl + `api/kyc-inputs/?platformId=${platformId}&level=${this.level}`)
       .then((resp) => {
         console.log('inputs', resp);
         this.setState({
@@ -86,7 +87,7 @@ export default class LevelTwo extends React.Component {
   }
 
   fetchSubmittedData() {
-    Axios.get(config.baseUrl + `apis/kyc-level-two/${this.activePlatformId}`, {
+    Axios.get(config.baseUrl + `apis/kyc-level-two/${this.level}/${this.activePlatformId}`, {
       headers: {
         Authorization: this.context?.user?.token,
       },
@@ -135,6 +136,8 @@ export default class LevelTwo extends React.Component {
     console.log('called');
     const formData = new FormData();
     formData.append('platformId', this.activePlatformId);
+    formData.append('level', this.level);
+
     for (var key in values) {
       formData.append(key, values[key]);
       console.log(formData.get(key));
@@ -157,7 +160,7 @@ export default class LevelTwo extends React.Component {
     return (
       <div>
         <h4 className="m4-txt-level mb40 text-center">KYC LEVEL   2 </h4>
-      
+
 
         <span className="level-info" style={{ color: 'darkblue' }}>
           1. In KYC Level 2, select specific Era Swap Ecosystem Platform by

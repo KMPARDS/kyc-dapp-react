@@ -30,7 +30,7 @@ class KycLevel extends Component {
       { name: 'SecondLevel', component: <LevelTwo /> },
       { name: 'ThirdLevel', component: <LevelThree /> },
      { name: 'FourthLevel', component: <LevelFour /> },
-     { name: 'FourthLevel', component: <LevelFive /> },
+     { name: 'FiveLevel', component: <LevelFive /> },
     ];
   }
 
@@ -80,10 +80,10 @@ class KycLevel extends Component {
             <li><i class="fa fa-chevron-right" aria-hidden="true"></i>   KYC Level 3 is for Recommendation. In KYC Level 3, the applicant has to provide details about his/her Skills / Business as EXPERT seller </li>
             <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  KYC Level 4 is for FOS Tagya Validation. In KYC Level 4, the applicant provide details about his/her Skill as TAGYA</li>
             <li><i class="fa fa-chevron-right" aria-hidden="true"></i>   KYC Level 5 is for Online Curator Validation. In KYC Level 5, the applicant provide details about his/her Skill as CURATOR </li>
-       
+
         </ul>
               	<MultiStep showNavigation={true} steps={this.steps} showNext={this.state.showNext} showPrev={this.state.showPrev} />
-						
+
             	</div>
 						</Col>
 					</Container>
