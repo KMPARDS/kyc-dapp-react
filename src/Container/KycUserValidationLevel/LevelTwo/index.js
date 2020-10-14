@@ -121,7 +121,7 @@ export default class LevelTwo extends React.Component {
   }
 
   fetchPlatforms() {
-    Axios.get(config.baseUrl + 'api/kyc-platforms/')
+    Axios.get(config.baseUrl + `api/kyc-platforms/?level=${this.level}`)
       .then((resp) => {
         console.log(resp);
 

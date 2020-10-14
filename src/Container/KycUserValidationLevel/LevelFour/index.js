@@ -86,7 +86,7 @@ export default class LevelFour extends React.Component {
   }
 
   fetchSubmittedData() {
-    Axios.get(config.baseUrl + `apis/kyc-level-three/${this.level}/${this.activePlatformId}`, {
+    Axios.get(config.baseUrl + `apis/kyc-level-two/${this.level}/${this.activePlatformId}`, {
       headers: {
         Authorization: this.context?.user?.token,
       },
@@ -120,7 +120,7 @@ export default class LevelFour extends React.Component {
   }
 
   fetchPlatforms() {
-    Axios.get(config.baseUrl + 'api/kyc-platforms/')
+    Axios.get(config.baseUrl + `api/kyc-platforms/?level=${this.level}`)
       .then((resp) => {
         console.log(resp);
 
@@ -142,7 +142,7 @@ export default class LevelFour extends React.Component {
       console.log(formData.get(key));
     }
 
-    Axios.post(config.baseUrl + 'apis/kyc-level-three/save', formData, {
+    Axios.post(config.baseUrl + 'apis/kyc-level-two/save', formData, {
       headers: {
         Authorization: this.context?.user?.token,
       },
