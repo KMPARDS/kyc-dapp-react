@@ -221,6 +221,10 @@ export default class FirstLevel extends Component {
         }
       );
         console.log('res', res);
+        this.setState({ kyc: {
+          ...this.state.kyc,
+          status: 'success'
+        }})
       setSubmitting(false);
       Swal.fire('Success','Kyc form submitted', 'success');
     } catch (e) {
@@ -1273,7 +1277,11 @@ export default class FirstLevel extends Component {
               </Form>
             );}}
         </Formik>
-        <Link className="btn btn-primary" to={`${this.props.match.url}/2`}>Next</Link>
+        {Object.keys(this.state.kyc).length ?
+          <Link className="btn btn-primary" to={`${this.props.match.url}/2`}>Next</Link>
+          :
+          <br></br>
+        }
       </div>
     );
   }
