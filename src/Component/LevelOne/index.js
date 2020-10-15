@@ -1278,7 +1278,7 @@ export default class FirstLevel extends Component {
             );}}
         </Formik>
         {Object.keys(this.state.kyc).length ?
-          <Link className="btn btn-primary" to={`${this.props.match.url}/2`}>Next</Link>
+          <Link className="btn btn-primary" to={`/${this.props.match.url.split('/')[1]}/2`}>Next</Link>
           :
           <br></br>
         }

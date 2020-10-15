@@ -10,6 +10,7 @@ import LevelFour from './LevelFour';
 import LevelThree from './LevelThree';
 import { Link, Route, withRouter } from 'react-router-dom';
 import { UserContext } from '../../utils/user.context';
+import LevelZero from '../../Component/LevelZero';
 
 class KycLevel extends Component {
   static contextType = UserContext;
@@ -82,7 +83,8 @@ class KycLevel extends Component {
                 {/* <Link to={`${this.props.match.url}/2`}>2</Link>
                 <Link to={`${this.props.match.url}/3`}>3</Link>
                 <Link to={`${this.props.match.url}/4`}>4</Link> */}
-                <Route exact path={`${this.props.match.path}/`} component={LevelOne} />
+                <Route exact path={`${this.props.match.path}/`} component={LevelZero} />
+                <Route exact path={`${this.props.match.path}/1`} component={LevelOne} />
                 <Route exact path={`${this.props.match.path}/2`} component={LevelTwo} />
                 <Route exact path={`${this.props.match.path}/3`} component={LevelThree} />
                 <Route exact path={`${this.props.match.path}/4`} component={LevelFour} />

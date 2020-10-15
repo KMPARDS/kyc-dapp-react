@@ -275,6 +275,7 @@ export default class LevelThree extends React.Component {
                            </Col>
                          </Row>
                        </fieldset>
+                       <Link className="btn btn-primary" to={`/${this.props.match.url.split('/')[1]}/2`}>Prev</Link>
                        <Link className="btn btn-primary" to={`/${this.props.match.url.split('/')[1]}/4`}>Next</Link>
                      </div>
                    );

@@ -346,6 +346,7 @@ export default class LevelFour extends React.Component {
             </fieldset>
           </Modal.Body>
         </Modal>
+        <Link className="btn btn-primary" to={`/${this.props.match.url.split('/')[1]}/3`}>Prev</Link>
         <Link className="btn btn-primary" to={`/${this.props.match.url.split('/')[1]}/5`}>Next</Link>
       </div>
     );
