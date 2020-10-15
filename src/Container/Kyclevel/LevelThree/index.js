@@ -9,6 +9,7 @@ import config from '../../../config/config';
 import { errors } from 'ethers';
 import { handleError } from '../../../utils/Apis';
 import { UserContext } from '../../../utils/user.context';
+import { Link } from 'react-router-dom';
 export default class LevelThree extends React.Component {
                  static contextType = UserContext;
 
@@ -274,6 +275,7 @@ export default class LevelThree extends React.Component {
                            </Col>
                          </Row>
                        </fieldset>
+                       <Link className="btn btn-primary" to={`/${this.props.match.url.split('/')[1]}/4`}>Next</Link>
                      </div>
                    );
                  }

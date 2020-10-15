@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Col, Row, Modal, Button } from 'react-bootstrap';
-import Images from '../../../Container/Images/Images';
 import Axios from 'axios';
-import config from '../../../config/config';
-import User from '../../../models/User';
-import { handleError } from '../../../utils/Apis';
+import config from '../../config/config';
+import User from '../../models/User';
+import { handleError } from '../../utils/Apis';
 import * as Yup from 'yup';
 import { Formik, Field, Form, ErrorMessage, useFormik } from 'formik';
-import { SUPPORTED_FORMATS, FILE_SIZE } from '../../../utils/constants';
-import CustomFileInput from '../../../Component/CustomFileInput/CustomFileInput';
+import { SUPPORTED_FORMATS, FILE_SIZE } from '../../utils/constants';
+import CustomFileInput from '../CustomFileInput/CustomFileInput';
 import Swal from 'sweetalert2';
-import { UserContext } from '../../../utils/user.context';
+import { UserContext } from '../../utils/user.context';
+import { Link } from 'react-router-dom';
 
 export default class LevelTwo extends React.Component {
   static contextType = UserContext;
@@ -157,6 +157,7 @@ export default class LevelTwo extends React.Component {
   }
 
   render() {
+    console.log('this.props.match',this.props.match);
     return (
       <div>
         <h4 className="m4-txt-level mb40 text-center">KYC LEVEL   2 </h4>
@@ -344,6 +345,7 @@ export default class LevelTwo extends React.Component {
             </fieldset>
           </Modal.Body>
         </Modal>
+        <Link className="btn btn-primary" to={`/${this.props.match.url.split('/')[1]}/3`}>Next</Link>
       </div>
     );
   }

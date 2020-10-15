@@ -4,12 +4,12 @@ import { Col, Button, Container, Row } from 'react-bootstrap';
 import MultiStep from 'react-multistep';
 // import MultiStep from '../../Component/MultiLevel';
 import axios from 'axios';
-import LevelOne from './LevelOne/'
-import LevelTwo from './LevelTwo';
+import LevelOne from '../../Component/LevelOne';
+import LevelTwo from '../../Component/LevelTwo';
 import LevelFour from './LevelFour';
 import LevelThree from './LevelThree';
 import LevelFive from './LevelFive';
-import { withRouter } from 'react-router-dom';
+import { Link, Route, withRouter } from 'react-router-dom';
 import { UserContext } from '../../utils/user.context';
 
 class KycLevel extends Component {
@@ -82,8 +82,15 @@ class KycLevel extends Component {
             <li><i class="fa fa-chevron-right" aria-hidden="true"></i>   KYC Level 5 is for Online Curator Validation. In KYC Level 5, the applicant provide details about his/her Skill as CURATOR </li>
 
         </ul>
-              	<MultiStep showNavigation={true} steps={this.steps} showNext={this.state.showNext} showPrev={this.state.showPrev} />
-
+              	{/* <MultiStep showNavigation={true} steps={this.steps} showNext={this.state.showNext} showPrev={this.state.showPrev} /> */}
+                {/* <Link to={`${this.props.match.url}/2`}>2</Link>
+                <Link to={`${this.props.match.url}/3`}>3</Link>
+                <Link to={`${this.props.match.url}/4`}>4</Link> */}
+                <Route exact path={`${this.props.match.path}/`} component={LevelOne} />
+                <Route exact path={`${this.props.match.path}/2`} component={LevelTwo} />
+                <Route exact path={`${this.props.match.path}/3`} component={LevelThree} />
+                <Route exact path={`${this.props.match.path}/4`} component={LevelFour} />
+                <Route exact path={`${this.props.match.path}/5`} component={LevelFive} />
             	</div>
 						</Col>
 					</Container>

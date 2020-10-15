@@ -95,9 +95,11 @@ class App extends React.Component {
             <Header />
             <Switch>
               <Route exact path="/" component={Homepage} />
-              <Route exact path="/form" component={Kyclevel} />
               <Route
-                exact
+                // exact
+                path="/form" component={Kyclevel} />
+              <Route
+                // exact
                 path="/user-validation"
                 component={KycUserValidationLevel}
               />

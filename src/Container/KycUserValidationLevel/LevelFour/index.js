@@ -12,6 +12,7 @@ import { Col, Row, Modal, Button } from 'react-bootstrap';
 import CustomFileInput from '../../../Component/CustomFileInput/CustomFileInput';
 import { SUPPORTED_FORMATS, FILE_SIZE } from '../../../utils/constants';
 import { UserContext } from '../../../utils/user.context';
+import { Link } from 'react-router-dom';
 
 export default class LevelFour extends React.Component {
   static contextType = UserContext;
@@ -345,6 +346,7 @@ export default class LevelFour extends React.Component {
             </fieldset>
           </Modal.Body>
         </Modal>
+        <Link className="btn btn-primary" to={`/${this.props.match.url.split('/')[1]}/5`}>Next</Link>
       </div>
     );
   }

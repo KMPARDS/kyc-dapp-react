@@ -5,16 +5,18 @@ import axios from 'axios';
 import 'react-telephone-input/css/default.css'
 import ReactTelInput from 'react-telephone-input';
 import { RecordRTCPromisesHandler } from 'recordrtc';
-import config from '../../../config/config';
+import config from '../../config/config';
 import Swal from 'sweetalert2'
 import { Col, Row } from 'react-bootstrap';
 import { Formik, Field, Form, ErrorMessage, useFormik } from 'formik';
-import { SUPPORTED_FORMATS, FILE_SIZE } from '../../../utils/constants';
-import User from '../../../models/User';
-import CustomFileInput from "../../../Component/CustomFileInput/CustomFileInput";
-import { handleError } from '../../../utils/Apis';
-import  Images  from '../../Images/Images';
-import { UserContext } from '../../../utils/user.context';
+import { SUPPORTED_FORMATS, FILE_SIZE } from '../../utils/constants';
+import User from '../../models/User';
+import CustomFileInput from "../CustomFileInput/CustomFileInput";
+import { handleError } from '../../utils/Apis';
+import  Images  from '../../Container/Images/Images';
+import { UserContext } from '../../utils/user.context';
+import { Link } from 'react-router-dom';
+
 export default class FirstLevel extends Component {
   static contextType = UserContext;
   validationSchema = {};
@@ -1271,6 +1273,7 @@ export default class FirstLevel extends Component {
               </Form>
             );}}
         </Formik>
+        <Link className="btn btn-primary" to={`${this.props.match.url}/2`}>Next</Link>
       </div>
     );
   }
