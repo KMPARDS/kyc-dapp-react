@@ -166,7 +166,13 @@ export default class LevelTwo extends React.Component {
   }
 
   handleClose() {
-    this.setState({ show: false });
+    this.setState({
+      show: false,
+      kycData: {},
+      initialValues: {},
+      kycStatus: '',
+      adminMessage: ''
+    });
   }
 
   handleShow() {

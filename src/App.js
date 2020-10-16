@@ -49,22 +49,23 @@ class App extends React.Component {
 
   componentDidMount(){
     if(process.env.REACT_APP_NODE_ENV === 'development'){
-      const wallet = new ethers.Wallet('0x26dfe99b98515fc4fd53a811b7db194afaaf6d4133aa371e7270b477bc086b07');
-      this.setUserData({
-        walletAddress: wallet.address,
-        wallet: wallet,
-        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDZhNDFkYTE4OTkyNTY1NjRkNWQ4OWUiLCJ1c2VybmFtZSI6IjB4MzBiYTI2MmI0ZTI1YThlN2FmMGM1MGE4M2JlNTk0YzQxZjE2NDc5ZCIsImVtYWlsIjoiIiwiaWF0IjoxNjAyNjA0MjQxLCJleHAiOjE2MzE0MDQyNDF9.AuhbGh-OMHdTD_IZOgEgPkj2GXx-73apakEJrw5ZCtU",
-        data: {
-          email: "",
-          expiresIn: 28800000,
-          kycdappVerified: true,
-          mobile: "",
-          profile: "5d6d1979c60ee56cf628aeb5",
-          tsfpxe: 1602631620762,
-          username: "0x30ba262b4e25a8e7af0c50a83be594c41f16479d",
-          _id: "5d6a41da1899256564d5d89e",
-        }
-      })
+     // const wallet = new ethers.Wallet('0x26dfe99b98515fc4fd53a811b7db194afaaf6d4133aa371e7270b477bc086b07');
+//	const wallet = new ethers.Wallet('0xb12361c1c5d5a015210ae9ba4023c272a9f94577e024405f3f1e2cd06cd1ad98');
+  //    this.setUserData({
+    //    walletAddress: wallet.address,
+//        wallet: wallet,
+//        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDZhNDFkYTE4OTkyNTY1NjRkNWQ4OWUiLCJ1c2VybmFtZSI6IjB4MzBiYTI2MmI0ZTI1YThlN2FmMGM1MGE4M2JlNTk0YzQxZjE2NDc5ZCIsImVtYWlsIjoiIiwiaWF0IjoxNjAyNjA0MjQxLCJleHAiOjE2MzE0MDQyNDF9.AuhbGh-OMHdTD_IZOgEgPkj2GXx-73apakEJrw5ZCtU",
+//        data: {
+ //         email: "",
+ //         expiresIn: 28800000,
+ //         kycdappVerified: true,
+//          mobile: "",
+ //         profile: "5d6d1979c60ee56cf628aeb5",
+  //        tsfpxe: 1602631620762,
+ //         username: "0x30ba262b4e25a8e7af0c50a83be594c41f16479d",
+ //         _id: "5d6a41da1899256564d5d89e",
+  //      }
+ //     })
     }
   }
 
