@@ -4,13 +4,14 @@ import { Col, Button, Container, Row } from 'react-bootstrap';
 import MultiStep from 'react-multistep';
 // import MultiStep from '../../Component/MultiLevel';
 import axios from 'axios';
-import LevelOne from './LevelOne/'
-import LevelTwo from './LevelTwo';
+import LevelOne from '../../Component/LevelOne';
+import LevelTwo from '../../Component/LevelTwo';
 import LevelFour from './LevelFour';
 import LevelThree from './LevelThree';
 import LevelFive from './LevelFive';
-import { withRouter } from 'react-router-dom';
+import { Link, Route, Switch, withRouter } from 'react-router-dom';
 import { UserContext } from '../../utils/user.context';
+import LevelZero from '../../Component/LevelZero';
 
 class KycLevel extends Component {
   static contextType = UserContext;
@@ -30,7 +31,7 @@ class KycLevel extends Component {
       { name: 'SecondLevel', component: <LevelTwo /> },
       { name: 'ThirdLevel', component: <LevelThree /> },
      { name: 'FourthLevel', component: <LevelFour /> },
-     { name: 'FourthLevel', component: <LevelFive /> },
+     { name: 'FiveLevel', component: <LevelFive /> },
     ];
   }
 
@@ -80,10 +81,20 @@ class KycLevel extends Component {
             <li><i class="fa fa-chevron-right" aria-hidden="true"></i>   KYC Level 3 is for Recommendation. In KYC Level 3, the applicant has to provide details about his/her Skills / Business as EXPERT seller </li>
             <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  KYC Level 4 is for FOS Tagya Validation. In KYC Level 4, the applicant provide details about his/her Skill as TAGYA</li>
             <li><i class="fa fa-chevron-right" aria-hidden="true"></i>   KYC Level 5 is for Online Curator Validation. In KYC Level 5, the applicant provide details about his/her Skill as CURATOR </li>
-       
+
         </ul>
-              	<MultiStep showNavigation={true} steps={this.steps} showNext={this.state.showNext} showPrev={this.state.showPrev} />
-						
+              	{/* <MultiStep showNavigation={true} steps={this.steps} showNext={this.state.showNext} showPrev={this.state.showPrev} /> */}
+                {/* <Link to={`${this.props.match.url}/2`}>2</Link>
+                <Link to={`${this.props.match.url}/3`}>3</Link>
+                <Link to={`${this.props.match.url}/4`}>4</Link> */}
+                <Switch>
+                  <Route exact path={`${this.props.match.path}/`} component={LevelZero} />
+                  <Route exact path={`${this.props.match.path}/1`} component={LevelOne} />
+                  <Route exact path={`${this.props.match.path}/:level`} component={LevelTwo} />
+                </Switch>
+                {/* <Route exact path={`${this.props.match.path}/3`} component={LevelThree} />
+                <Route exact path={`${this.props.match.path}/4`} component={LevelFour} />
+                <Route exact path={`${this.props.match.path}/5`} component={LevelFive} /> */}
             	</div>
 						</Col>
 					</Container>

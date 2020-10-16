@@ -4,12 +4,13 @@ import { Col, Button, Container, Row } from 'react-bootstrap';
 import MultiStep from 'react-multistep';
 // import MultiStep from '../../Component/MultiLevel';
 import axios from 'axios';
-import LevelOne from './LevelOne/'
-import LevelTwo from './LevelTwo';
+import LevelOne from '../../Component/LevelOne';
+import LevelTwo from '../../Component/LevelTwo';
 import LevelFour from './LevelFour';
 import LevelThree from './LevelThree';
-import { withRouter } from 'react-router-dom';
+import { Link, Route, withRouter } from 'react-router-dom';
 import { UserContext } from '../../utils/user.context';
+import LevelZero from '../../Component/LevelZero';
 
 class KycLevel extends Component {
   static contextType = UserContext;
@@ -29,7 +30,7 @@ class KycLevel extends Component {
       { name: 'SecondLevel', component: <LevelTwo /> },
       { name: 'ThirdLevel', component: <LevelThree /> },
      { name: 'FourthLevel', component: <LevelFour /> },
-    ]; 
+    ];
   }
 
   componentDidMount(){
@@ -78,7 +79,15 @@ class KycLevel extends Component {
             <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  In KYC Step 3, Click on 'Sign this Message' to finish your KYC process</li>
             <li><i class="fa fa-chevron-right" aria-hidden="true"></i>  In KYC Step 4, Click on 'Send' to send your old ES ERC20 Token to Admin Wallet</li>
         </ul>
-              	<MultiStep showNavigation={true} steps={this.steps} showNext={this.state.showNext} showPrev={this.state.showPrev} />
+              	{/* <MultiStep showNavigation={true} steps={this.steps} showNext={this.state.showNext} showPrev={this.state.showPrev} /> */}
+                {/* <Link to={`${this.props.match.url}/2`}>2</Link>
+                <Link to={`${this.props.match.url}/3`}>3</Link>
+                <Link to={`${this.props.match.url}/4`}>4</Link> */}
+                <Route exact path={`${this.props.match.path}/`} component={LevelZero} />
+                <Route exact path={`${this.props.match.path}/1`} component={LevelOne} />
+                <Route exact path={`${this.props.match.path}/2`} component={LevelTwo} />
+                <Route exact path={`${this.props.match.path}/3`} component={LevelThree} />
+                <Route exact path={`${this.props.match.path}/4`} component={LevelFour} />
 							</div>
 						</Col>
 					</Container>

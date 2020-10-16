@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
 import { Col, Row, Modal, Button } from 'react-bootstrap';
-import Images from '../../../Container/Images/Images';
 import Axios from 'axios';
-import config from '../../../config/config';
-import User from '../../../models/User';
-import { handleError } from '../../../utils/Apis';
+import config from '../../config/config';
+import User from '../../models/User';
+import { handleError } from '../../utils/Apis';
 import * as Yup from 'yup';
 import { Formik, Field, Form, ErrorMessage, useFormik } from 'formik';
-import { SUPPORTED_FORMATS, FILE_SIZE } from '../../../utils/constants';
-import CustomFileInput from '../../../Component/CustomFileInput/CustomFileInput';
+import { SUPPORTED_FORMATS, FILE_SIZE } from '../../utils/constants';
+import CustomFileInput from '../CustomFileInput/CustomFileInput';
 import Swal from 'sweetalert2';
-import { UserContext } from '../../../utils/user.context';
+import { UserContext } from '../../utils/user.context';
+import { Link } from 'react-router-dom';
+import { kycInst, providerESN } from '../../ethereum';
+import { ethers } from 'ethers';
+import { utils } from 'eraswap-sdk';
+import { renderInstruction } from './InstructionComponents';
 
 export default class LevelTwo extends React.Component {
   static contextType = UserContext;
   activePlatformId = '';
+  level = 2;
+  platformIdentifier = '';
+  specialization = '';
 
   constructor(props) {
     super(props);
@@ -25,68 +32,115 @@ export default class LevelTwo extends React.Component {
       validationSchema: {},
       kycData: {},
       show: false,
+      specializations: [],
+      isKycApplied: false
     };
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    if(isFinite(this.props.match.params.level))
+      this.level = Number(this.props.match.params.level);
   }
 
   componentDidMount() {
     this.fetchPlatforms();
   }
 
-  fetchInputs(platformId) {
-    console.log('platformId', platformId);
-    this.activePlatformId = platformId;
-    console.log('this.activePlatformId', this.activePlatformId);
-    this.handleShow();
-    Axios.get(config.baseUrl + `api/kyc-inputs/?platformId=${platformId}`)
-      .then((resp) => {
-        console.log('inputs', resp);
-        this.setState({
-          inputs: resp.data.data,
-        });
-
-        const textValidator = (name) =>
-          Yup.string().required(`${name} is required`);
-
-        const fileValidator = (name, title) =>
-          Yup.mixed()
-            .test(`${name}Required`, `${title} is required`, (value) => value)
-            .test(
-              `${name}Size`,
-              'File is too large',
-              (value) => value && value.size <= FILE_SIZE
-            )
-            .test(
-              `${name}Format`,
-              'Unsupported Format',
-              (value) => value && SUPPORTED_FORMATS.includes(value.type)
-            )
-            .required(`${title}  is required`);
-
-        const validationSchema = {},
-          initialValues = {};
-        resp.data.data.forEach((input, i) => {
-          validationSchema[input._id] =
-            input.type === 'file'
-              ? fileValidator(input._id, input.name)
-              : textValidator(input.name);
-
-          initialValues[input._id] = '';
-        });
-
-        this.setState({
-          validationSchema,
-          initialValues,
-        });
-
-        this.fetchSubmittedData();
-      })
-      .catch(handleError);
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.level !== prevProps.match.params.level) {
+      this.level = Number(this.props.match.params.level);
+      this.fetchPlatforms();
+    }
   }
 
+  async fetchPlatformIdentifier() {
+    let _platformIdentifier;
+    this.state.platforms.forEach(platform => {
+      if (this.activePlatformId === platform._id && platform.identifier) {
+        _platformIdentifier = platform.identifier;
+        return false;
+      }
+    });
+    if (_platformIdentifier.substr(0, 2) === '0x')
+      this.platformIdentifier = await kycInst.resolveUsername(_platformIdentifier);
+    else this.platformIdentifier = ethers.utils.formatBytes32String(_platformIdentifier);
+  }
+
+  async fetchSpecializations() {
+    const specializations = (await kycInst.queryFilter(kycInst.filters.KycFeeUpdated(this.level, this.platformIdentifier, null, null)))
+      .map(log => kycInst.interface.parseLog(log))
+      .map((parsedLog, i) => parsedLog.args['specialization']);
+    this.setState({ specializations });
+  }
+
+  async fetchPrevKyc(){
+    try{
+      const _username = await kycInst.resolveUsername(this.context.user.wallet.address);
+      const kycs = (await kycInst.queryFilter(kycInst.filters.KycApplied(_username,this.level,null,null)))
+        .map(log => kycInst.interface.parseLog(log))
+        .filter(log => log.args['platformIdentifier'] === this.platformIdentifier && log.args['specialization'] === this.specialization);
+
+      if(kycs.length){
+        this.setState({ isKycApplied: true });
+      }
+    }catch(e){
+      console.log(e);
+    }
+  }
+
+  async fetchInputs(platformId) {
+    try {
+      this.activePlatformId = platformId;
+      await this.fetchPlatformIdentifier();
+      this.fetchSpecializations();
+      this.handleShow();
+
+      const resp = await Axios.get(config.baseUrl + `api/kyc-inputs/?platformId=${platformId}&level=${this.level}`)
+      console.log('inputs', resp);
+
+      const validationSchema = {}, initialValues = {};
+      resp.data.data.forEach((input, i) => {
+        validationSchema[input._id] =
+          input.type === 'file'
+            ? this.fileValidator(input._id, input.name)
+            : this.textValidator(input.name);
+
+        initialValues[input._id] = '';
+      });
+
+      this.setState({
+        inputs: resp.data.data,
+        validationSchema,
+        initialValues,
+      });
+
+      this.fetchSubmittedData();
+    }
+    catch (e) {
+      console.log(e);
+      handleError(e);
+    }
+  }
+
+  textValidator = (name) =>
+    Yup.string().required(`${name} is required`);
+
+  fileValidator = (name, title) =>
+    Yup.mixed()
+      .test(`${name}Required`, `${title} is required`, (value) => value)
+      .test(
+        `${name}Size`,
+        'File is too large',
+        (value) => value && value.size <= FILE_SIZE
+      )
+      .test(
+        `${name}Format`,
+        'Unsupported Format',
+        (value) => value && SUPPORTED_FORMATS.includes(value.type)
+      )
+      .required(`${title}  is required`);
+
   fetchSubmittedData() {
-    Axios.get(config.baseUrl + `apis/kyc-level-two/${this.activePlatformId}`, {
+    Axios.get(config.baseUrl + `apis/kyc-level-two/${this.level}/${this.activePlatformId}`, {
       headers: {
         Authorization: this.context?.user?.token,
       },
@@ -112,7 +166,13 @@ export default class LevelTwo extends React.Component {
   }
 
   handleClose() {
-    this.setState({ show: false });
+    this.setState({
+      show: false,
+      kycData: {},
+      initialValues: {},
+      kycStatus: '',
+      adminMessage: ''
+    });
   }
 
   handleShow() {
@@ -120,7 +180,8 @@ export default class LevelTwo extends React.Component {
   }
 
   fetchPlatforms() {
-    Axios.get(config.baseUrl + 'api/kyc-platforms/')
+    console.log('this.level',this.level);
+    Axios.get(config.baseUrl + `api/kyc-platforms/?level=${this.level}`)
       .then((resp) => {
         console.log(resp);
 
@@ -131,10 +192,41 @@ export default class LevelTwo extends React.Component {
       .catch(handleError);
   }
 
-  submitLevelTwo(values, { setSubmitting }) {
-    console.log('called');
+  async applyForKycOnDapp(specialization) {
+    try {
+      const _kycFee = await kycInst.getKycFee(this.level, this.platformIdentifier, specialization);
+
+      if (window.confirm(`KYC Fee ${ethers.utils.formatEther(_kycFee)} will be charged`)) {
+        const walletConn = this.context.user.wallet.connect(providerESN);
+        const tx = await kycInst.connect(walletConn).applyForKyc(this.level, this.platformIdentifier, specialization, { value: _kycFee });
+        await tx.wait();
+
+        this.setState({ isKycApplied: true });
+        return true;
+      }
+    } catch (e) {
+      console.log(e);
+      const error = utils.parseEthersJsError(e);
+      await Swal.fire('Oops', error, 'error');
+    }
+
+    return false;
+  }
+
+  async submitLevelTwo(values, { setSubmitting }) {
+    if(!this.state.isKycApplied){
+      const isSubmittedTokycDapp = await this.applyForKycOnDapp(values.specialization);
+      if (!isSubmittedTokycDapp) return null;
+    }
+
     const formData = new FormData();
     formData.append('platformId', this.activePlatformId);
+    formData.append('platformIdentifier', this.platformIdentifier);
+    formData.append('level', this.level);
+
+    const username = await kycInst.resolveUsername(this.context.user.wallet.address);
+    formData.append('username', username);
+
     for (var key in values) {
       formData.append(key, values[key]);
       console.log(formData.get(key));
@@ -154,20 +246,14 @@ export default class LevelTwo extends React.Component {
   }
 
   render() {
+    console.log('this.props.match', this.props.match);
     return (
       <div>
-        <h4 className="m4-txt-level mb40 text-center">KYC LEVEL   2 </h4>
-      
+        <h4 className="m4-txt-level mb40 text-center">KYC LEVEL   {this.level} </h4>
+
 
         <span className="level-info" style={{ color: 'darkblue' }}>
-          1. In KYC Level 2, select specific Era Swap Ecosystem Platform by
-          clicking on the platform logo, you need to do Level 2 KYC for. Fill up
-          platform specific details required and click on ‘Submit’. Then click
-          on ‘Next’ to go to Level 3.
-          <br></br>
-          2. You can also skip Level 2 for now by clicking on ‘Next’ Button but
-          please remember that you have to complete Level 2 KYC to be eligible to
-          use Era Swap Platforms as Verified User in future.
+        {renderInstruction(this.level)}
         </span>
         <br></br>
         <br></br>
@@ -231,8 +317,8 @@ export default class LevelTwo extends React.Component {
                 </Col>
               ))
             ) : (
-              <div className="text-center">No Platforms Listed Yet</div>
-            )}
+                <div className="text-center">No Platforms Listed Yet</div>
+              )}
           </Row>
         </fieldset>
 
@@ -304,9 +390,34 @@ export default class LevelTwo extends React.Component {
                 {({ errors, touched, values, setFieldValue, isSubmitting }) => (
                   <Form>
                     <Row className="mt20">
+
+                      <Col sm={12} key={0}>
+                        <label>Specialization</label>
+                        <Field
+                          // disabled={this.state.isKycApplied}
+                          onChange={e => {
+                            setFieldValue('specialization',e.target.value);
+                            this.specialization = e.target.value;
+                            this.fetchPrevKyc();
+                          }}
+                          value={values?.specialization}
+                          name="specialization"
+                          as="select"
+                          className={
+                            'form-control' +
+                            (errors.specialization && touched.specialization
+                              ? ' is-invalid'
+                              : '')
+                          }
+                        >
+                          <option value="" selected={true} disable={true}>Select One</option>
+                          {this.state.specializations.map(item => <option value={item}>{ethers.utils.parseBytes32String(item)}</option>)}
+                        </Field>
+                      </Col>
                       {this.state.inputs.map((input, i) => (
                         <Col sm={input.type === 'text' ? 12 : 6} key={i}>
                           <Field
+                            // disabled={this.state.isKycApplied}
                             type={input.type}
                             id={input._id}
                             name={input._id}
@@ -330,7 +441,11 @@ export default class LevelTwo extends React.Component {
                     </Row>
                     <Row className="mt20">
                       <div className="submit-btn-flex">
-                        <button className="submit-btn" type="submit">
+                        <button
+                          className="submit-btn"
+                          type="submit"
+                          disabled={isSubmitting}
+                        >
                           {isSubmitting ? 'Submitting' : 'Submit'}
                         </button>
                       </div>
@@ -341,6 +456,18 @@ export default class LevelTwo extends React.Component {
             </fieldset>
           </Modal.Body>
         </Modal>
+        {
+        this.level !== 0
+        ?
+        <Link className="btn btn-primary" to={`/${this.props.match.url.split('/')[1]}/${this.level-1}`}>Prev</Link>
+        :
+        null
+        }
+        {this.level !== 5
+        ?
+        <Link className="btn btn-primary" to={`/${this.props.match.url.split('/')[1]}/${this.level+1}`}>Next</Link>
+        :
+        null}
       </div>
     );
   }

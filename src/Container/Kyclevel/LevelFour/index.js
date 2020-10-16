@@ -7,6 +7,7 @@ import Transfer from './transfer'; // component
 import Axios from 'axios';
 import { handleError } from '../../../utils/Apis';
 import { UserContext } from '../../../utils/user.context';
+import { Link } from 'react-router-dom';
 
 export default class LevelFour extends React.Component {
   static contextType = UserContext;
@@ -282,6 +283,7 @@ try{
             </Col>
           </Row>
         </fieldset>
+        <Link className="btn btn-primary" to={`/${this.props.match.url.split('/')[1]}/3`}>Prev</Link>
       </div>
     );
   }

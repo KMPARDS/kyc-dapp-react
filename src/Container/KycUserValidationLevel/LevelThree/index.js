@@ -1,117 +1,161 @@
 import React from 'react';
-import { Col, Row } from 'react-bootstrap';
 import Images from '../../../Container/Images/Images';
 import User from '../../../models/User';
 import Swal from 'sweetalert2';
 import { PRESET, ACCEPT_ESN, REJECT_ESN, ACCEPT_PRESET, REJECT_PRESET } from '../../../utils/constants';
 import Axios from 'axios';
 import config from '../../../config/config';
-import { errors } from 'ethers';
 import { handleError } from '../../../utils/Apis';
+import * as Yup from 'yup';
+import { Formik, Field, Form, ErrorMessage, useFormik } from 'formik';
+import { Col, Row, Modal, Button } from 'react-bootstrap';
+import CustomFileInput from '../../../Component/CustomFileInput/CustomFileInput';
+import { SUPPORTED_FORMATS, FILE_SIZE } from '../../../utils/constants';
+import { UserContext } from '../../../utils/user.context';
+import { Link } from 'react-router-dom';
+
 export default class LevelThree extends React.Component {
-  constructor(props){
+  static contextType = UserContext;
+  activePlatformId = '';
+  level = 3;
+
+  constructor(props) {
     super(props);
     this.state = {
-      message: ACCEPT_PRESET,
-      signature: '',
-      authorizeESN: ACCEPT_ESN
-    }
-
-    this.signMessage = this.signMessage.bind(this);
-    this.declineAuthorizeESN = this.declineAuthorizeESN.bind(this);
-    this.acceptAuthorizeESN = this.acceptAuthorizeESN.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+      platforms: [],
+      inputs: [],
+      initialValues: {},
+      validationSchema: {},
+      kycData: {},
+      show: false,
+    };
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
-  handleChange(e){
-    switch(e.target.name){
-      case 'message':
-          if(e.target.value?.length)
-            this.setState({
-              message: e.target.value,
-              errors: {
-                ...this.state.errors,
-                message: null
-              }
-            });
-          else {
-            this.setState({
-              message: e.target.value,
-              errors: {
-                message: 'Please enter message or click TimeAlly Era Swap Network Preset'
-              }
-            })
-          }
-        break;
-      default:
-        break;
-    }
+  componentDidMount() {
+    this.fetchPlatforms();
   }
 
-
-  async signMessage(){
-    try {
-      if(!User.getWallet())
-        return Swal.fire('Connect To Wallet', 'Please Connect to wallet and try again','warning');
-      if(!this.state.message?.length)
-          return this.setState({
-            errors: {
-              message: 'Please enter message or click on TimeAlly Era Swap Network button for preset message'
-            }
-          });
-
-      const result = await Swal.fire({
-        title: 'Are you sure to sign message?',
-        text: "Your signature will be used for TimeAlly Account Verification!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, sign it!'
-      })
-      if (result.value) {
-        const signature = await User.getWallet().signMessage(
-          this.state.message
-        );
-        const formData = new FormData();
-        formData.append('signature',signature);
-        formData.append('message',this.state.message);
-        formData.append('authorizeESN',this.state.authorizeESN);
-        const signApiResponse = await Axios.post(config.baseUrl + 'apis/kyc-level-three/save',
-        formData,
-        {
-          headers: {
-            Authorization: User.getToken()
-          }
+  fetchInputs(platformId) {
+    console.log('platformId', platformId);
+    this.activePlatformId = platformId;
+    console.log('this.activePlatformId', this.activePlatformId);
+    this.handleShow();
+    Axios.get(config.baseUrl + `api/kyc-inputs/?platformId=${platformId}&level=${this.level}`)
+      .then((resp) => {
+        console.log('inputs', resp);
+        this.setState({
+          inputs: resp.data.data,
         });
-        console.log('signApiResponse',signApiResponse);
 
-        this.setState({ signature });
-        Swal.fire(
-          'Signed!',
-          'You have successfully signed the message.',
-          'success'
-        )
-      }
-    } catch(e) {
-      console.log(e.response);
-      handleError(e);
-      // Swal.fire('Sign In!','Please try to connect to wallet and try again','warning');
+        const textValidator = (name) =>
+          Yup.string().required(`${name} is required`);
+
+        const fileValidator = (name, title) =>
+          Yup.mixed()
+            .test(`${name}Required`, `${title} is required`, (value) => value)
+            .test(
+              `${name}Size`,
+              'File is too large',
+              (value) => value && value.size <= FILE_SIZE
+            )
+            .test(
+              `${name}Format`,
+              'Unsupported Format',
+              (value) => value && SUPPORTED_FORMATS.includes(value.type)
+            )
+            .required(`${title}  is required`);
+
+        const validationSchema = {},
+          initialValues = {};
+        resp.data.data.forEach((input, i) => {
+          validationSchema[input._id] =
+            input.type === 'file'
+              ? fileValidator(input._id, input.name)
+              : textValidator(input.name);
+
+          initialValues[input._id] = '';
+        });
+
+        this.setState({
+          validationSchema,
+          initialValues,
+        });
+
+        this.fetchSubmittedData();
+      })
+      .catch(handleError);
+  }
+
+  fetchSubmittedData() {
+    Axios.get(config.baseUrl + `apis/kyc-level-two/${this.level}/${this.activePlatformId}`, {
+      headers: {
+        Authorization: this.context?.user?.token,
+      },
+    })
+      .then((resp) => {
+        console.log('fetch platform data', resp);
+        const kycData = {},
+          validationSchema = this.state.validationSchema;
+        resp.data.data.documents.forEach((document, i) => {
+          kycData[document.documentId._id] = document.content;
+          if (document.documentId.type === 'file')
+            delete validationSchema[document.documentId._id];
+        });
+        console.log('kycData', kycData);
+        this.setState({
+          kycData,
+          initialValues: kycData,
+          kycStatus: resp.data.data.status,
+          adminMessage: resp.data.data.adminMessage,
+        });
+      })
+      .catch(handleError);
+  }
+
+  handleClose() {
+    this.setState({ show: false });
+  }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+
+  fetchPlatforms() {
+    Axios.get(config.baseUrl + `api/kyc-platforms/?level=${this.level}`)
+      .then((resp) => {
+        console.log(resp);
+
+        this.setState({
+          platforms: resp.data.data,
+        });
+      })
+      .catch(handleError);
+  }
+
+  submitLevelTwo(values, { setSubmitting }) {
+    console.log('called');
+    const formData = new FormData();
+    formData.append('platformId', this.activePlatformId);
+    formData.append('level', this.level);
+
+    for (var key in values) {
+      formData.append(key, values[key]);
+      console.log(formData.get(key));
     }
-  }
 
-  acceptAuthorizeESN(){
-    this.setState({
-      authorizeESN: ACCEPT_ESN,
-      message: ACCEPT_PRESET
+    Axios.post(config.baseUrl + 'apis/kyc-level-two/save', formData, {
+      headers: {
+        Authorization: this.context?.user?.token,
+      },
     })
-  }
-
-  declineAuthorizeESN(){
-    this.setState({
-      authorizeESN: REJECT_ESN,
-      message: REJECT_PRESET
-    })
+      .then((resp) => {
+        console.log(resp);
+        Swal.fire('Success', resp.data.message, 'success');
+        setSubmitting(false);
+      })
+      .catch(handleError);
   }
 
   render() {
@@ -124,7 +168,7 @@ export default class LevelThree extends React.Component {
           3. The charges for Level 3 KYC will be applicable from 21st of August 2020 onwards. <br></br>
           4. Upload the relevant Documents / Images / Short Videos and click on 'Submit' Button<br></br>
 
-      
+
         </span>
         <br></br>
         <br></br>
@@ -132,30 +176,32 @@ export default class LevelThree extends React.Component {
           <p>Please Complete Your Level 1 & 2 KYC for Verification of Identity, If already done then Proceed with Level 3 as EXPERT seller of your Business or Skill</p>
           <button type="submit" class="btn btn-primary mr-2">Start from Level 1</button>
         </div>
-        {/* <!-- info modall start  here--> */}
+        <br></br>
+        <br></br>
+        {/* <!-- info modall start here--> */}
         <div
-          className="modal fade kyclevel3"
+          class="modal fade kyclevel2"
           tabindex="-1"
           role="dialog"
           aria-labelledby="myLargeModalLabel"
           aria-hidden="true"
         >
-          <div className="modal-dialog modal-lg" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  KYC Level 3 information
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  KYC Level  3 information
                 </h5>
                 <button
                   type="button"
-                  className="close"
+                  class="close"
                   data-dismiss="modal"
                   aria-label="Close"
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div className="modal-body">
+              <div class="modal-body">
                 <h6>KYC on Blockchain Network Done More Quickly & Securly</h6>
                 <p>
                   KYC DApp is powered on a decentralised network of Era Swap.
@@ -168,199 +214,142 @@ export default class LevelThree extends React.Component {
         </div>
 
         {/* <!-- info modall end here--> */}
-        <fieldset class="scheduler-border es-trasnferbox kyclevel4 ">
+        <fieldset class="scheduler-border">
           <legend class="scheduler-border">
-          Upload your 60 Second Self Recorded Video about your Skills / Business as EXPERT seller
+            Others Platforms Document Submission
           </legend>
-          <Row className="mt20 text-center">
-            <div className="tcol-12 col-sm-10 col-md-8 col-lg-7 col-xl-6 mx-auto mt10 mb10">
-               <div class="border-style-img ">
-                  <img className="kyc-hero-img" src={Images.path.videoupload} /> 
-               </div>
-            </div>  
-          </Row>
-        </fieldset>
 
-        <fieldset class="scheduler-border es-trasnferbox kyclevel4 ">
-          <legend class="scheduler-border">
-          Document of Appreciation
-          </legend>
-          <Row className="mt20 text-center">
-            <div className="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-6 mx-auto mt10 mb10">
-               <p>Upload your Document here, Document Max Size allowed is 5 MB</p>
-               {/*  <div id="mulitplefileuploader">Upload</div>
-              <form method="post" action="#" id="#">
-                      <div class="form-group files">
-                    <label>Upload Your File </label>
-                    <input type="file" class="form-control" multiple=""/>
-                  </div>
-                </form> */}
-                <form class="form">
-                  <div class="file-upload-wrapper" data-text="Select your file!">
-                    <input name="file-upload-field" type="file" class="file-upload-field" value=""/>
-                  </div>
-                  <div class="file-upload-wrapper" data-text="Select your file!">
-                    <input name="file-upload-field" type="file" class="file-upload-field" value=""/>
-                  </div>
-                </form>
-               {/* <div class="border-style-img mb20">
-                   <img className="kyc-hero-img" src={Images.path.videoupload} /> 
-               </div> */}
-               <a href=""><div className="red-circle"><i class="fa fa-plus-circle" aria-hidden="true"></i></div></a>
-               <p>When you have add more Document then click on 'Plus' Button</p>
-            </div>  
-          </Row>
-        </fieldset>
-
-        <fieldset class="scheduler-border es-trasnferbox kyclevel4 ">
-          <legend class="scheduler-border">
-          Feedback  from Your Customers
-          </legend>
           <Row className="mt20">
-            <div className="col-lg-12">
-               <h3>Videos</h3>
-               <p>Upload your Video here, Video Max Size allowed is 25 MB</p>
-               <div className="row">
-                   <div className="col-lg-3"> 
-                        <div class="border-style-img mb20">
-                              <img className="kyc-hero-img" src={Images.path.videoupload} /> 
-                          </div>
-                     </div>
-                     <div className="col-lg-9"> 
-                        <div class=" border-style-img-fullwidth mb20">
-                          <p>Uploaded Videos</p>
-                              {/* <img className="kyc-hero-img" src={Images.path.videoupload} /> */}
-                          </div>
-                     </div>
-                   
-                </div>
-               <p>Upload your Image here, JPG OR PNG file only, Max Size allowed is 10 MB</p>
-               <div className="row">
-                   <div className="col-lg-3"> 
-                        <div class="border-style-img mb20">
-                               <img className="kyc-hero-img" src={Images.path.videoupload} /> 
-                          </div>
-                     </div>
-                     <div className="col-lg-9"> 
-                        <div class=" border-style-img-fullwidth mb20">
-                             <p>Uploaded Images</p>
-                              {/*<img className="kyc-hero-img" src={Images.path.videoupload} /> */}
-                          </div>
-                     </div>
-                </div>
-               <p>Upload your Document here, Document Max Size allowed is 5 MB</p>
-               <div className="row">
-                   <div className="col-lg-3"> 
-                        <div class="border-style-img mb20">
-                          
-                              <img className="kyc-hero-img" src={Images.path.videoupload} /> 
-                          </div>
-                     </div>
-                     <div className="col-lg-9"> 
-                        <div class=" border-style-img-fullwidth mb20">
-                        <p>Uploaded Documents</p>
-                              {/* <img className="kyc-hero-img" src={Images.path.videoupload} /> */}
-                          </div>
-                     </div>
-                   
-                </div>
-            </div>  
+            {this.state.platforms.length ? (
+              this.state.platforms.map((platform, i) => (
+                <Col lg={3} md={6} sm={12} key={i}>
+                  <div
+                    className="jm-logo"
+                    onClick={this.fetchInputs.bind(this, platform._id)}
+                  >
+                    <span>
+                      <img
+                        className="Img"
+                        src={platform.logo}
+                        alt={platform.name}
+                      />
+                    </span>
+                  </div>
+                </Col>
+              ))
+            ) : (
+              <div className="text-center">No Platforms Listed Yet</div>
+            )}
           </Row>
         </fieldset>
 
-        <fieldset class="scheduler-border es-trasnferbox kyclevel4 ">
-          <legend class="scheduler-border">
-          Testimonials
-          </legend>
-          <Row className="mt20 text-center">
-            <div className="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-6 mx-auto mt10 mb10">
-            <form class="form">
-                  <div class="file-upload-wrapper" data-text="Select your file!">
-                    <input name="file-upload-field" type="file" class="file-upload-field" value=""/>
-                  </div>
-                  <div class="file-upload-wrapper" data-text="Select your file!">
-                    <input name="file-upload-field" type="file" class="file-upload-field" value=""/>
-                  </div>
-                </form>
-               {/* <div class="border-style-img mb20">
-                   <img className="kyc-hero-img" src={Images.path.videoupload} /> 
-               </div> */}
-               <a href=""><div className="red-circle"><i class="fa fa-plus-circle" aria-hidden="true"></i></div></a>
-               <p>When you have add more Document then click on 'Plus' Button</p>
-            </div>  
-          </Row>
-        </fieldset>
-
-        <fieldset class="scheduler-border es-trasnferbox kyclevel4 ">
-          <legend class="scheduler-border">
-          Additional Certificates of Excellence
-          </legend>
-          <Row className="mt20 text-center">
-            <div className="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-6 mx-auto mt40 mb40">
-            <form class="form">
-                  <div class="file-upload-wrapper" data-text="Select your file!">
-                    <input name="file-upload-field" type="file" class="file-upload-field" value=""/>
-                  </div>
-                  <div class="file-upload-wrapper" data-text="Select your file!">
-                    <input name="file-upload-field" type="file" class="file-upload-field" value=""/>
-                  </div>
-                </form>
-
-              
-               {/* <div class="border-style-img mb20">
-                   <img className="kyc-hero-img" src={Images.path.videoupload} /> 
-               </div> */}
-                <a href=""><div className="red-circle"><i class="fa fa-plus-circle" aria-hidden="true"></i></div></a>
-               <p>When you have add more Document then click on 'Plus' Button</p>
-            </div>  
-          </Row>
-        </fieldset>
-
-        <fieldset class="scheduler-border es-trasnferbox kyclevel4 ">
-          <legend class="scheduler-border">
-          Recommendation
-          </legend>
-          <Row className="mt20">
-            <div className="col-lg-12">
-                <p>Upload your Image here, JPG OR PNG file only, Max Size allowed is 10 MB</p>
-               <div className="row">
-                   <div className="col-lg-3"> 
-                        <div class="border-style-img mb20">
-                       
-                               <img className="kyc-hero-img" src={Images.path.uploadimage} /> 
-                          </div>
-                     </div>
-                     <div className="col-lg-9"> 
-                        <div class=" border-style-img-fullwidth mb20">
-                        <p>Uploaded Images</p>
-                              {/* <img className="kyc-hero-img" src={Images.path.videoupload} /> */}
-                          </div>
-                     </div>
-                   
+        <Modal size="lg" show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <h5 class="modal-title" id="exampleModalLabel">
+              ERASWAP Network
+            </h5>
+          </Modal.Header>
+          <Modal.Body>
+            <fieldset class="scheduler-border">
+              <legend class="scheduler-border">Document Submission</legend>
+              {/* <hr className="bg-color--primary border--none  jsElement dash-red" data-height="3" data-width="80" /> */}
+              {this.state.kycStatus === 'approved' ? (
+                <div className="kycapprove mb40 col-md-8 mx-auto ">
+                  <h3>
+                    <i class="fa fa-check-square-o fa-6" aria-hidden="true"></i>
+                    Your Kyc has verified by curators
+                  </h3>
+                  <p>
+                    KYC DApp is powered on a decentralised network of Era Swap.
+                    There is no centralized authority to obstructions means
+                    inbuilt immutably that makes contained data more
+                    trustworthy.
+                  </p>
                 </div>
-               <p>Upload your Document here, Document Max Size allowed is 5 MB</p>
-               <div className="row">
-                   <div className="col-lg-3"> 
-                        <div class="border-style-img mb20">
-                           
-                              <img className="kyc-hero-img" src={Images.path.uploaddoc} /> 
-                          </div>
-                     </div>
-                     <div className="col-lg-9"> 
-                        <div class=" border-style-img-fullwidth mb20">
-                               <p>Uploaded Documents</p>
-                              {/* <img className="kyc-hero-img" src={Images.path.videoupload} /> */}
-                          </div>
-                     </div>
-                   
+              ) : this.state.kycStatus === 'rejected' ? (
+                <div className="kycrejected mb40 col-md-8 mx-auto ">
+                  <h3>
+                    <i class="fa fa-times fa-6" aria-hidden="true"></i>
+                    Your KYC Has been Rejected by curators
+                  </h3>
+                  {this.state.adminMessage && (
+                    <span>
+                      <hr />
+                      {this.state.adminMessage}
+                      <hr />
+                    </span>
+                  )}
+                  <p>
+                    KYC DApp is powered on a decentralised network of Era Swap.
+                    There is no centralized authority to obstructions means
+                    inbuilt immutably that makes contained data more
+                    trustworthy.
+                  </p>
                 </div>
-            </div>  
-            <button type="submit" className="btn btn-primary mr-2" disabled={true}>
-                Submit</button>
-          </Row>
-        </fieldset>
-        
- 
+              ) : this.state.kycStatus === 'pending' ? (
+                <div className="kycrejected mb40 col-md-8 mx-auto ">
+                  <h3>Pending</h3>
+                  <p>
+                    KYC DApp is powered on a decentralised network of Era Swap.
+                    There is no centralized authority to obstructions means
+                    inbuilt immutably that makes contained data more
+                    trustworthy.
+                  </p>
+                </div>
+              ) : null}
+
+              <Formik
+                enableReinitialize={true}
+                initialValues={this.state.initialValues}
+                validationSchema={Yup.object().shape(
+                  this.state.validationSchema
+                )}
+                onSubmit={(values, { setSubmitting }) =>
+                  this.submitLevelTwo(values, { setSubmitting })
+                }
+              >
+                {({ errors, touched, values, setFieldValue, isSubmitting }) => (
+                  <Form>
+                    <Row className="mt20">
+                      {this.state.inputs.map((input, i) => (
+                        <Col sm={input.type === 'text' ? 12 : 6} key={i}>
+                          <Field
+                            type={input.type}
+                            id={input._id}
+                            name={input._id}
+                            title={input.name}
+                            description={input?.description}
+                            component={CustomFileInput}
+                            setFieldValue={setFieldValue}
+                            placeholder={String('Enter the ').concat(
+                              input.name
+                            )}
+                            touched={touched}
+                            errors={errors}
+                            value={
+                              values && values[input._id]
+                                ? values[input._id]
+                                : ''
+                            }
+                          />
+                        </Col>
+                      ))}
+                    </Row>
+                    <Row className="mt20">
+                      <div className="submit-btn-flex">
+                        <button className="submit-btn" type="submit">
+                          {isSubmitting ? 'Submitting' : 'Submit'}
+                        </button>
+                      </div>
+                    </Row>
+                  </Form>
+                )}
+              </Formik>
+            </fieldset>
+          </Modal.Body>
+        </Modal>
+        <Link className="btn btn-primary" to={`/${this.props.match.url.split('/')[1]}/2`}>Prev</Link>
+        <Link className="btn btn-primary" to={`/${this.props.match.url.split('/')[1]}/4`}>Next</Link>
       </div>
     );
   }
