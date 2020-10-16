@@ -20,7 +20,7 @@ export default class LevelTwo extends React.Component {
   static contextType = UserContext;
   activePlatformId = '';
   level = 2;
-  platformIdentfier = '';
+  platformIdentifier = '';
   specialization = '';
 
   constructor(props) {
@@ -53,20 +53,20 @@ export default class LevelTwo extends React.Component {
   }
 
   async fetchPlatformIdentifier() {
-    let _platformIdentfier;
+    let _platformIdentifier;
     this.state.platforms.forEach(platform => {
       if (this.activePlatformId === platform._id && platform.identifier) {
-        _platformIdentfier = platform.identifier;
+        _platformIdentifier = platform.identifier;
         return false;
       }
     });
-    if (_platformIdentfier.substr(0, 2) === '0x')
-      this.platformIdentfier = await kycInst.resolveUsername(_platformIdentfier);
-    else this.platformIdentfier = ethers.utils.formatBytes32String(_platformIdentfier);
+    if (_platformIdentifier.substr(0, 2) === '0x')
+      this.platformIdentifier = await kycInst.resolveUsername(_platformIdentifier);
+    else this.platformIdentifier = ethers.utils.formatBytes32String(_platformIdentifier);
   }
 
   async fetchSpecializations() {
-    const specializations = (await kycInst.queryFilter(kycInst.filters.KycFeeUpdated(this.level, this.platformIdentfier, null, null)))
+    const specializations = (await kycInst.queryFilter(kycInst.filters.KycFeeUpdated(this.level, this.platformIdentifier, null, null)))
       .map(log => kycInst.interface.parseLog(log))
       .map((parsedLog, i) => parsedLog.args['specialization']);
     this.setState({ specializations });
@@ -77,7 +77,7 @@ export default class LevelTwo extends React.Component {
       const _username = await kycInst.resolveUsername(this.context.user.wallet.address);
       const kycs = (await kycInst.queryFilter(kycInst.filters.KycApplied(_username,this.level,null,null)))
         .map(log => kycInst.interface.parseLog(log))
-        .filter(log => log.args['platformIdentifier'] === this.platformIdentfier && log.args['specialization'] === this.specialization);
+        .filter(log => log.args['platformIdentifier'] === this.platformIdentifier && log.args['specialization'] === this.specialization);
 
       if(kycs.length){
         this.setState({ isKycApplied: true });
@@ -188,13 +188,13 @@ export default class LevelTwo extends React.Component {
 
   async applyForKycOnDapp(specialization) {
     try {
-      const _kycFee = await kycInst.getKycFee(this.level, this.platformIdentfier, specialization);
+      const _kycFee = await kycInst.getKycFee(this.level, this.platformIdentifier, specialization);
 
       if (window.confirm(`KYC Fee ${ethers.utils.formatEther(_kycFee)} will be charged`)) {
         const walletConn = this.context.user.wallet.connect(providerESN);
-        const tx = await kycInst.connect(walletConn).applyForKyc(this.level, this.platformIdentfier, specialization, { value: _kycFee });
+        const tx = await kycInst.connect(walletConn).applyForKyc(this.level, this.platformIdentifier, specialization, { value: _kycFee });
         await tx.wait();
-        console.log({ tx });
+
         this.setState({ isKycApplied: true });
         return true;
       }
@@ -215,7 +215,11 @@ export default class LevelTwo extends React.Component {
 
     const formData = new FormData();
     formData.append('platformId', this.activePlatformId);
+    formData.append('platformIdentifier', this.platformIdentifier);
     formData.append('level', this.level);
+
+    const username = await kycInst.resolveUsername(this.context.user.wallet.address);
+    formData.append('username', username);
 
     for (var key in values) {
       formData.append(key, values[key]);
