@@ -17,16 +17,17 @@ export default class LevelZero extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isKycApplied: false
+      isKycApplied: false,
+      kycFee: '0x0'
     };
 
     this.validationSchema = {
       username: Yup.string()
         .required('User name is required')
         .matches(/^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/,'Username should be atleast 8 characters and should not contain any special characters or space in between'),
-      kycFees: Yup.string()
+      kycFee: Yup.string()
         .required('Kyc Fees is required')
-        .test('formatKycFees',
+        .test('formatKycFee',
         'Invalid Fee',
         value =>isFinite(value)),
     }
@@ -34,6 +35,16 @@ export default class LevelZero extends React.Component {
 
   componentDidMount() {
     this.fetchKycDetails();
+    this.fetchKycFee();
+  }
+
+  async fetchKycFee(){
+    try{
+      const kycFee = await kycInst.getKycFee('1',ethers.utils.formatBytes32String(0),ethers.utils.formatBytes32String(0))
+      this.setState({ kycFee });
+    }catch(e){
+      console.log(e);
+    }
   }
 
   async fetchKycDetails(){
@@ -48,7 +59,7 @@ export default class LevelZero extends React.Component {
   submitLevelZero = async (values, { setSubmitting }) => {
     try{
       const walletInst = this.context.user.wallet.connect(providerESN);
-      const tx = await kycInst.connect(walletInst).register(ethers.utils.formatBytes32String(values.username),{ value: ethers.utils.parseEther(values.kycFees) })
+      const tx = await kycInst.connect(walletInst).register(ethers.utils.formatBytes32String(values.username),{ value: ethers.utils.parseEther(values.kycFee) })
       await tx.wait();
       this.setState({ isKycApplied : true });
       Swal.fire('Success','You have successfully registered on KYC Dapp','success');
@@ -116,7 +127,7 @@ export default class LevelZero extends React.Component {
           <Formik
             enableReinitialize={true}
             initialValues={{
-
+              kycFee: ethers.utils.formatEther(this.state.kycFee)
             }}
             validationSchema={Yup.object().shape(this.validationSchema)}
 
@@ -159,23 +170,23 @@ export default class LevelZero extends React.Component {
                         />
                       </div>
                       <div className="form-group col-lg-3">
-                        <label htmlFor="kycFees">KYC Fees*</label>
+                        <label htmlFor="kycFee">KYC Fees*</label>
                         <Field
-                          disabled={this.state.isKycApplied}
-                          value={values?.kycFees}
-                          name="kycFees"
+                          disabled={true}
+                          value={values?.kycFee}
+                          name="kycFee"
                           type="text"
                           autoComplete="none"
                           placeholder="Kyc Fees"
                           className={
                             'form-control' +
-                            (errors.kycFees && touched.kycFees
+                            (errors.kycFee && touched.kycFee
                               ? ' is-invalid'
                               : '')
                           }
                         />
                         <ErrorMessage
-                          name="kycFees"
+                          name="kycFee"
                           component="div"
                           className="invalid-feedback"
                         />
