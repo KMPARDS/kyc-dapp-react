@@ -16,6 +16,8 @@ import { handleError } from '../../utils/Apis';
 import  Images  from '../../Container/Images/Images';
 import { UserContext } from '../../utils/user.context';
 import { Link } from 'react-router-dom';
+import { dayswappersInst } from '../../ethereum';
+import { ethers } from 'ethers';
 
 export default class FirstLevel extends Component {
   static contextType = UserContext;
@@ -49,9 +51,9 @@ export default class FirstLevel extends Component {
       lastname: Yup.string()
         .min(2, 'Last Name must be at least 2 characters')
         .required('Last Name is required'),
-      username: Yup.string()
-        .min(2, 'User Name must be at least 2 characters')
-        .required('User Name is required'),
+      // username: Yup.string()
+      //   .min(2, 'User Name must be at least 2 characters')
+      //   .required('User Name is required'),
       email: Yup.string()
         .email('Email is invalid')
         .required('Email is required'),
@@ -175,11 +177,22 @@ export default class FirstLevel extends Component {
       },
       this.fetchKycLevelOne
     );
-    // this.setState({
-    //   kyc: {
-    //     idAttachment: Images.path.idProof
-    //   }
-    // })
+    this.fetchDayswapperDetails();
+  }
+
+  async fetchDayswapperDetails(){
+    let username, referalAddress;
+    try{
+      username = await dayswappersInst.resolveUsername(this.context.user.wallet.address);
+      if(username) username = ethers.utils.parseBytes32String(username);
+    }catch(e){}
+    try{ referalAddress = await dayswappersInst.resolveIntroducer(this.context.user.wallet.address) }catch(e){}
+    this.setState({
+      kyc: {
+        ...this.state.kyc,
+        username
+      }
+    });
   }
 
   submitLevelOne = async (values, { setSubmitting }) => {
@@ -192,7 +205,7 @@ export default class FirstLevel extends Component {
     formData.append('firstname', values.firstname);
     formData.append('middlename', values.middlename);
     formData.append('lastname', values.lastname);
-    formData.append('username', values.username);
+    // formData.append('username', values.username);
     formData.append('contactNumber',this.state.countryCode);
     formData.append('email', values.email);
     formData.append('dob', values.dob);
@@ -616,9 +629,7 @@ export default class FirstLevel extends Component {
                   <div className="form-group">
                     <label htmlFor="username">User Name*</label>
                     <Field
-                      disabled={
-                        !this.state.canApply && this.state.kyc?.username
-                      }
+                      disabled={true}
                       value={values?.username}
                       name="username"
                       type="text"
@@ -802,9 +813,7 @@ export default class FirstLevel extends Component {
                     <div className="form-group col-lg-6">
                       <label htmlFor="referalAddress">Referal Address</label>
                       <Field
-                        disabled={
-                          !this.state.canApply && this.state.kyc?.referalAddress
-                        }
+                        disabled={true}
                         value={values?.referalAddress}
                         name="referalAddress"
                         type="text"
