@@ -83,11 +83,11 @@ export default class FirstLevel extends Component {
         .min(4, 'Minimum 6 digit phone Number')
         .max(6, 'Maximum 10 digit phone Number')
         .required('Pincode is required'),
-      referalAddress: Yup.string()
-          .test('validReferalAddress',
-            'Invalid Format',
-            value => value ? (value.length !== 42 || value.substr(0,2) !== '0x') ? false : true : true
-          ),
+      // referalAddress: Yup.string()
+      //     .test('validReferalAddress',
+      //       'Invalid Format',
+      //       value => value ? (value.length !== 42 || value.substr(0,2) !== '0x') ? false : true : true
+      //     ),
       idType: Yup.string()
         .required('Id Type is required'),
       idNumber: Yup.string()
@@ -190,7 +190,8 @@ export default class FirstLevel extends Component {
     this.setState({
       kyc: {
         ...this.state.kyc,
-        username
+        username,
+        referalAddress
       }
     });
   }
@@ -220,7 +221,7 @@ export default class FirstLevel extends Component {
     formData.append('idAttachmentBack', values.idAttachmentBack);
     formData.append('addressProofAttachment', values.addressProofAttachment);
     formData.append('selfieAttachment', values.selfieAttachment);
-    formData.append('referalAddress', values.referalAddress);
+    // formData.append('referalAddress', values.referalAddress);
 
     try {
       const res = await axios.post(
@@ -244,35 +245,6 @@ export default class FirstLevel extends Component {
       console.log('error',e?.response || e);
       Swal.fire('Error',e?.response?.data?.message || 'Unable to upload form, please check if all fields are filled correctly', 'error');
     }
-
-    // axios
-    //   .post(config.baseUrl + 'apis/kyc-level-one/save', formData, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //       Authorization: this.state.token,
-    //     },
-    //   })
-    //   .then((resp) => {
-    //     console.log('check kyc form', resp);
-    //     setSubmitting(false);
-    //     Swal.fire('Success', 'Kyc form submitted', 'success');
-    //   })
-    //   // .catch(handleError);
-    //   .catch(function (error) {
-    //     if (error.response) {
-    //       // Request made and server responded
-    //       console.log('error.response.data',error.response.data);
-    //       console.log('error.response.status',error.response.status);
-    //       console.log('error.response.headers',error.response.headers);
-    //     } else if (error.request) {
-    //       // The request was made but no response was received
-    //       console.log('error.request',error.request);
-    //     } else {
-    //       // Something happened in setting up the request that triggered an Error
-    //       console.log('Error', error.message);
-    //     }
-    //   });
-
   };
 
   fetchKycLevelOne = () => {
@@ -294,11 +266,12 @@ export default class FirstLevel extends Component {
           {
             canApply: resp?.data?.canApply,
             kyc: {
+              ...this.state.kyc,
               salutation: resp?.data?.data?.salutation || '',
               firstname: resp?.data?.data?.firstname || '',
               middlename: resp?.data?.data?.middlename || '',
               lastname: resp?.data?.data?.lastname || '',
-              username: resp?.data?.data?.username || '',
+              // username: resp?.data?.data?.username || '',
               dob: resp?.data?.data?.dob || '',
               nationality: resp?.data?.data?.nationality || '',
               contactNumber: resp?.data?.data?.contactNumber || '',
@@ -307,7 +280,7 @@ export default class FirstLevel extends Component {
               maritalStatus: resp?.data?.data?.maritalStatus || '',
               address: resp?.data?.data?.address || '',
               pincode: resp?.data?.data?.pincode || '',
-              referalAddress: resp?.data?.data?.referalAddress || '',
+              // referalAddress: resp?.data?.data?.referalAddress || '',
               idType: resp?.data?.data?.idType || '',
               idNumber: resp?.data?.data?.idNumber || '',
               idAttachment: resp?.data?.data?.idAttachment || null,
