@@ -16,12 +16,14 @@ import { ethers } from 'ethers';
 import { utils } from 'eraswap-sdk';
 import { renderInstruction } from './InstructionComponents';
 
+const OTHER = 'Other';
+
 export default class LevelTwo extends React.Component {
   static contextType = UserContext;
   activePlatformId = '';
   level = 2;
   platformIdentifier = '';
-  specialization = '';
+  specializationRequest = '';
 
   constructor(props) {
     super(props);
@@ -33,7 +35,10 @@ export default class LevelTwo extends React.Component {
       kycData: {},
       show: false,
       specializations: [],
-      isKycApplied: false
+      specialization: '',
+      isKycApplied: false,
+      specializationRequestMessage: '',
+      isRequestSubmitting: false
     };
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -77,7 +82,7 @@ export default class LevelTwo extends React.Component {
       const _username = await kycInst.resolveUsername(this.context.user.wallet.address);
       const kycs = (await kycInst.queryFilter(kycInst.filters.KycApplied(_username,this.level,null,null)))
         .map(log => kycInst.interface.parseLog(log))
-        .filter(log => log.args['platformIdentifier'] === this.platformIdentifier && log.args['specialization'] === this.specialization);
+        .filter(log => log.args['platformIdentifier'] === this.platformIdentifier && log.args['specialization'] === this.state.specialization);
 
       if(kycs.length){
         this.setState({ isKycApplied: true });
@@ -245,6 +250,34 @@ export default class LevelTwo extends React.Component {
       .catch(handleError);
   }
 
+   sendSpecializationRequest = async () =>{
+    try{
+      const formData = new FormData();
+      formData.append('specialization',this.specializationRequest);
+      formData.append('level',this.level);
+      formData.append('platformId',this.activePlatformId);
+      const res = await Axios.post(config.baseUrl + 'apis/kyc-specialization/request',formData,{
+        headers: {
+          Authorization: this.context?.user?.token,
+        }
+      });
+      console.log({res});
+      if(res.data.status){
+        this.setState({
+          specializationRequestMessage: res.data.message,
+          isRequestSubmitting: false
+        });
+      }
+    }catch(e){
+      console.log(e.response);
+      console.log(e);
+      this.setState({
+        specializationRequestMessage: e.response,
+        isRequestSubmitting: false
+      })
+    }
+  }
+
   render() {
     console.log('this.props.match', this.props.match);
     return (
@@ -397,8 +430,9 @@ export default class LevelTwo extends React.Component {
                           // disabled={this.state.isKycApplied}
                           onChange={e => {
                             setFieldValue('specialization',e.target.value);
-                            this.specialization = e.target.value;
-                            this.fetchPrevKyc();
+                            this.setState({
+                              specialization: e.target.value
+                            },this.fetchPrevKyc);
                           }}
                           value={values?.specialization}
                           name="specialization"
@@ -412,9 +446,11 @@ export default class LevelTwo extends React.Component {
                         >
                           <option value="" selected={true} disable={true}>Select One</option>
                           {this.state.specializations.map(item => <option value={item}>{ethers.utils.parseBytes32String(item)}</option>)}
+                          <option value={OTHER}>{OTHER}</option>
                         </Field>
                       </Col>
-                      {this.state.inputs.map((input, i) => (
+
+                      {this.state.specialization !== OTHER && this.state.inputs.map((input, i) => (
                         <Col sm={input.type === 'text' ? 12 : 6} key={i}>
                           <Field
                             // disabled={this.state.isKycApplied}
@@ -438,8 +474,32 @@ export default class LevelTwo extends React.Component {
                           />
                         </Col>
                       ))}
+
+                      {this.state.specialization === OTHER ?
+                      <Col>
+                      <form role="role">
+                        <div className="form-group">
+                          <label>Enter required specialization name:</label>
+                          <input type="text" className="form-control" onChange={e => this.specializationRequest = e.target.value}/>
+                        </div>
+                        {this.state.specializationRequestMessage?.length ? <div className="alert alert-info">{this.state.specializationRequestMessage}</div> : null}
+                        <button type="button" onClick={()=> {
+                          this.setState({
+                            isRequestSubmitting: true
+                          },this.sendSpecializationRequest);
+                        }}
+                        className="btn btn-sm btn-success btn-right"
+                        disabled={this.state.isRequestSubmitting}
+                        >{this.state.isRequestSubmitting ? 'Processing' : 'Send Request'}</button>
+                      </form>
+                      </Col>
+                      :
+                      null}
                     </Row>
-                    <Row className="mt20">
+                    {
+                      this.state.specialization !== OTHER
+                      &&
+                      <Row className="mt20">
                       <div className="submit-btn-flex">
                         <button
                           className="submit-btn"
@@ -450,6 +510,8 @@ export default class LevelTwo extends React.Component {
                         </button>
                       </div>
                     </Row>
+                    }
+
                   </Form>
                 )}
               </Formik>
