@@ -16,6 +16,8 @@ import { handleError } from '../../utils/Apis';
 import  Images  from '../../Container/Images/Images';
 import { UserContext } from '../../utils/user.context';
 import { Link } from 'react-router-dom';
+import { dayswappersInst } from '../../ethereum';
+import { ethers } from 'ethers';
 
 export default class FirstLevel extends Component {
   static contextType = UserContext;
@@ -49,9 +51,9 @@ export default class FirstLevel extends Component {
       lastname: Yup.string()
         .min(2, 'Last Name must be at least 2 characters')
         .required('Last Name is required'),
-      username: Yup.string()
-        .min(2, 'User Name must be at least 2 characters')
-        .required('User Name is required'),
+      // username: Yup.string()
+      //   .min(2, 'User Name must be at least 2 characters')
+      //   .required('User Name is required'),
       email: Yup.string()
         .email('Email is invalid')
         .required('Email is required'),
@@ -81,11 +83,11 @@ export default class FirstLevel extends Component {
         .min(4, 'Minimum 6 digit phone Number')
         .max(6, 'Maximum 10 digit phone Number')
         .required('Pincode is required'),
-      referalAddress: Yup.string()
-          .test('validReferalAddress',
-            'Invalid Format',
-            value => value ? (value.length !== 42 || value.substr(0,2) !== '0x') ? false : true : true
-          ),
+      // referalAddress: Yup.string()
+      //     .test('validReferalAddress',
+      //       'Invalid Format',
+      //       value => value ? (value.length !== 42 || value.substr(0,2) !== '0x') ? false : true : true
+      //     ),
       idType: Yup.string()
         .required('Id Type is required'),
       idNumber: Yup.string()
@@ -175,11 +177,23 @@ export default class FirstLevel extends Component {
       },
       this.fetchKycLevelOne
     );
-    // this.setState({
-    //   kyc: {
-    //     idAttachment: Images.path.idProof
-    //   }
-    // })
+    this.fetchDayswapperDetails();
+  }
+
+  async fetchDayswapperDetails(){
+    let username, referalAddress;
+    try{
+      username = await dayswappersInst.resolveUsername(this.context.user.wallet.address);
+      if(username) username = ethers.utils.parseBytes32String(username);
+    }catch(e){}
+    try{ referalAddress = await dayswappersInst.resolveIntroducer(this.context.user.wallet.address) }catch(e){}
+    this.setState({
+      kyc: {
+        ...this.state.kyc,
+        username,
+        referalAddress
+      }
+    });
   }
 
   submitLevelOne = async (values, { setSubmitting }) => {
@@ -192,7 +206,7 @@ export default class FirstLevel extends Component {
     formData.append('firstname', values.firstname);
     formData.append('middlename', values.middlename);
     formData.append('lastname', values.lastname);
-    formData.append('username', values.username);
+    // formData.append('username', values.username);
     formData.append('contactNumber',this.state.countryCode);
     formData.append('email', values.email);
     formData.append('dob', values.dob);
@@ -207,7 +221,7 @@ export default class FirstLevel extends Component {
     formData.append('idAttachmentBack', values.idAttachmentBack);
     formData.append('addressProofAttachment', values.addressProofAttachment);
     formData.append('selfieAttachment', values.selfieAttachment);
-    formData.append('referalAddress', values.referalAddress);
+    // formData.append('referalAddress', values.referalAddress);
 
     try {
       const res = await axios.post(
@@ -231,35 +245,6 @@ export default class FirstLevel extends Component {
       console.log('error',e?.response || e);
       Swal.fire('Error',e?.response?.data?.message || 'Unable to upload form, please check if all fields are filled correctly', 'error');
     }
-
-    // axios
-    //   .post(config.baseUrl + 'apis/kyc-level-one/save', formData, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //       Authorization: this.state.token,
-    //     },
-    //   })
-    //   .then((resp) => {
-    //     console.log('check kyc form', resp);
-    //     setSubmitting(false);
-    //     Swal.fire('Success', 'Kyc form submitted', 'success');
-    //   })
-    //   // .catch(handleError);
-    //   .catch(function (error) {
-    //     if (error.response) {
-    //       // Request made and server responded
-    //       console.log('error.response.data',error.response.data);
-    //       console.log('error.response.status',error.response.status);
-    //       console.log('error.response.headers',error.response.headers);
-    //     } else if (error.request) {
-    //       // The request was made but no response was received
-    //       console.log('error.request',error.request);
-    //     } else {
-    //       // Something happened in setting up the request that triggered an Error
-    //       console.log('Error', error.message);
-    //     }
-    //   });
-
   };
 
   fetchKycLevelOne = () => {
@@ -281,11 +266,12 @@ export default class FirstLevel extends Component {
           {
             canApply: resp?.data?.canApply,
             kyc: {
+              ...this.state.kyc,
               salutation: resp?.data?.data?.salutation || '',
               firstname: resp?.data?.data?.firstname || '',
               middlename: resp?.data?.data?.middlename || '',
               lastname: resp?.data?.data?.lastname || '',
-              username: resp?.data?.data?.username || '',
+              // username: resp?.data?.data?.username || '',
               dob: resp?.data?.data?.dob || '',
               nationality: resp?.data?.data?.nationality || '',
               contactNumber: resp?.data?.data?.contactNumber || '',
@@ -294,7 +280,7 @@ export default class FirstLevel extends Component {
               maritalStatus: resp?.data?.data?.maritalStatus || '',
               address: resp?.data?.data?.address || '',
               pincode: resp?.data?.data?.pincode || '',
-              referalAddress: resp?.data?.data?.referalAddress || '',
+              // referalAddress: resp?.data?.data?.referalAddress || '',
               idType: resp?.data?.data?.idType || '',
               idNumber: resp?.data?.data?.idNumber || '',
               idAttachment: resp?.data?.data?.idAttachment || null,
@@ -616,9 +602,7 @@ export default class FirstLevel extends Component {
                   <div className="form-group">
                     <label htmlFor="username">User Name*</label>
                     <Field
-                      disabled={
-                        !this.state.canApply && this.state.kyc?.username
-                      }
+                      disabled={true}
                       value={values?.username}
                       name="username"
                       type="text"
@@ -802,9 +786,7 @@ export default class FirstLevel extends Component {
                     <div className="form-group col-lg-6">
                       <label htmlFor="referalAddress">Referal Address</label>
                       <Field
-                        disabled={
-                          !this.state.canApply && this.state.kyc?.referalAddress
-                        }
+                        disabled={true}
                         value={values?.referalAddress}
                         name="referalAddress"
                         type="text"
