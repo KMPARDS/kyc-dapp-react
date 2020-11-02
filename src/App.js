@@ -19,7 +19,7 @@ import NotFound from './Container/NotFound';
 import MetamaskLogin from './Container/MetamaskLogin/MetamaskLogin';
 import { UserContext } from './utils/user.context';
 import { PROVIDER, CONTRACT_ADDRESS } from './config/config';
-import { dayswappersInst, providerESN } from './ethereum';
+import { dayswappersInst, providerESN, kycInst } from './ethereum';
 // TODO: remove after wallet load setup
 // window.wallet = new ethers.Wallet(
 //   '0x20466fa75ef4ec2e81ace4206e0d021a83befc8ebfc81a7598c51e73827991ba'
@@ -37,6 +37,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       user: {
+        username: '',
         token: null,
         data: null,
         wallet: null,
@@ -78,6 +79,22 @@ class App extends React.Component {
 
   }
 
+  async fetchAndSetUsername(){
+    try{
+      const username = await kycInst.resolveUsername(this.state.user.wallet.address);
+      console.log({username});
+      if(username?.length)
+        this.setState({
+          user: {
+            ...this.state.user,
+            username: ethers.utils.parseBytes32String(username)
+          }
+        });
+    }catch(e){
+      console.log(e);
+    }
+  }
+
   setUserData = data => {
     if (data?.wallet)
       data.esInstance = new ethers.Contract(
@@ -94,7 +111,10 @@ class App extends React.Component {
           '064069bca26c4a59aa2e449205b14862'
         ),
       },
-    }, this.askForIntroducer);
+    },() => {
+      this.fetchAndSetUsername();
+      this.askForIntroducer();
+    });
   }
 
   async askForIntroducer() {

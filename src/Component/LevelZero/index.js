@@ -18,7 +18,8 @@ export default class LevelZero extends React.Component {
     super(props);
     this.state = {
       isKycApplied: false,
-      kycFee: '0x0'
+      kycFee: '0x0',
+      username: ''
     };
 
     this.validationSchema = {
@@ -49,9 +50,10 @@ export default class LevelZero extends React.Component {
 
   async fetchKycDetails(){
     try {
-      await kycInst.resolveUsernameStrict(this.context.user.wallet.address);
+      const username = await kycInst.resolveUsernameStrict(this.context.user.wallet.address);
       this.setState({
-        isKycApplied: true
+        isKycApplied: true,
+        username: ethers.utils.parseBytes32String(username)
       });
     } catch (error) { }
   }
@@ -127,6 +129,7 @@ export default class LevelZero extends React.Component {
           <Formik
             enableReinitialize={true}
             initialValues={{
+              username: this.state.username,
               kycFee: ethers.utils.formatEther(this.state.kycFee)
             }}
             validationSchema={Yup.object().shape(this.validationSchema)}

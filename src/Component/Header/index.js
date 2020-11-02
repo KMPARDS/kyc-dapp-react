@@ -172,7 +172,9 @@ class Header extends Component {
                     aria-expanded="false"
                   >
                     <img className="" src={Images.path.kycdapp} alt="" />{' '}
-                    {this.context?.user?.walletAddress}
+                    {this.context?.user?.username?.length
+                      ? `${this.context?.user?.username} (${this.context?.user?.walletAddress.substr(0,8)}...)`
+                      : this.context?.user?.walletAddress}
                     <span class="sr-only">(current)</span>
                   </button>
                   <div
