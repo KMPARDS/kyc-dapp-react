@@ -199,11 +199,19 @@ export default class LevelTwo extends React.Component {
 
   async applyForKycOnDapp(specialization) {
     try {
+      if(!specialization){
+        await Swal.fire('Specialization Required', 'If required specialization not exists, select other and send required specialization name', 'error');
+        return false;
+      }
+      console.log('asdfasdf',this.level, this.platformIdentifier, specialization);
       const _kycFee = await kycInst.getKycFee(this.level, this.platformIdentifier, specialization);
-
+      console.log({_kycFee});
       if (window.confirm(`KYC Fee ${ethers.utils.formatEther(_kycFee)} will be charged`)) {
+        console.log('yes');
         const walletConn = this.context.user.wallet.connect(providerESN);
+        console.log({walletConn});
         const tx = await kycInst.connect(walletConn).applyForKyc(this.level, this.platformIdentifier, specialization, { value: _kycFee });
+        console.log({tx});
         await tx.wait();
 
         this.setState({ isKycApplied: true });
