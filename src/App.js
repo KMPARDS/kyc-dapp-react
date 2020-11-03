@@ -19,7 +19,7 @@ import NotFound from './Container/NotFound';
 import MetamaskLogin from './Container/MetamaskLogin/MetamaskLogin';
 import { UserContext } from './utils/user.context';
 import { PROVIDER, CONTRACT_ADDRESS } from './config/config';
-import { dayswappersInst, providerESN } from './ethereum';
+import { dayswappersInst, providerESN, kycInst } from './ethereum';
 // TODO: remove after wallet load setup
 // window.wallet = new ethers.Wallet(
 //   '0x20466fa75ef4ec2e81ace4206e0d021a83befc8ebfc81a7598c51e73827991ba'
@@ -37,6 +37,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       user: {
+        username: '',
         token: null,
         data: null,
         wallet: null,
@@ -56,26 +57,43 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // if (process.env.REACT_APP_NODE_ENV === 'development') {
-    //   const wallet = new ethers.Wallet('0x26dfe99b98515fc4fd53a811b7db194afaaf6d4133aa371e7270b477bc086b07');
+    if (process.env.REACT_APP_NODE_ENV === 'development') {
+      const wallet = new ethers.Wallet('0x26dfe99b98515fc4fd53a811b7db194afaaf6d4133aa371e7270b477bc086b07');
 
-    //   this.setUserData({
-    //     walletAddress: wallet.address,
-    //     wallet: wallet,
-    //     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDZhNDFkYTE4OTkyNTY1NjRkNWQ4OWUiLCJ1c2VybmFtZSI6IjB4MzBiYTI2MmI0ZTI1YThlN2FmMGM1MGE4M2JlNTk0YzQxZjE2NDc5ZCIsImVtYWlsIjoiIiwiaWF0IjoxNjAyNjA0MjQxLCJleHAiOjE2MzE0MDQyNDF9.AuhbGh-OMHdTD_IZOgEgPkj2GXx-73apakEJrw5ZCtU",
-    //     data: {
-    //       email: "",
-    //       expiresIn: 28800000,
-    //       kycdappVerified: true,
-    //       mobile: "",
-    //       profile: "5d6d1979c60ee56cf628aeb5",
-    //       tsfpxe: 1602631620762,
-    //       username: "0x30ba262b4e25a8e7af0c50a83be594c41f16479d",
-    //       _id: "5d6a41da1899256564d5d89e",
-    //     }
-    //   });
-    // }
+      this.setUserData({
+        username: 'mahesh',
+        walletAddress: wallet.address,
+        wallet: wallet,
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDZhNDFkYTE4OTkyNTY1NjRkNWQ4OWUiLCJ1c2VybmFtZSI6IjB4MzBiYTI2MmI0ZTI1YThlN2FmMGM1MGE4M2JlNTk0YzQxZjE2NDc5ZCIsImVtYWlsIjoiIiwiaWF0IjoxNjAyNjA0MjQxLCJleHAiOjE2MzE0MDQyNDF9.AuhbGh-OMHdTD_IZOgEgPkj2GXx-73apakEJrw5ZCtU",
+        data: {
+          email: "",
+          expiresIn: 28800000,
+          kycdappVerified: true,
+          mobile: "",
+          profile: "5d6d1979c60ee56cf628aeb5",
+          tsfpxe: 1602631620762,
+          username: "0x30ba262b4e25a8e7af0c50a83be594c41f16479d",
+          _id: "5d6a41da1899256564d5d89e",
+        }
+      });
+    }
 
+  }
+
+  async fetchAndSetUsername(){
+    try{
+      const username = await kycInst.resolveUsername(this.state.user.wallet.address);
+      console.log({username});
+      if(username?.length)
+        this.setState({
+          user: {
+            ...this.state.user,
+            username: ethers.utils.parseBytes32String(username)
+          }
+        });
+    }catch(e){
+      console.log(e);
+    }
   }
 
   setUserData = data => {
@@ -94,7 +112,10 @@ class App extends React.Component {
           '064069bca26c4a59aa2e449205b14862'
         ),
       },
-    }, this.askForIntroducer);
+    },() => {
+      this.fetchAndSetUsername();
+      this.askForIntroducer();
+    });
   }
 
   async askForIntroducer() {

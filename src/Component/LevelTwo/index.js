@@ -58,19 +58,21 @@ export default class LevelTwo extends React.Component {
   }
 
   async fetchPlatformIdentifier() {
-    let _platformIdentifier;
+    // let _platformIdentifier;
     this.state.platforms.forEach(platform => {
       if (this.activePlatformId === platform._id && platform.identifier) {
-        _platformIdentifier = platform.identifier;
+        this.platformIdentifier = platform.identifier;
         return false;
       }
     });
-    if (_platformIdentifier.substr(0, 2) === '0x')
-      this.platformIdentifier = await kycInst.resolveUsername(_platformIdentifier);
-    else this.platformIdentifier = ethers.utils.formatBytes32String(_platformIdentifier);
+    // if (_platformIdentifier.substr(0, 2) === '0x')
+    //   this.platformIdentifier = await kycInst.resolveUsername(_platformIdentifier);
+    // else this.platformIdentifier = ethers.utils.formatBytes32String(_platformIdentifier);
+    // this.platformIdentifier = ethers.utils.parseBytes32String(_platformIdentifier);
   }
 
   async fetchSpecializations() {
+    console.log('this.level, this.platformIdentifier',this.level, this.platformIdentifier);
     const specializations = (await kycInst.queryFilter(kycInst.filters.KycFeeUpdated(this.level, this.platformIdentifier, null, null)))
       .map(log => kycInst.interface.parseLog(log))
       .map((parsedLog, i) => parsedLog.args['specialization']);

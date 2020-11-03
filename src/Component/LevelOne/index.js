@@ -1249,9 +1249,7 @@ export default class FirstLevel extends Component {
                   <button
                     type="submit"
                     className="btn btn-primary mr-2"
-                    disabled={
-                      !this.state.canApply && Object.values(errors).length
-                    }
+                    disabled={isSubmitting}
                   >
                     {isSubmitting ? 'Submitting' : 'Submit'}
                   </button>
