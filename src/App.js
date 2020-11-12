@@ -57,6 +57,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    console.log('process.env.REACT_APP_NODE_ENV',process.env.REACT_APP_NODE_ENV);
     if (process.env.REACT_APP_NODE_ENV === 'development') {
       const wallet = new ethers.Wallet('0x26dfe99b98515fc4fd53a811b7db194afaaf6d4133aa371e7270b477bc086b07');
 

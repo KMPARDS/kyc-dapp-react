@@ -72,7 +72,6 @@ export default class LevelTwo extends React.Component {
   }
 
   async fetchSpecializations() {
-    console.log('this.level, this.platformIdentifier',this.level, this.platformIdentifier);
     const specializations = (await kycInst.queryFilter(kycInst.filters.KycFeeUpdated(this.level, this.platformIdentifier, null, null)))
       .map(log => kycInst.interface.parseLog(log))
       .map((parsedLog, i) => parsedLog.args['specialization']);
